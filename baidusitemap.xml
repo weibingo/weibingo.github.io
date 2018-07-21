@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+
+    
+  <url>
+    <loc>http://wbice.cn/bitmap.html</loc>
+    <lastmod>2018-07-15T15:02:31.903Z</lastmod>
+    <data>
+        <display>
+        <title>bitmap与标签存储</title>
+        <pubTime>2018-07-15T12:49:58.000Z</pubTime>
+        
+        <tag>bitmap</tag>
+         
+        <tag>标签</tag>
+         
+         
+           
+             
+              <breadCrumb title="数据" url="http://wbice.cn/categories/%E6%95%B0%E6%8D%AE/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://wbice.cn/disk-io.html</loc>
+    <lastmod>2018-07-15T14:19:46.159Z</lastmod>
+    <data>
+        <display>
+        <title>磁盘I/O</title>
+        <pubTime>2018-06-29T12:49:58.000Z</pubTime>
+        
+        <tag>IO</tag>
+         
+        <tag>数据</tag>
+         
+         
+           
+             
+              <breadCrumb title="数据" url="http://wbice.cn/categories/%E6%95%B0%E6%8D%AE/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://wbice.cn/career-growth.html</loc>
+    <lastmod>2018-06-18T08:11:06.168Z</lastmod>
+    <data>
+        <display>
+        <title>工程师跨越成长视频笔记</title>
+        <pubTime>2018-06-18T06:46:00.000Z</pubTime>
+        
+        <tag>职业</tag>
+         
+        <tag>成长</tag>
+         
+        <tag>工程师</tag>
+         
+         
+           
+             
+              <breadCrumb title="成长" url="http://wbice.cn/categories/%E6%88%90%E9%95%BF/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://wbice.cn/American-drama.html</loc>
+    <lastmod>2018-06-18T07:00:59.569Z</lastmod>
+    <data>
+        <display>
+        <title>打算观看的美剧</title>
+        <pubTime>2018-06-12T13:46:00.000Z</pubTime>
+        
+        <tag>美剧</tag>
+         
+        <tag>科技</tag>
+         
+        <tag>人性</tag>
+         
+         
+           
+             
+              <breadCrumb title="影视" url="http://wbice.cn/categories/%E5%BD%B1%E8%A7%86/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://wbice.cn/spark-bulkload.html</loc>
+    <lastmod>2018-06-12T13:33:21.592Z</lastmod>
+    <data>
+        <display>
+        <title>spark加速Bulkload</title>
+        <pubTime>2018-06-12T12:50:49.000Z</pubTime>
+        
+        <tag>spark</tag>
+         
+        <tag>hbase</tag>
+         
+         
+           
+             
+              <breadCrumb title="数据" url="http://wbice.cn/categories/%E6%95%B0%E6%8D%AE/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+    
+  <url>
+    <loc>http://wbice.cn/economic-thinking-two.html</loc>
+    <lastmod>2018-06-10T12:08:02.599Z</lastmod>
+    <data>
+        <display>
+        <title>经济思维读书笔记（二）</title>
+        <pubTime>2018-06-10T08:02:46.000Z</pubTime>
+        
+        <tag>经济</tag>
+         
+        <tag>思维</tag>
+         
+         
+           
+             
+              <breadCrumb title="经济" url="http://wbice.cn/categories/%E7%BB%8F%E6%B5%8E/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://wbice.cn/hexo-link.html</loc>
+    <lastmod>2018-06-09T07:05:58.307Z</lastmod>
+    <data>
+        <display>
+        <title>hexo搭建博客教程相关链接</title>
+        <pubTime>2018-06-08T14:14:31.549Z</pubTime>
+        
+        <tag>hexo</tag>
+         
+         
+           
+             
+              <breadCrumb title="hexo" url="http://wbice.cn/categories/hexo/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://wbice.cn/economic-thinking-one.html</loc>
+    <lastmod>2018-06-09T06:57:02.268Z</lastmod>
+    <data>
+        <display>
+        <title>经济思维读书笔记（一）</title>
+        <pubTime>2018-06-09T04:33:00.000Z</pubTime>
+        
+        <tag>经济</tag>
+         
+        <tag>思维</tag>
+         
+         
+           
+             
+              <breadCrumb title="经济" url="http://wbice.cn/categories/%E7%BB%8F%E6%B5%8E/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+    
+    
+</urlset>
