@@ -4,6 +4,48 @@
 
     
   <url>
+    <loc>wbice.cn/article/olap.html</loc>
+    <lastmod>2018-08-26T09:10:32.163Z</lastmod>
+    <data>
+        <display>
+        <title>olap引擎思维导图</title>
+        <pubTime>2018-08-09T13:38:52.000Z</pubTime>
+        
+        <tag>olap</tag>
+         
+         
+           
+             
+              <breadCrumb title="数据" url="wbice.cn/categories/%E6%95%B0%E6%8D%AE/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>wbice.cn/article/database-optimize.html</loc>
+    <lastmod>2018-08-26T08:38:47.684Z</lastmod>
+    <data>
+        <display>
+        <title>数据存储系统性能优化思维导图</title>
+        <pubTime>2018-08-15T15:32:41.000Z</pubTime>
+        
+        <tag>存储</tag>
+         
+        <tag>优化</tag>
+         
+         
+           
+             
+              <breadCrumb title="数据" url="wbice.cn/categories/%E6%95%B0%E6%8D%AE/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>wbice.cn/article/bitmap.html</loc>
     <lastmod>2018-07-15T15:02:31.903Z</lastmod>
     <data>
