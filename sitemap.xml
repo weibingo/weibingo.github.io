@@ -2,30 +2,65 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>wbice.cn/article/olap.html</loc>
+    <loc>wbice.cn/google760986a23ad12d86.html</loc>
     
-    <lastmod>2018-08-26T09:10:32.163Z</lastmod>
+    <lastmod>2018-09-12T13:23:37.249Z</lastmod>
     
   </url>
   
   <url>
-    <loc>wbice.cn/article/database-optimize.html</loc>
+    <loc>wbice.cn/article/why-MR-slow.html</loc>
     
-    <lastmod>2018-08-26T08:38:47.684Z</lastmod>
+    <lastmod>2018-09-12T13:15:03.277Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>wbice.cn/article/spark-bulkload.html</loc>
+    
+    <lastmod>2018-09-12T13:14:56.127Z</lastmod>
     
   </url>
   
   <url>
     <loc>wbice.cn/article/bitmap.html</loc>
     
-    <lastmod>2018-07-15T15:02:31.903Z</lastmod>
+    <lastmod>2018-09-12T13:14:45.499Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>wbice.cn/article/database-optimize.html</loc>
+    
+    <lastmod>2018-09-12T13:14:38.738Z</lastmod>
     
   </url>
   
   <url>
     <loc>wbice.cn/article/disk-io.html</loc>
     
-    <lastmod>2018-07-15T14:19:46.159Z</lastmod>
+    <lastmod>2018-09-12T13:14:30.393Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>wbice.cn/article/impala-3-0.html</loc>
+    
+    <lastmod>2018-09-12T13:14:22.249Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>wbice.cn/article/data-model.html</loc>
+    
+    <lastmod>2018-09-12T13:14:11.271Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>wbice.cn/article/olap.html</loc>
+    
+    <lastmod>2018-09-12T13:14:03.365Z</lastmod>
     
   </url>
   
@@ -40,13 +75,6 @@
     <loc>wbice.cn/article/American-drama.html</loc>
     
     <lastmod>2018-06-18T07:00:59.569Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>wbice.cn/article/spark-bulkload.html</loc>
-    
-    <lastmod>2018-06-12T13:33:21.592Z</lastmod>
     
   </url>
   

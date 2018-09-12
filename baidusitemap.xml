@@ -3,20 +3,21 @@
 
 
     
+    
   <url>
-    <loc>wbice.cn/article/olap.html</loc>
-    <lastmod>2018-08-26T09:10:32.163Z</lastmod>
+    <loc>wbice.cn/article/why-MR-slow.html</loc>
+    <lastmod>2018-09-12T13:15:03.277Z</lastmod>
     <data>
         <display>
-        <title>olap引擎思维导图</title>
-        <pubTime>2018-08-09T13:38:52.000Z</pubTime>
+        <title>传统的MapReduce框架慢在哪里</title>
+        <pubTime>2018-09-12T12:10:45.598Z</pubTime>
         
-        <tag>olap</tag>
+        <tag>MapReduce</tag>
          
          
            
              
-              <breadCrumb title="数据" url="wbice.cn/categories/%E6%95%B0%E6%8D%AE/"/>
+              <breadCrumb title="数据工程" url="wbice.cn/categories/%E6%95%B0%E6%8D%AE%E5%B7%A5%E7%A8%8B/"/>
           
         </display>
     </data>
@@ -24,21 +25,21 @@
 
     
   <url>
-    <loc>wbice.cn/article/database-optimize.html</loc>
-    <lastmod>2018-08-26T08:38:47.684Z</lastmod>
+    <loc>wbice.cn/article/spark-bulkload.html</loc>
+    <lastmod>2018-09-12T13:14:56.127Z</lastmod>
     <data>
         <display>
-        <title>数据存储系统性能优化思维导图</title>
-        <pubTime>2018-08-15T15:32:41.000Z</pubTime>
+        <title>spark加速Bulkload</title>
+        <pubTime>2018-06-12T12:50:49.000Z</pubTime>
         
-        <tag>存储</tag>
+        <tag>spark</tag>
          
-        <tag>优化</tag>
+        <tag>hbase</tag>
          
          
            
              
-              <breadCrumb title="数据" url="wbice.cn/categories/%E6%95%B0%E6%8D%AE/"/>
+              <breadCrumb title="数据工程" url="wbice.cn/categories/%E6%95%B0%E6%8D%AE%E5%B7%A5%E7%A8%8B/"/>
           
         </display>
     </data>
@@ -47,7 +48,7 @@
     
   <url>
     <loc>wbice.cn/article/bitmap.html</loc>
-    <lastmod>2018-07-15T15:02:31.903Z</lastmod>
+    <lastmod>2018-09-12T13:14:45.499Z</lastmod>
     <data>
         <display>
         <title>bitmap与标签存储</title>
@@ -60,7 +61,29 @@
          
            
              
-              <breadCrumb title="数据" url="wbice.cn/categories/%E6%95%B0%E6%8D%AE/"/>
+              <breadCrumb title="数据工程" url="wbice.cn/categories/%E6%95%B0%E6%8D%AE%E5%B7%A5%E7%A8%8B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>wbice.cn/article/database-optimize.html</loc>
+    <lastmod>2018-09-12T13:14:38.738Z</lastmod>
+    <data>
+        <display>
+        <title>数据存储系统性能优化思维导图</title>
+        <pubTime>2018-08-15T15:32:41.000Z</pubTime>
+        
+        <tag>存储</tag>
+         
+        <tag>优化</tag>
+         
+         
+           
+             
+              <breadCrumb title="数据工程" url="wbice.cn/categories/%E6%95%B0%E6%8D%AE%E5%B7%A5%E7%A8%8B/"/>
           
         </display>
     </data>
@@ -69,7 +92,7 @@
     
   <url>
     <loc>wbice.cn/article/disk-io.html</loc>
-    <lastmod>2018-07-15T14:19:46.159Z</lastmod>
+    <lastmod>2018-09-12T13:14:30.393Z</lastmod>
     <data>
         <display>
         <title>磁盘I/O</title>
@@ -82,7 +105,69 @@
          
            
              
-              <breadCrumb title="数据" url="wbice.cn/categories/%E6%95%B0%E6%8D%AE/"/>
+              <breadCrumb title="数据工程" url="wbice.cn/categories/%E6%95%B0%E6%8D%AE%E5%B7%A5%E7%A8%8B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>wbice.cn/article/impala-3-0.html</loc>
+    <lastmod>2018-09-12T13:14:22.249Z</lastmod>
+    <data>
+        <display>
+        <title>Performance optimizations in Apache Impala</title>
+        <pubTime>2018-09-12T12:10:45.598Z</pubTime>
+        
+        <tag>impala</tag>
+         
+         
+           
+             
+              <breadCrumb title="数据工程" url="wbice.cn/categories/%E6%95%B0%E6%8D%AE%E5%B7%A5%E7%A8%8B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>wbice.cn/article/data-model.html</loc>
+    <lastmod>2018-09-12T13:14:11.271Z</lastmod>
+    <data>
+        <display>
+        <title>八大基础分析模型</title>
+        <pubTime>2018-09-12T12:52:22.855Z</pubTime>
+        
+        <tag>数据</tag>
+         
+        <tag>模型</tag>
+         
+         
+           
+             
+              <breadCrumb title="数据分析" url="wbice.cn/categories/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>wbice.cn/article/olap.html</loc>
+    <lastmod>2018-09-12T13:14:03.365Z</lastmod>
+    <data>
+        <display>
+        <title>OLAP引擎思维导图</title>
+        <pubTime>2018-08-09T13:38:52.000Z</pubTime>
+        
+        <tag>OLAP</tag>
+         
+         
+           
+             
+              <breadCrumb title="数据工程" url="wbice.cn/categories/%E6%95%B0%E6%8D%AE%E5%B7%A5%E7%A8%8B/"/>
           
         </display>
     </data>
@@ -131,28 +216,6 @@
            
              
               <breadCrumb title="影视" url="wbice.cn/categories/%E5%BD%B1%E8%A7%86/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>wbice.cn/article/spark-bulkload.html</loc>
-    <lastmod>2018-06-12T13:33:21.592Z</lastmod>
-    <data>
-        <display>
-        <title>spark加速Bulkload</title>
-        <pubTime>2018-06-12T12:50:49.000Z</pubTime>
-        
-        <tag>spark</tag>
-         
-        <tag>hbase</tag>
-         
-         
-           
-             
-              <breadCrumb title="数据" url="wbice.cn/categories/%E6%95%B0%E6%8D%AE/"/>
           
         </display>
     </data>
