@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://wbice.cn/article/google-spanner.html</loc>
+    
+    <lastmod>2018-09-23T08:49:13.261Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://wbice.cn/article/data-model.html</loc>
+    
+    <lastmod>2018-09-17T14:14:34.531Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://wbice.cn/google760986a23ad12d86.html</loc>
     
     <lastmod>2018-09-12T13:44:23.192Z</lastmod>
@@ -47,13 +61,6 @@
     <loc>http://wbice.cn/article/impala-3-0.html</loc>
     
     <lastmod>2018-09-12T13:14:22.249Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://wbice.cn/article/data-model.html</loc>
-    
-    <lastmod>2018-09-12T13:14:11.271Z</lastmod>
     
   </url>
   
