@@ -4,8 +4,28 @@
 
     
   <url>
+    <loc>http://wbice.cn/article/airflow-guide.html</loc>
+    <lastmod>2018-11-28T15:28:45.708Z</lastmod>
+    <data>
+        <display>
+        <title>airflow使用指南</title>
+        <pubTime>2018-11-28T15:31:06.000Z</pubTime>
+        
+        <tag>airflow</tag>
+         
+         
+           
+             
+              <breadCrumb title="数据工程" url="http://wbice.cn/categories/%E6%95%B0%E6%8D%AE%E5%B7%A5%E7%A8%8B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://wbice.cn/article/google-spanner.html</loc>
-    <lastmod>2018-09-23T08:49:13.261Z</lastmod>
+    <lastmod>2018-11-28T15:11:07.156Z</lastmod>
     <data>
         <display>
         <title>Google Spanner</title>
@@ -19,6 +39,94 @@
            
              
               <breadCrumb title="数据工程" url="http://wbice.cn/categories/%E6%95%B0%E6%8D%AE%E5%B7%A5%E7%A8%8B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://wbice.cn/article/hbase-case-batch.html</loc>
+    <lastmod>2018-10-21T07:30:30.908Z</lastmod>
+    <data>
+        <display>
+        <title>HBase case之scan batch</title>
+        <pubTime>2018-10-20T15:31:06.000Z</pubTime>
+        
+        <tag>HBase</tag>
+         
+        <tag>数据</tag>
+         
+         
+           
+             
+              <breadCrumb title="HBase" url="http://wbice.cn/categories/HBase/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://wbice.cn/article/hbase-snapshot.html</loc>
+    <lastmod>2018-10-14T03:48:22.334Z</lastmod>
+    <data>
+        <display>
+        <title>HBase系列之snapshot</title>
+        <pubTime>2018-10-12T12:31:06.000Z</pubTime>
+        
+        <tag>HBase</tag>
+         
+        <tag>数据</tag>
+         
+         
+           
+             
+              <breadCrumb title="HBase" url="http://wbice.cn/categories/HBase/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://wbice.cn/article/hbase-region-split.html</loc>
+    <lastmod>2018-10-14T03:47:55.906Z</lastmod>
+    <data>
+        <display>
+        <title>HBase系列之region-split</title>
+        <pubTime>2018-10-10T02:32:29.000Z</pubTime>
+        
+        <tag>HBase</tag>
+         
+        <tag>数据</tag>
+         
+         
+           
+             
+              <breadCrumb title="HBase" url="http://wbice.cn/categories/HBase/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://wbice.cn/article/hbase-compact.html</loc>
+    <lastmod>2018-10-09T15:39:28.412Z</lastmod>
+    <data>
+        <display>
+        <title>HBase系列之compact</title>
+        <pubTime>2018-10-09T15:31:06.000Z</pubTime>
+        
+        <tag>HBase</tag>
+         
+        <tag>数据</tag>
+         
+         
+           
+             
+              <breadCrumb title="HBase" url="http://wbice.cn/categories/HBase/"/>
           
         </display>
     </data>
