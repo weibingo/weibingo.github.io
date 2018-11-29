@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://wbice.cn/article/hbase-case-batch.html</loc>
+    
+    <lastmod>2018-11-29T13:11:14.590Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://wbice.cn/article/airflow-guide.html</loc>
     
-    <lastmod>2018-11-28T15:28:45.708Z</lastmod>
+    <lastmod>2018-11-29T13:07:42.252Z</lastmod>
     
   </url>
   
@@ -12,13 +19,6 @@
     <loc>http://wbice.cn/article/google-spanner.html</loc>
     
     <lastmod>2018-11-28T15:11:07.156Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://wbice.cn/article/hbase-case-batch.html</loc>
-    
-    <lastmod>2018-10-21T07:30:30.908Z</lastmod>
     
   </url>
   
