@@ -4,6 +4,76 @@
 
     
   <url>
+    <loc>http://wbice.cn/article/spark-streaming.html</loc>
+    <lastmod>2018-12-25T15:19:14.440Z</lastmod>
+    <data>
+        <display>
+        <title>spark streaming</title>
+        <pubTime>2018-12-21T12:49:58.000Z</pubTime>
+        
+        <tag>流式计算</tag>
+         
+        <tag>spark</tag>
+         
+         
+           
+             
+              <breadCrumb title="数据工程" url="http://wbice.cn/categories/%E6%95%B0%E6%8D%AE%E5%B7%A5%E7%A8%8B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://wbice.cn/article/dataflow-model.html</loc>
+    <lastmod>2018-12-25T15:10:39.890Z</lastmod>
+    <data>
+        <display>
+        <title>Dataflow模型</title>
+        <pubTime>2018-12-21T12:49:58.000Z</pubTime>
+        
+        <tag>大数据</tag>
+         
+        <tag>流式计算</tag>
+         
+        <tag>spark</tag>
+         
+        <tag>flink</tag>
+         
+         
+           
+             
+              <breadCrumb title="数据工程" url="http://wbice.cn/categories/%E6%95%B0%E6%8D%AE%E5%B7%A5%E7%A8%8B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://wbice.cn/article/hbase-compact.html</loc>
+    <lastmod>2018-12-25T14:59:16.580Z</lastmod>
+    <data>
+        <display>
+        <title>HBase系列之compact</title>
+        <pubTime>2018-10-09T15:31:06.000Z</pubTime>
+        
+        <tag>数据</tag>
+         
+        <tag>HBase</tag>
+         
+         
+           
+             
+              <breadCrumb title="HBase" url="http://wbice.cn/categories/HBase/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://wbice.cn/article/hbase-region-split.html</loc>
     <lastmod>2018-12-13T14:58:15.231Z</lastmod>
     <data>
@@ -33,9 +103,9 @@
         <title>livy指南</title>
         <pubTime>2018-12-13T12:49:58.000Z</pubTime>
         
-        <tag>livy</tag>
-         
         <tag>spark</tag>
+         
+        <tag>livy</tag>
          
          
            
@@ -118,28 +188,6 @@
         <display>
         <title>HBase系列之snapshot</title>
         <pubTime>2018-10-12T12:31:06.000Z</pubTime>
-        
-        <tag>数据</tag>
-         
-        <tag>HBase</tag>
-         
-         
-           
-             
-              <breadCrumb title="HBase" url="http://wbice.cn/categories/HBase/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://wbice.cn/article/hbase-compact.html</loc>
-    <lastmod>2018-10-09T15:39:28.412Z</lastmod>
-    <data>
-        <display>
-        <title>HBase系列之compact</title>
-        <pubTime>2018-10-09T15:31:06.000Z</pubTime>
         
         <tag>数据</tag>
          
