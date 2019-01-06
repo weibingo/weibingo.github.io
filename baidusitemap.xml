@@ -4,30 +4,8 @@
 
     
   <url>
-    <loc>http://wbice.cn/article/summary-2018.html</loc>
-    <lastmod>2019-01-06T09:22:45.481Z</lastmod>
-    <data>
-        <display>
-        <title>略微糟糕的2018</title>
-        <pubTime>2019-01-04T13:23:22.000Z</pubTime>
-        
-        <tag>总结</tag>
-         
-        <tag>目标</tag>
-         
-         
-           
-             
-              <breadCrumb title="成长" url="http://wbice.cn/categories/%E6%88%90%E9%95%BF/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://wbice.cn/article/dataflow-model.html</loc>
-    <lastmod>2019-01-05T15:37:32.219Z</lastmod>
+    <lastmod>2019-01-06T12:16:20.110Z</lastmod>
     <data>
         <display>
         <title>Dataflow模型</title>
@@ -45,6 +23,28 @@
            
              
               <breadCrumb title="数据工程" url="http://wbice.cn/categories/%E6%95%B0%E6%8D%AE%E5%B7%A5%E7%A8%8B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://wbice.cn/article/summary-2018.html</loc>
+    <lastmod>2019-01-06T11:25:06.138Z</lastmod>
+    <data>
+        <display>
+        <title>略微糟糕的2018</title>
+        <pubTime>2019-01-04T13:23:22.000Z</pubTime>
+        
+        <tag>总结</tag>
+         
+        <tag>目标</tag>
+         
+         
+           
+             
+              <breadCrumb title="成长" url="http://wbice.cn/categories/%E6%88%90%E9%95%BF/"/>
           
         </display>
     </data>
