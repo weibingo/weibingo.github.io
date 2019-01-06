@@ -2,16 +2,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://wbice.cn/article/spark-streaming.html</loc>
+    <loc>http://wbice.cn/article/summary-2018.html</loc>
     
-    <lastmod>2018-12-25T15:19:14.440Z</lastmod>
+    <lastmod>2019-01-06T09:22:45.481Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://wbice.cn/article/dataflow-model.html</loc>
     
-    <lastmod>2018-12-25T15:10:39.890Z</lastmod>
+    <lastmod>2019-01-05T15:37:32.219Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://wbice.cn/article/spark-streaming.html</loc>
+    
+    <lastmod>2019-01-05T15:37:27.492Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://wbice.cn/article/disk-io.html</loc>
+    
+    <lastmod>2019-01-05T15:11:41.111Z</lastmod>
     
   </url>
   
@@ -103,13 +117,6 @@
     <loc>http://wbice.cn/article/database-optimize.html</loc>
     
     <lastmod>2018-09-12T13:14:38.738Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://wbice.cn/article/disk-io.html</loc>
-    
-    <lastmod>2018-09-12T13:14:30.393Z</lastmod>
     
   </url>
   
