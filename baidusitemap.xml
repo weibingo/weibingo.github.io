@@ -5,7 +5,7 @@
     
   <url>
     <loc>http://wbice.cn/article/dataflow-model.html</loc>
-    <lastmod>2019-01-06T12:16:20.110Z</lastmod>
+    <lastmod>2019-01-08T15:28:14.993Z</lastmod>
     <data>
         <display>
         <title>Dataflow模型</title>
@@ -23,6 +23,34 @@
            
              
               <breadCrumb title="数据工程" url="http://wbice.cn/categories/%E6%95%B0%E6%8D%AE%E5%B7%A5%E7%A8%8B/"/>
+          
+             
+              <breadCrumb title="流式计算" url="http://wbice.cn/categories/%E6%95%B0%E6%8D%AE%E5%B7%A5%E7%A8%8B/%E6%B5%81%E5%BC%8F%E8%AE%A1%E7%AE%97/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://wbice.cn/article/spark-streaming.html</loc>
+    <lastmod>2019-01-08T15:27:45.388Z</lastmod>
+    <data>
+        <display>
+        <title>spark streaming</title>
+        <pubTime>2018-12-22T12:49:22.000Z</pubTime>
+        
+        <tag>流式计算</tag>
+         
+        <tag>spark</tag>
+         
+         
+           
+             
+              <breadCrumb title="数据工程" url="http://wbice.cn/categories/%E6%95%B0%E6%8D%AE%E5%B7%A5%E7%A8%8B/"/>
+          
+             
+              <breadCrumb title="流式计算" url="http://wbice.cn/categories/%E6%95%B0%E6%8D%AE%E5%B7%A5%E7%A8%8B/%E6%B5%81%E5%BC%8F%E8%AE%A1%E7%AE%97/"/>
           
         </display>
     </data>
@@ -45,28 +73,6 @@
            
              
               <breadCrumb title="成长" url="http://wbice.cn/categories/%E6%88%90%E9%95%BF/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://wbice.cn/article/spark-streaming.html</loc>
-    <lastmod>2019-01-05T15:37:27.492Z</lastmod>
-    <data>
-        <display>
-        <title>spark streaming</title>
-        <pubTime>2018-12-22T12:49:22.000Z</pubTime>
-        
-        <tag>流式计算</tag>
-         
-        <tag>spark</tag>
-         
-         
-           
-             
-              <breadCrumb title="数据工程" url="http://wbice.cn/categories/%E6%95%B0%E6%8D%AE%E5%B7%A5%E7%A8%8B/"/>
           
         </display>
     </data>
