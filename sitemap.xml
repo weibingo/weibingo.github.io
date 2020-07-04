@@ -2,6 +2,55 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://wbice.cn/article/HBase%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B9%8BMemStore%E8%BF%9B%E5%8C%96%E8%AE%BA.html</loc>
+    
+    <lastmod>2020-07-04T14:17:59.474Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://wbice.cn/article/%E4%BB%8E%E4%B8%80%E5%8F%A5%E6%83%85%E8%AF%9D%E6%9D%A5%E4%BA%86%E8%A7%A3%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%8F%91%E5%B1%95.html</loc>
+    
+    <lastmod>2020-07-04T14:10:02.005Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://wbice.cn/article/impala-3-0.html</loc>
+    
+    <lastmod>2020-07-04T13:40:19.411Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://wbice.cn/article/data-model.html</loc>
+    
+    <lastmod>2020-07-04T13:36:55.262Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://wbice.cn/article/google-spanner.html</loc>
+    
+    <lastmod>2020-07-04T13:35:00.371Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://wbice.cn/article/hexo-link.html</loc>
+    
+    <lastmod>2020-07-04T13:34:22.665Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://wbice.cn/article/why-MR-slow.html</loc>
+    
+    <lastmod>2020-07-04T13:33:44.242Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://wbice.cn/article/%E6%9D%A5%E7%BE%8E%E5%9B%A23%E4%B8%AA%E6%9C%88%E6%80%BB%E7%BB%93.html</loc>
     
     <lastmod>2019-10-20T08:49:49.083Z</lastmod>
@@ -86,13 +135,6 @@
   </url>
   
   <url>
-    <loc>http://wbice.cn/article/google-spanner.html</loc>
-    
-    <lastmod>2018-11-28T15:11:07.156Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://wbice.cn/article/hbase-snapshot.html</loc>
     
     <lastmod>2018-10-14T03:48:22.334Z</lastmod>
@@ -100,23 +142,9 @@
   </url>
   
   <url>
-    <loc>http://wbice.cn/article/data-model.html</loc>
-    
-    <lastmod>2018-09-17T14:14:34.531Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://wbice.cn/google760986a23ad12d86.html</loc>
     
     <lastmod>2018-09-12T13:44:23.192Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://wbice.cn/article/why-MR-slow.html</loc>
-    
-    <lastmod>2018-09-12T13:15:03.277Z</lastmod>
     
   </url>
   
@@ -138,13 +166,6 @@
     <loc>http://wbice.cn/article/database-optimize.html</loc>
     
     <lastmod>2018-09-12T13:14:38.738Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://wbice.cn/article/impala-3-0.html</loc>
-    
-    <lastmod>2018-09-12T13:14:22.249Z</lastmod>
     
   </url>
   
@@ -180,13 +201,6 @@
     <loc>http://wbice.cn/article/economic-thinking-two.html</loc>
     
     <lastmod>2018-06-10T12:08:02.599Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://wbice.cn/article/hexo-link.html</loc>
-    
-    <lastmod>2018-06-09T07:05:58.307Z</lastmod>
     
   </url>
   
