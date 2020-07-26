@@ -4,6 +4,35 @@
 
     
   <url>
+    <loc>http://wbice.cn/article/dataflow-model.html</loc>
+    <lastmod>2020-07-26T04:37:40.531Z</lastmod>
+    <data>
+        <display>
+        <title>Dataflow 模型</title>
+        <pubTime>2019-12-21T12:49:58.000Z</pubTime>
+        
+        <tag>flink</tag>
+         
+        <tag>大数据</tag>
+         
+        <tag>流式计算</tag>
+         
+        <tag>spark</tag>
+         
+         
+           
+             
+              <breadCrumb title="数据工程" url="http://wbice.cn/categories/%E6%95%B0%E6%8D%AE%E5%B7%A5%E7%A8%8B/"/>
+          
+             
+              <breadCrumb title="流式计算" url="http://wbice.cn/categories/%E6%95%B0%E6%8D%AE%E5%B7%A5%E7%A8%8B/%E6%B5%81%E5%BC%8F%E8%AE%A1%E7%AE%97/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://wbice.cn/article/Flink-Watermark.html</loc>
     <lastmod>2020-07-25T16:08:57.344Z</lastmod>
     <data>
@@ -286,35 +315,6 @@
 
     
   <url>
-    <loc>http://wbice.cn/article/dataflow-model.html</loc>
-    <lastmod>2019-01-08T15:28:14.993Z</lastmod>
-    <data>
-        <display>
-        <title>Dataflow模型</title>
-        <pubTime>2018-12-21T12:49:58.000Z</pubTime>
-        
-        <tag>flink</tag>
-         
-        <tag>大数据</tag>
-         
-        <tag>流式计算</tag>
-         
-        <tag>spark</tag>
-         
-         
-           
-             
-              <breadCrumb title="数据工程" url="http://wbice.cn/categories/%E6%95%B0%E6%8D%AE%E5%B7%A5%E7%A8%8B/"/>
-          
-             
-              <breadCrumb title="流式计算" url="http://wbice.cn/categories/%E6%95%B0%E6%8D%AE%E5%B7%A5%E7%A8%8B/%E6%B5%81%E5%BC%8F%E8%AE%A1%E7%AE%97/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://wbice.cn/article/spark-streaming.html</loc>
     <lastmod>2019-01-08T15:27:45.388Z</lastmod>
     <data>
@@ -347,9 +347,9 @@
         <title>磁盘I/O</title>
         <pubTime>2018-06-29T12:49:58.000Z</pubTime>
         
-        <tag>IO</tag>
-         
         <tag>数据</tag>
+         
+        <tag>IO</tag>
          
          
            

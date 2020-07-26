@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://wbice.cn/article/dataflow-model.html</loc>
+    
+    <lastmod>2020-07-26T04:37:40.531Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://wbice.cn/article/Flink-Watermark.html</loc>
     
     <lastmod>2020-07-25T16:08:57.344Z</lastmod>
@@ -89,13 +96,6 @@
     <loc>http://wbice.cn/article/summary-2018.html</loc>
     
     <lastmod>2019-01-20T07:20:57.630Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://wbice.cn/article/dataflow-model.html</loc>
-    
-    <lastmod>2019-01-08T15:28:14.993Z</lastmod>
     
   </url>
   
