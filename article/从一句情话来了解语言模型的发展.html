@@ -33,7 +33,7 @@
 </ol>
 <p>为了补充以上两个缺点，我们考虑 N-Gram 统计概率模型代替共现条件概率。</p>
 <p>N-Gram 模型假设人的书写过程是随机过程，其概率图为一个有向无环图：</p>
-<p><img src="http://rna.6aiq.com/image-b122667882f34abe88109a1bd0b56955.webp" alt="imagea4.png"></p>
+<p><img src="https://hexo-1256892004.cos.ap-beijing.myqcloud.com/nlp/ngram.png" alt=""></p>
 <p>按照上图，<code>今夜月色真美</code> 这个语料中每个词出现的概率为P(w4​=美∣w0​=start,w1​=今夜,w2​=月色,w3​=真)，P(w3​=真∣w0​=start,w1​=今夜,w2​=月色)，P(w2​=月色∣w0​=start,w1​=今夜)，P(w1​=今夜∣w0​=start)。</p>
 <p>进一步为了降低距离对词依赖的影响，也同时为了语料库规模与计算能力的局限所考虑，N-Gram 模型假设人书写的随机过程满足N阶马尔科夫条件。如果满足二阶马尔科夫条件的模型称为 Bi-Gram。</p>
 <p>在 Bi-Gram 下每个词出现的概率可以描述为P(w4​=美∣w3​=真)，P(w3​=真∣w2​=月色)，P(w2​=月色∣w1​=今夜)，P(w1​=今夜∣w0​=start)。</p>
@@ -57,7 +57,7 @@
 <p>由于篇幅限制，本文只介绍 Word2Vec 和 BERT 以及 XLNET。</p>
 <h3 id="Word2vec"><a href="#Word2vec" class="headerlink" title="Word2vec"></a>Word2vec</h3><p>上文所说的 CBOW 和 SKIP-GRAM 都是 word2vec 的两种训练方法。相信大家对 word2vec 的大名都有一定了解。作为词嵌入方法上最具代表性的模型，目前在工业界基本上是嵌入方法的代表模型。并且在之外有 <code>GloV</code>、 <code>ELM</code> 等一系列衍生方法。各位感兴趣的读者可以了解一下。</p>
 <p>word2vec 的模型架构整体上比较简单：</p>
-<p><img src="http://rna.6aiq.com/image-94027ed95d9441d6b215efe01a2b3e6d.webp" alt="imga10.png"></p>
+<p><img src="https://hexo-1256892004.cos.ap-beijing.myqcloud.com/nlp/word2vec.png" alt=""></p>
 <ul>
 <li>Input Vector：CBOW 模型的输入层是被 mask 的 token 附近多个被保留 token 的 one-hot 向量之和，SKIP-GRAM 模型的输入层是被保留的一个 token 的 one-hot 向量</li>
 <li>Hidden Layer：两到三层的 MLP</li>
@@ -74,20 +74,20 @@
 <li><strong>frozen</strong> 模型：在预训练语料上训练后，模型参数固定不变。</li>
 <li><strong>fine-tuning</strong> 模型：在预训练语料上训练后，会随着子任务继续微调模型参数。</li>
 </ol>
-<p>frozen 模型的代表是 ELMo，是 NAACL18 Best Paper。fine-tuning 模型的代表是 Google 在 2018 年发表的 BERT 模型。关于 BERT，强烈推荐大家看财大气粗的 Google 在 19 年发表的论文：<a href="https://www.6aiq.com/forward?goto=https%3A%2F%2Farxiv.org%2Fpdf%2F1910.10683.pdf" target="_blank" rel="noopener">Exploring the Limits of Transfer Learning with a Unified Text-to-Text Transformer</a>，在模型中 Google 对于各种 BERT 上的 trick 进行了实验效果对比。包括 Mask 策略的选择，模型参数的选择等等。本文就不详细展开了。</p>
-<p>BERT 是 Bidirectional Transformer 的缩写，关于 Transformer 大家可以看之前写的这篇博客：<a href="https://www.6aiq.com/article/1590176752335" target="_blank" rel="noopener">算法工程师必知必会的经典模型系列一：Transformer 模型串讲</a>。Bidirectional Transformer 相较于 <a href="https://www.6aiq.com/forward?goto=https%3A%2F%2Farxiv.org%2Fabs%2F1706.03762" target="_blank" rel="noopener">Attention Is All You Need</a> 中描述的 Transformer 差异主要体现在只使用了其中的 Encoder 部分，但是不代表选择 Encoder 部分就是最优的。甚至在 Google 后续的论文中指出<a href="https://www.6aiq.com/forward?goto=https%3A%2F%2Farxiv.org%2Fpdf%2F1910.10683.pdf" target="_blank" rel="noopener">使用完整的 Encoder+Decoder 部分</a>的 Transformer 效果更好。</p>
+<p>frozen 模型的代表是 ELMo，是 NAACL18 Best Paper。fine-tuning 模型的代表是 Google 在 2018 年发表的 BERT 模型。关于 BERT，强烈推荐大家看财大气粗的 Google 在 19 年发表的论文：<a href="https%3A%2F%2Farxiv.org%2Fpdf%2F1910.10683.pdf">Exploring the Limits of Transfer Learning with a Unified Text-to-Text Transformer</a>，在模型中 Google 对于各种 BERT 上的 trick 进行了实验效果对比。包括 Mask 策略的选择，模型参数的选择等等。本文就不详细展开了。</p>
+<p>BERT 是 Bidirectional Transformer 的缩写，关于 Transformer 大家可以看之前写的这篇博客：<a href="https://www.6aiq.com/article/1590176752335" target="_blank" rel="noopener">算法工程师必知必会的经典模型系列一：Transformer 模型串讲</a>。Bidirectional Transformer 相较于 <a href="https%3A%2F%2Farxiv.org%2Fabs%2F1706.03762">Attention Is All You Need</a> 中描述的 Transformer 差异主要体现在只使用了其中的 Encoder 部分，但是不代表选择 Encoder 部分就是最优的。甚至在 Google 后续的论文中指出<a href="https%3A%2F%2Farxiv.org%2Fpdf%2F1910.10683.pdf">使用完整的 Encoder+Decoder 部分</a>的 Transformer 效果更好。</p>
 <p>BERT 模型通过将前一层各个位置的输出序列作为下一层 Transformer 的输入，这样不断堆叠 Transformer。然后得到隐藏层的输出序列。如下图所示，BERT 模型的输入是序列：{E1​,E2​,…En​}，通过两层 Bidirectional Transformer。得到输出序列：{T1​,T2​,…,Tn​}。</p>
-<p><img src="http://rna.6aiq.com/image-103318475d8e4a41aad2239f2dfa8f3c.webp" alt="imga6.png"></p>
+<p><img src="https://hexo-1256892004.cos.ap-beijing.myqcloud.com/nlp/bert.png" alt=""></p>
 <p>模型本身很简单，但是这篇文章贡献了两个对 NLP 领域影响巨大的重要结论：</p>
 <ol>
 <li>证明了 MLM 在无监督预训练模型能够为 fine-tuning 阶段的监督模型提供信息</li>
 <li>证明了 pre-train+fine-tuning 的两阶段模型对特定任务迁移学习的效果</li>
 </ol>
 <p>BERT 没有像 Transformer 论文中直接用三角函数值计算 Position Embedding。而是采用嵌入学习的方法，对 Position Embedding、Segment Embedding 和 Token Embedding 进行训练，在模型输入的时候如下图所示将 Position Embedding、Segment Embedding 和 Token Embedding 相加作为模型的输入。</p>
-<p><img src="http://rna.6aiq.com/image-5285e828106540789a198dcd2c701b88.webp" alt="imagea3.png"></p>
+<p><img src="https://hexo-1256892004.cos.ap-beijing.myqcloud.com/nlp/input.png" alt=""></p>
 <p>在预训练过程中，BERT 将句子中的 15% 的 Token 隐藏。然后将还原这个句子作为学习任务。因为隐藏一个 token 相当于在这个 token 上加了一段噪声，使这个 token 的信息丢失，预测还原句子相当于将这段噪声去除，还原这个 token 的信息。因此这类模型也被称为 Denoising AutoEncoder（DAE）模型。</p>
 <p>在原始论文中，被 Mask 的 Token 是固定的。比如 <code>今夜月色真美</code> 这个句子，如果被 mask 后序列为 <code>今夜[mask]真[mask]</code>，那么在每个 epoch 的训练中都是这个序列。但是后续试验证明，采用 <a href="https://www.6aiq.com/forward?goto=https%3A%2F%2Farxiv.org%2Fpdf%2F1907.11692.pdf" target="_blank" rel="noopener">Dynamic Mask</a>，即每次训练时实时对样本序列进行 Mask 效果优于固定 Mask 方法。</p>
-<p>在原始论文中，除了 MLM 外，还会将预测下一句(Next Segment Predict，简称 NSP)作为一个学习任务，与 MLM 共同预训练 BERT 模型。但是在后续试验证明<a href="https://www.6aiq.com/forward?goto=https%3A%2F%2Farxiv.org%2Fpdf%2F1907.11692.pdf" target="_blank" rel="noopener">去除 NSP</a> 在多个任务上效果会更好，并且训练速度更快。并且有类似于 <a href="https://www.6aiq.com/forward?goto=https%3A%2F%2Farxiv.org%2Fabs%2F1906.08237" target="_blank" rel="noopener">XLNET</a>、<a href="https://www.6aiq.com/forward?goto=https%3A%2F%2Farxiv.org%2Fabs%2F1908.04577" target="_blank" rel="noopener">StructBERT</a> 等模型指出一个合适的预训练任务，能够提升 BERT 的效果。</p>
+<p>在原始论文中，除了 MLM 外，还会将预测下一句(Next Segment Predict，简称 NSP)作为一个学习任务，与 MLM 共同预训练 BERT 模型。但是在后续试验证明<a href="https://wbice.cn/article?goto=https%3A%2F%2Farxiv.org%2Fpdf%2F1907.11692.pdf">去除 NSP</a> 在多个任务上效果会更好，并且训练速度更快。并且有类似于 <a href="https://www.6aiq.com/forward?goto=https%3A%2F%2Farxiv.org%2Fabs%2F1906.08237" target="_blank" rel="noopener">XLNET</a>、<a href="https://www.6aiq.com/forward?goto=https%3A%2F%2Farxiv.org%2Fabs%2F1908.04577" target="_blank" rel="noopener">StructBERT</a> 等模型指出一个合适的预训练任务，能够提升 BERT 的效果。</p>
 <p>BERT 官方在 GLUE 数据集上对不同的任务进行 fine-tuning 时采用了如下图的方式对不同类型的学习任务进行 fine-tuning：</p>
 <ol>
 <li>对于单句分类任务，将[CLS]的输出作为句子的表达，后续通过连接一层 MLP+tanh 激活函数 +layer normalization 后连接分类网络。</li>
@@ -95,7 +95,7 @@
 <li>对于对话任务，使用末尾的一段 token 对应的输出进行预测。</li>
 <li>对于序列标注任务，使用每个 token 的输出进行预测。</li>
 </ol>
-<p><img src="http://rna.6aiq.com/image-73af86d052f142b18487aaa2a47647c6.webp" alt="imga7.png"></p>
+<p><img src="https://hexo-1256892004.cos.ap-beijing.myqcloud.com/nlp/token.png" alt=""></p>
 <p>我们回到 Word2Vec 对翻译 <code>今夜月色真美</code> 的问题，无法通过语境，来将 <code>今夜月色</code> 识别为 <code>你</code>。对于 BERT，来说这个问题就不是问题。对于 <code>真美</code> 这段文字来说，<code>今夜月色</code> 是一个代词。对于这个句子整体来说 <code>今夜月色</code> 是烘托气氛的环境。那么对于 <code>真美</code> 来说，<code>今夜月色</code> 不会影响到 <code>真美</code> 这段文字的含义，但是对于 <code>今夜月色</code> 来说，由于 <code>真美</code> 的存在所有导致了 <code>今夜月色</code> 成为了指代。针对这种情况，BERT 通过 Attention 机制有效评估了一个句子中的各个 token 对一个 token 的影响。</p>
 <ul>
 <li>本文地址：<a href="https://www.6aiq.com/article/1590668236351" target="_blank" rel="noopener">从一句情话来了解语言模型的发展</a></li>
