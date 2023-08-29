@@ -1,0 +1,151 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="Flink：什么是 Watermark？"><meta name="keywords" content="flink"><meta name="author" content="weibingo"><meta name="copyright" content="weibingo"><title>Flink：什么是 Watermark？ | WBINGのBLOG</title><link rel="shortcut icon" href="/favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.8.0"><link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css?version=1.8.0"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.1.1/dist/instantsearch.min.css"><script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.1.1/dist/instantsearch.min.js" defer></script><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script src="https://v1.hitokoto.cn/?encode=js&amp;charset=utf-8&amp;select=.footer_custom_text" defer></script><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: {"appId":"3FYJCLGPHO","apiKey":"d730ef95ff5ff79a19b74363531c066b","indexName":"prod_weibing-blog","hits":{"per_page":10},"languages":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}.","hits_stats":"${hits} results found in ${time} ms"}},
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"We didn't find any results for the search: ${query}"}},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  }
+} </script><meta name="generator" content="Hexo 6.3.0"></head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="Toggle article">Toggle site</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AF-watermark"><span class="toc-number">1.</span> <span class="toc-text">1、什么是 watermark</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AF%E6%B5%81%E5%A4%84%E7%90%86"><span class="toc-number">2.</span> <span class="toc-text">2、什么是流处理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3%E3%80%81%E6%B0%B4%E4%BD%8D%E7%BA%BF%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3%E4%B9%B1%E5%BA%8F"><span class="toc-number">3.</span> <span class="toc-text">3、水位线怎么解决乱序</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1%E3%80%81Flink-%E7%AA%97%E5%8F%A3%E6%9C%BA%E5%88%B6%E7%AE%80%E5%8D%95%E6%A6%82%E6%8B%AC"><span class="toc-number">3.1.</span> <span class="toc-text">3.1、Flink 窗口机制简单概括</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BB%9A%E5%8A%A8%E7%AA%97%E5%8F%A3"><span class="toc-number">3.1.1.</span> <span class="toc-text">滚动窗口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3"><span class="toc-number">3.1.2.</span> <span class="toc-text">滑动窗口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%9A%E8%AF%9D%E7%AA%97%E5%8F%A3"><span class="toc-number">3.1.3.</span> <span class="toc-text">会话窗口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AA%97%E5%8F%A3%E8%87%AA%E5%AE%9A%E4%B9%89"><span class="toc-number">3.1.4.</span> <span class="toc-text">窗口自定义</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2%E3%80%81Flink-%E6%97%B6%E9%97%B4%E6%9C%BA%E5%88%B6%E7%AE%80%E5%8D%95%E6%A6%82%E8%BF%B0"><span class="toc-number">3.2.</span> <span class="toc-text">3.2、Flink 时间机制简单概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Event-Time"><span class="toc-number">3.2.1.</span> <span class="toc-text">Event Time</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ingestion-Time"><span class="toc-number">3.2.2.</span> <span class="toc-text">Ingestion Time</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Processing-Time"><span class="toc-number">3.2.3.</span> <span class="toc-text">Processing Time</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E7%B1%BB%E6%97%B6%E9%97%B4%E7%9A%84%E5%8C%BA%E5%88%AB%E6%80%BB%E7%BB%93"><span class="toc-number">3.2.4.</span> <span class="toc-text">三类时间的区别总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3%E3%80%81%E5%AF%B9%E4%BA%8E%E6%B0%B4%E4%BD%8D%E7%BA%BF%E7%9A%84%E7%94%A8%E5%A4%84%E7%BB%88%E6%9E%81%E8%A7%A3%E9%87%8A"><span class="toc-number">3.3.</span> <span class="toc-text">3.3、对于水位线的用处终极解释</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-4%E3%80%81%E6%B0%B4%E4%BD%8D%E7%BA%BF%E8%A7%A3%E5%86%B3%E4%B9%B1%E5%BA%8F%E7%9A%84%E5%8E%9F%E7%90%86"><span class="toc-number">3.4.</span> <span class="toc-text">3.4、水位线解决乱序的原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-5%E3%80%81%E6%B0%B4%E4%BD%8D%E7%BA%BF%E4%B8%8D%E6%98%AF%E4%B8%87%E8%83%BD%E7%9A%84"><span class="toc-number">3.5.</span> <span class="toc-text">3.5、水位线不是万能的</span></a></li></ol></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://hexo-1256892004.cos.ap-beijing.myqcloud.com/page/avatar.jpg"></div><div class="author-info__name text-center">weibingo</div><div class="author-info__description text-center">BIG DATA探索者,经济迷,浅度摄影,爱好历史,对社会意识,人文感兴趣</div><div class="follow-button"><a target="_blank" rel="noopener" href="https://github.com/weibingo">Follow Me</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">Articles</span><span class="pull-right">45</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">Tags</span><span class="pull-right">42</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">Categories</span><span class="pull-right">19</span></a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://hexo-1256892004.cos.ap-beijing.myqcloud.com/page/top.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">WBINGのBLOG</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search"></i><span> Search</span></a></span></div><div id="post-info"><div id="post-title">Flink：什么是 Watermark？</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2020-07-25</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E6%95%B0%E6%8D%AE%E5%B7%A5%E7%A8%8B/">数据工程</a><i class="fa fa-angle-right" aria-hidden="true"></i><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E6%95%B0%E6%8D%AE%E5%B7%A5%E7%A8%8B/flink/">flink</a><div class="post-meta-wordcount"><span>Word count: </span><span class="word-count">3.4k</span><span class="post-meta__separator">|</span><span>Reading time: 10 min</span></div></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><h1 id="1、什么是-watermark"><a href="#1、什么是-watermark" class="headerlink" title="1、什么是 watermark"></a>1、什么是 watermark</h1><p>watermark 网上有翻译成水印，但更应该是水位线，即 <strong>Flink 接受的数据就相当于浮在水面的物体， 基于物理知识，水位线的高度只会升高不会降低，那么每当新数据进来，会重新计算水位线的时间，计算结果小于当前水位线时间，则不会更新现有的水位线。 当水位线到达窗口触发时间时才会触发窗口的计算</strong>。watermark 的意义在于数据无序传递的时候有一定容错率，如果晚来的数据在容错范围之内，会当做正常传递来处理。</p>
+<p>乍一看还是懵逼，那么就看下面的分析。</p>
+<h1 id="2、什么是流处理"><a href="#2、什么是流处理" class="headerlink" title="2、什么是流处理"></a>2、什么是流处理</h1><p>Flink 被称为真正的流式实时计算框架，其批处理中是流处理的特殊情况。而所谓的流处理，本质特点是在处理数据时，接受一条处理一条。而批处理则是累积数据到一定程度在处理。这是他们本质的区别。</p>
+<p>假如我们自己写一个流式框架。我们该如何处理消息。如下，我们看到消息按照顺序一个个发送，接受后按照顺序处理，这是没有什么问题的。</p>
+<p><img src="https://hexo-1256892004.cos.ap-beijing.myqcloud.com/flink/watermark/shunxu.png"></p>
+<p>如果消息不按照顺序发送，产生了乱序，这时候该怎么处理？</p>
+<p><img src="https://hexo-1256892004.cos.ap-beijing.myqcloud.com/flink/watermark/luanxu.png"></p>
+<p>其实水位线 Watermark 就是其中的解决方案之一。</p>
+<span id="more"></span>
+
+<h1 id="3、水位线怎么解决乱序"><a href="#3、水位线怎么解决乱序" class="headerlink" title="3、水位线怎么解决乱序"></a>3、水位线怎么解决乱序</h1><p>要理解：水位线和 Flink 窗口（window ）机制是一起用的，不可分割来看。先看前置基础——Flink 窗口，时间机制</p>
+<h2 id="3-1、Flink-窗口机制简单概括"><a href="#3-1、Flink-窗口机制简单概括" class="headerlink" title="3.1、Flink 窗口机制简单概括"></a>3.1、Flink 窗口机制简单概括</h2><p>对于 Flink，如果来一条消息计算一条。。。这样搞，计算非常频繁而且消耗资源，如果想做一些统计这是不可能的。所以对于 Spark 和 Flink 都产生了窗口计算的概念。</p>
+<p>下面详细分析，简单粗暴的说：如果我们想看到过去一分钟，过去半小时。。。访问数据，这时候我们就需要窗口。<strong>即：翻滚窗口（Tumbling Window，无重叠），滚动窗口（Sliding Window，有重叠），和会话窗口（Session Window，活动间隙）。</strong></p>
+<h3 id="滚动窗口"><a href="#滚动窗口" class="headerlink" title="滚动窗口"></a><strong>滚动窗口</strong></h3><p>将每个元素分配给固定窗口大小的窗口。滚动窗口大小固定且不重叠。例如，指定大小为 5 分钟的滚动窗口，则将执行当前窗口，并且每五分钟将启动一个新窗口，如下图所示:<br><img src="https://hexo-1256892004.cos.ap-beijing.myqcloud.com/flink/watermark/tumb-window.png"></p>
+<h3 id="滑动窗口"><a href="#滑动窗口" class="headerlink" title="滑动窗口"></a><strong>滑动窗口</strong></h3><p>将每个元素分配给固定窗口大小的窗口。类似于滚动窗口分配器，窗口的大小由窗口大小参数配置。另外一个滑动参数控制滑动窗口的启动频率 (how frequently a sliding window is started)。因此如果滑动参数的大小，小于窗口大小，滑动窗口就可以重叠。在这种情况下，元素被分配到多个窗口。</p>
+<p>例如，可以使用窗口大小为 10 分钟的窗口，滑动参数为 5 分钟。这样，每 5 分钟会生成一个滑动窗口，包含最后 10 分钟内到达的事件，如下图所示。<br><img src="https://hexo-1256892004.cos.ap-beijing.myqcloud.com/flink/watermark/slid-window.png"></p>
+<h3 id="会话窗口"><a href="#会话窗口" class="headerlink" title="会话窗口"></a><strong>会话窗口</strong></h3><p>通过活动会话分组元素。与滑动窗口相比，会话窗口不会重叠，也没有固定的开始和结束时间。相反，当会话窗口在一段时间内没有接收到元素时会关闭。</p>
+<p>例如，不活动的间隙，会话窗口分配器配置会话间隙，定义所需的不活动时间长度(defines how long is the required period of inactivity)。当此时间段到期时，当前会话关闭，后续元素被分配到新的会话窗口。<br><img src="https://hexo-1256892004.cos.ap-beijing.myqcloud.com/flink/watermark/session-window.png"></p>
+<h3 id="窗口自定义"><a href="#窗口自定义" class="headerlink" title="窗口自定义"></a><strong>窗口自定义</strong></h3><p>这是 flink 灵活的地方，<strong>基本操作：</strong><br>window：创建自定义窗口<br>trigger：自定义触发器<br>evictor：自定义 evictor<br>apply：自定义 window function</p>
+<h2 id="3-2、Flink-时间机制简单概述"><a href="#3-2、Flink-时间机制简单概述" class="headerlink" title="3.2、Flink 时间机制简单概述"></a>3.2、Flink 时间机制简单概述</h2><p>一个事件发生了，肯定是有时间概念的，这个时间，在 Flink 中被称之为事件时间，也就是 Event Time，也就是事件时间，除此之外，还有处理时间 Processing Time，和提取时间 Ingestion Time 。这三个时间区别和联系看下图，分别列出了事件时间、处理时间、提取时间的先后顺序。</p>
+<p><img src="https://hexo-1256892004.cos.ap-beijing.myqcloud.com/flink/watermark/time-type.png"></p>
+<h3 id="Event-Time"><a href="#Event-Time" class="headerlink" title="Event Time"></a>Event Time</h3><p>大白话就是这个事儿发生的真实时间（源头）。举个例子，产生日志，其中日志的时间戳就是发生时间，即事件时间。</p>
+<p>严谨的说，事件时间是每个事件在其设备上发生的时间。在进入 Flink 之前就已经存在，此时间通常在进入 Flink 之前嵌入记录中，并且可以从每个记录中提取该事件时间。事件时间程序必须指定如何生成事件时间水位线，这是表示事件时间进度的机制，<strong>下一小节细说水位线，先知道有这个概念</strong>。</p>
+<p>在一个理想的情况下，无论事件何时到达或如何排序，事件时间的处理将产生完全一致的和确定的结果。但是，除非事件严格的按时间戳顺序到达 Flink，否则事件时间处理会在等待无序事件时产生一些延迟。由于只能等待一段有限的时间，因此限制了确定性事件时间应用程序的可能性。</p>
+<p>假设所有数据都已到达，事件时间操作将按预期运行，即使在处理无序或延迟事件或重新处理历史数据时也会产生正确且一致的结果。例如，每小时事件时间窗口将包含带有落入该小时的事件时间戳的所有记录，无论它们到达的顺序如何，或者何时处理它们。</p>
+<p>注意，有时当事件时间程序实时处理实时数据时，它们将使用一些处理时间操作，以确保它们及时进行。</p>
+<h3 id="Ingestion-Time"><a href="#Ingestion-Time" class="headerlink" title="Ingestion Time"></a>Ingestion Time</h3><p>大白话就是事件进入 Flink 的时间，即<strong>提取时间</strong>。每个记录在 source 操作里获取当前系统的时间作为提取时间，后续操作统一使用该时间。</p>
+<p>严格的说：提取时间在概念上位于事件时间和处理时间之间。</p>
+<ol>
+<li>与处理时间相比，它早一些，但可以提供更可预测的结果。因为提取时间使用稳定的时间戳（在源 source 处分配一次，后续操作一直用），所以对记录的不同窗口操作将引用相同的时间戳，而在处理时间中，每个窗口 operate 可以将记录分配给不同的窗口（基于本地系统时钟和任何运输延误）。</li>
+<li>与事件时间相比，提取时间程序无法处理任何无序事件或后期数据，但程序不必指定如何生成水位线。在内部，提取时间与事件时间非常相似，但具有自动时间戳分配和自动水印生成功能。</li>
+</ol>
+<h3 id="Processing-Time"><a href="#Processing-Time" class="headerlink" title="Processing Time"></a>Processing Time</h3><p>大白话就是做这个事情的时间，即处理时间。它也是执行操作的机器的当前系统时间(每个算子都不一样)，图里这个事件已经进入了 Flink。</p>
+<p>严谨的说：当流程序在处理时间运行时，所有基于时间的操作（如时间窗口）将使用相应 operator（算子，以下都简称为 operator）所在的机器的<strong>系统时钟</strong>。每小时处理时间窗口将包括在系统时钟指示整个小时之间到达特定 operator 的所有记录。例如，如果应用程序在上午 9:15 开始运行，则第一个每小时处理时间窗口将包括在上午 9:15 到上午 10:00 之间处理的事件，下一个窗口将包括在上午 10:00 到 11:00 之间处理的事件。</p>
+<p>处理时间是最简单的时间概念，不需要流和机器之间的协调。它提供最佳性能和最低延迟。但是，在分布式和异步环境中，处理时间不提供确定性，因为它容易受到记录到达系统的速度（例如从消息队列）到记录在系统内的 operator 之间流动的速度的影响,和停电（调度或其他）。</p>
+<h3 id="三类时间的区别总结"><a href="#三类时间的区别总结" class="headerlink" title="三类时间的区别总结"></a>三类时间的区别总结</h3><p><img src="https://hexo-1256892004.cos.ap-beijing.myqcloud.com/flink/watermark/watermark.png"></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>EventTime</th>
+<th>IngestTime</th>
+<th>ProcessingTime</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>概念</td>
+<td>事件生成时的时间，在进入 Flink 之前就已经存在，可以从 event 的字段中抽取。</td>
+<td>事件进入 Flink 的时间，即在 source 里获取的当前系统的时间，后续操作统一使用该时间。</td>
+<td>执行操作的机器的当前系统时间(每个算子都不一样)</td>
+</tr>
+<tr>
+<td>水位线</td>
+<td>必须指定 watermarks（水位线）的生成方式。</td>
+<td>不需要指定 watermarks 的生成方式(自动生成)</td>
+<td>不需要流和机器之间的协调</td>
+</tr>
+<tr>
+<td>优点</td>
+<td>确定性，乱序、延时、或者数据重放等情况，都能给出正确的结果</td>
+<td></td>
+<td>最佳的性能和最低的延迟</td>
+</tr>
+<tr>
+<td>缺点</td>
+<td>处理无序事件时性能和延迟受到影响</td>
+<td>不能处理无序事件和延迟数据</td>
+<td>不确定性 ，容易受到各种因素影像(event 产生的速度、到达 flink 的速度、在算子之间传输速度等)，压根就不管顺序和延迟</td>
+</tr>
+</tbody></table>
+<p>性能： ProcessingTime&gt; IngestTime&gt; EventTime</p>
+<p>延迟： ProcessingTime&lt; IngestTime&lt; EventTime</p>
+<p>确定性： EventTime&gt; IngestTime&gt; ProcessingTime</p>
+<h2 id="3-3、对于水位线的用处终极解释"><a href="#3-3、对于水位线的用处终极解释" class="headerlink" title="3.3、对于水位线的用处终极解释"></a>3.3、对于<strong>水位线的用处终极解释</strong></h2><p>前面提到了 watermark 是用于处理乱序事件的，而正确的处理乱序事件，通常用 watermark 机制结合 window 来实现。前面的时间机制已经提到，流处理从事件产生，到 source，再到 operator，中间是有一个过程的，并不是严格的实时。虽然大部分情况下，流到 operator 的数据都是按照事件产生的时间顺序进入 Flink 的，但是也不排除由于网络、背压等原因，导致乱序，而对于流中迟到的元素，Flink 又不能无限期等下去，所以必须要有个机制来保证一个特定的时间后，必须触发 window 去进行计算了。这个特别的机制，就是 watermark——水位线机制。</p>
+<h2 id="3-4、水位线解决乱序的原理"><a href="#3-4、水位线解决乱序的原理" class="headerlink" title="3.4、水位线解决乱序的原理"></a>3.4、水位线解决乱序的原理</h2><p>前面分析了，watermark 是用来解决乱序的，即保证一个特定时间后，必须触发 window 窗口计算，因此，可以根据事件的 event time，计算出水位线，并且设置一些延迟，给迟到的数据一些机会，也就是说正常来讲，对于迟到的数据，我只等你一段时间，再不来就没有机会了。</p>
+<p>通过前面窗口机制概括，我们知道比如滚动窗口，或滑动窗口等，都有自己的触发机制，比如每隔 5 秒窗口就会计算（触发）一次。假如我们设置 10s 的时间窗口（window），那么 0<del>10s，10</del>20s 都是一个窗口，以 0~10s 为例，0 是 start-time，10 是 end-time。假如有 4 个数据（ABCD），它们的 event-time 分别是 8(A),12.5(B),9(C),13.5(D)，<strong>我们设置水位时间为当前所有到达数据的 event-time 的最大值减去延迟时间，</strong>这里延迟时间设置为 3.5s，也就是说对于迟到的数据，我们只等你 3.5 秒。【如果超过 3.5 秒该怎么办，这时候就需要我们对生产环境有一个整体的认识和把握，数据是否有延迟，延迟大概是多长时间，怎么样达到数据不丢失。当然还有另外的方法来处理延迟，这里只分析水位线的作用】。如下：</p>
+<table>
+<thead>
+<tr>
+<th>流中元素</th>
+<th>事件时间（s）</th>
+<th>真正的到达顺序（并没严格按照事件时间进入 Flink）</th>
+<th>水位线（s）</th>
+<th>是否触发窗口计算（10s 的时间窗口）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>A</td>
+<td>8</td>
+<td>A 到达</td>
+<td>max{8} - 3.5 &#x3D; 8 - 3.5 &#x3D; 4.5</td>
+<td>否</td>
+</tr>
+<tr>
+<td>B</td>
+<td>12.5</td>
+<td>B 到达</td>
+<td>max(12.5, 8) - 3.5 &#x3D; 12.5 - 3.5 &#x3D; 9</td>
+<td>否</td>
+</tr>
+<tr>
+<td>C</td>
+<td>9</td>
+<td><strong>C 到达（迟到）</strong></td>
+<td>max(12.5, 8, 9) - 3.5 &#x3D; 12.5 - 3.5 &#x3D; 9</td>
+<td>否</td>
+</tr>
+<tr>
+<td>D</td>
+<td>13.5</td>
+<td>D 到达</td>
+<td>max(13.5, 12.5, 8, 9) - 3.5 &#x3D; 13.5 - 3.5 &#x3D; 10</td>
+<td>是</td>
+</tr>
+</tbody></table>
+<p>D 元素触发窗口计算的时候，会将 ABC（因为他们都小于 10）都计算进去，通过上面这种方式，就将迟到的 C 计算进去了，这样一来，watermark 可以在数据无序传递的时候有一定容错率，如果晚来的数据在容错范围之内，会当做正常传递来处理。</p>
+<h2 id="3-5、水位线不是万能的"><a href="#3-5、水位线不是万能的" class="headerlink" title="3.5、水位线不是万能的"></a>3.5、水位线不是万能的</h2><p>3.4 里的延迟 3.5s 是假设一个数据到达的时候，比他早 3.5s 的数据肯定也都到达了，这个是需要根据经验推算的，假设 D 到达以后，又到达了一个 E，其 event-time&#x3D;6，但是由于 0~10 的时间窗口已经开始计算了，所以 E 就丢了，E 的丢失说明水位线机制不是万能的，但是如果根据我们自己的生产经验 + 侧道输出等方案，可以做到数据不丢失。这又是一个新话题了，以后分析。</p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">weibingo</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="https://wbice.cn/article/Flink-Watermark.html">https://wbice.cn/article/Flink-Watermark.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/flink/">flink</a></div><div class="addthis_inline_share_toolbox pull-right"></div><script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=undefined" async></script><nav id="pagination"><div class="prev-post pull-left"><a href="/article/doris.html"><i class="fa fa-chevron-left">  </i><span>doris介绍</span></a></div><div class="next-post pull-right"><a href="/article/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%E6%8A%80%E6%9C%AF%E6%BC%94%E8%BF%9B%E8%B6%8B%E5%8A%BF%EF%BC%9A%E4%BB%8E%E5%8F%AC%E5%9B%9E%E5%88%B0%E6%8E%92%E5%BA%8F%E5%86%8D%E5%88%B0%E9%87%8D%E6%8E%92.html"><span>推荐系统技术演进趋势：从召回到排序再到重排</span><i class="fa fa-chevron-right"></i></a></div></nav><div id="vcomment"></div><script src="https://cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script><script>var notify = 'false' == 'true';
+var verify = 'false' == 'true';
+var record_ip = '' == 'true';
+var GUEST_INFO = ['nick','mail','link'];
+var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+  return GUEST_INFO.indexOf(item) > -1
+});
+guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+window.valine = new Valine({
+  el:'#vcomment',
+  notify:notify,
+  verify:verify,
+  recordIP:record_ip,
+  appId:'dEfDWKbVoLq95IOjY2Wucz01-9Nh9j0Va',
+  appKey:'CWRYxwiLTYcAG0OcWmKl7Ez0',
+  placeholder:'ヾﾉ≧∀≦)o来啊，快活啊，造作啊!',
+  avatar:'mm',
+  guest_info:guest_info,
+  pageSize:'10',
+  lang: 'zh-cn'
+})</script></div></div><footer class="footer-bg" style="background-image: url(https://hexo-1256892004.cos.ap-beijing.myqcloud.com/page/top.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2017 - 2023 By weibingo</div><div class="framework-info"><span>Driven - </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme - </span><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="footer_custom_text">hitokoto</div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file-o"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="/js/third-party/anime.min.js"></script><script src="/js/third-party/jquery.min.js"></script><script src="/js/third-party/jquery.fancybox.min.js"></script><script src="/js/third-party/velocity.min.js"></script><script src="/js/third-party/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.8.0"></script><script src="/js/fancybox.js?version=1.8.0"></script><script src="/js/sidebar.js?version=1.8.0"></script><script src="/js/copy.js?version=1.8.0"></script><script src="/js/fireworks.js?version=1.8.0"></script><script src="/js/transition.js?version=1.8.0"></script><script src="/js/scroll.js?version=1.8.0"></script><script src="/js/head.js?version=1.8.0"></script><script src="/js/search/algolia.js"></script><script src="/js/search/local-search.js"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script><div class="search-dialog" id="algolia-search"><div class="search-dialog__title" id="algolia-search-title">Algolia</div><div id="algolia-input-panel"><div id="algolia-search-input"></div></div><hr><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-stats"></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>

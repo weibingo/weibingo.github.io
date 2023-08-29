@@ -1,0 +1,1257 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="doris介绍"><meta name="keywords" content="数据,OLAP"><meta name="author" content="weibingo"><meta name="copyright" content="weibingo"><title>doris介绍 | WBINGのBLOG</title><link rel="shortcut icon" href="/favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.8.0"><link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css?version=1.8.0"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.1.1/dist/instantsearch.min.css"><script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.1.1/dist/instantsearch.min.js" defer></script><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script src="https://v1.hitokoto.cn/?encode=js&amp;charset=utf-8&amp;select=.footer_custom_text" defer></script><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: {"appId":"3FYJCLGPHO","apiKey":"d730ef95ff5ff79a19b74363531c066b","indexName":"prod_weibing-blog","hits":{"per_page":10},"languages":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}.","hits_stats":"${hits} results found in ${time} ms"}},
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"We didn't find any results for the search: ${query}"}},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  }
+} </script><meta name="generator" content="Hexo 6.3.0"></head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="Toggle article">Toggle site</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">1.</span> <span class="toc-text">1.基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1Doris-Palo-%E7%AE%80%E4%BB%8B"><span class="toc-number">1.1.</span> <span class="toc-text">1.1Doris(Palo) 简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2Doris-%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.2.</span> <span class="toc-text">1.2Doris 数据模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Aggregate-%E6%A8%A1%E5%9E%8B%EF%BC%88%E8%81%9A%E5%90%88%E6%A8%A1%E5%9E%8B%EF%BC%89"><span class="toc-number">1.2.1.</span> <span class="toc-text">Aggregate 模型（聚合模型）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Uniq-%E6%A8%A1%E5%9E%8B%EF%BC%88%E5%94%AF%E4%B8%80%E4%B8%BB%E9%94%AE%EF%BC%89"><span class="toc-number">1.2.2.</span> <span class="toc-text">Uniq 模型（唯一主键）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Duplicate-%E6%A8%A1%E5%9E%8B%EF%BC%88%E5%86%97%E4%BD%99%E6%A8%A1%E5%9E%8B%EF%BC%89"><span class="toc-number">1.2.3.</span> <span class="toc-text">Duplicate 模型（冗余模型）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ROLLUP"><span class="toc-number">1.2.4.</span> <span class="toc-text">ROLLUP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E7%89%88%E6%9C%AC"><span class="toc-number">1.2.5.</span> <span class="toc-text">多版本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E7%BC%80%E7%B4%A2%E5%BC%95"><span class="toc-number">1.2.6.</span> <span class="toc-text">前缀索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%81%9A%E5%90%88%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%B1%80%E9%99%90%E6%80%A7"><span class="toc-number">1.2.7.</span> <span class="toc-text">聚合模型的局限性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Duplicate-%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.2.8.</span> <span class="toc-text">Duplicate 模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%80%89%E6%8B%A9%E5%BB%BA%E8%AE%AE"><span class="toc-number">1.2.9.</span> <span class="toc-text">数据模型的选择建议</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3Doris-%E5%AD%98%E5%82%A8%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.3.</span> <span class="toc-text">1.3Doris 存储模型</span></a></li></ol></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://hexo-1256892004.cos.ap-beijing.myqcloud.com/page/avatar.jpg"></div><div class="author-info__name text-center">weibingo</div><div class="author-info__description text-center">BIG DATA探索者,经济迷,浅度摄影,爱好历史,对社会意识,人文感兴趣</div><div class="follow-button"><a target="_blank" rel="noopener" href="https://github.com/weibingo">Follow Me</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">Articles</span><span class="pull-right">45</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">Tags</span><span class="pull-right">42</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">Categories</span><span class="pull-right">19</span></a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://hexo-1256892004.cos.ap-beijing.myqcloud.com/page/top.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">WBINGのBLOG</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search"></i><span> Search</span></a></span></div><div id="post-info"><div id="post-title">doris介绍</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2020-12-30</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E6%95%B0%E6%8D%AE%E5%B7%A5%E7%A8%8B/">数据工程</a><i class="fa fa-angle-right" aria-hidden="true"></i><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E6%95%B0%E6%8D%AE%E5%B7%A5%E7%A8%8B/OLAP/">OLAP</a><div class="post-meta-wordcount"><span>Word count: </span><span class="word-count">6.6k</span><span class="post-meta__separator">|</span><span>Reading time: 24 min</span></div></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><h1 id="1-基本概念"><a href="#1-基本概念" class="headerlink" title="1.基本概念"></a>1.基本概念</h1><h2 id="1-1Doris-Palo-简介"><a href="#1-1Doris-Palo-简介" class="headerlink" title="1.1Doris(Palo) 简介"></a>1.1Doris(Palo) 简介</h2><p><strong>Doris 是一个 MPP 的在线 OLAP 系统，主要整合了 Google Mesa （数据模型），Apache Impala （MPP query engine) 和 ORCFile &#x2F; Parquet (存储格式，编码和压缩) 的技术。</strong></p>
+<p>Doris 具有以下特点：</p>
+<ul>
+<li>无外部系统依赖</li>
+<li>高可靠，高可用，高可扩展</li>
+<li>同时支持 高并发点查询和高吞吐的 Ad-hoc 查询</li>
+<li>同时支持 批量导入和近实时 mini-batch 导入</li>
+<li>兼容 MySQL 协议</li>
+<li>支持 Rollup Table 和 Rollup Table 的智能查询路由</li>
+<li>支持多表 Join</li>
+<li>支持 Schema 在线变更</li>
+<li>支持存储分级，旧的冷数据用 SATA，新的热数据用 SSD</li>
+</ul>
+<p>Doris 的系统架构如下:</p>
+<p><strong>Doris 主要分为 FE 和 BE 两种角色，FE 主要负责查询的编译，分发和元数据管理（基于内存，类似 HDFS NN）；BE 主要负责查询的执行和存储系统。</strong></p>
+<p><img src="https://hexo-1256892004.cos.ap-beijing.myqcloud.com/doris/20201228001916-r6dgky4-doris-fe.png"></p>
+<span id="more"></span>
+<h2 id="1-2Doris-数据模型"><a href="#1-2Doris-数据模型" class="headerlink" title="1.2Doris 数据模型"></a>1.2Doris 数据模型</h2><p>Doris 的数据模型主要分为 3 类:</p>
+<ul>
+<li>Aggregate</li>
+<li>Uniq</li>
+<li>Duplicate</li>
+</ul>
+<h3 id="Aggregate-模型（聚合模型）"><a href="#Aggregate-模型（聚合模型）" class="headerlink" title="Aggregate 模型（聚合模型）"></a>Aggregate 模型（聚合模型）</h3><p>Doris 的聚合模型主要用于固定模式的报表类查询场景，实现原理和Mesa 完全一致。</p>
+<p>维度列作为 Key, 指标列作为 Value，存储时会按照 <strong>Key 列进行排序</strong>，相同 Key 的 Value 会按照聚合函数 F(Sum, Min, Max, Replace,HLL)进行聚合。</p>
+<p><strong>示例 1：导入数据聚合</strong></p>
+<p>假设业务有如下数据表模式：</p>
+<table>
+<thead>
+<tr>
+<th><strong>ColumnName</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>AggregationType</strong></th>
+<th><strong>Comment</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>user_id</td>
+<td>LARGEINT</td>
+<td></td>
+<td>用户 id</td>
+</tr>
+<tr>
+<td>date</td>
+<td>DATE</td>
+<td></td>
+<td>数据灌入日期</td>
+</tr>
+<tr>
+<td>city</td>
+<td>VARCHAR(20)</td>
+<td></td>
+<td>用户所在城市</td>
+</tr>
+<tr>
+<td>age</td>
+<td>SMALLINT</td>
+<td></td>
+<td>用户年龄</td>
+</tr>
+<tr>
+<td>sex</td>
+<td>TINYINT</td>
+<td></td>
+<td>用户性别</td>
+</tr>
+<tr>
+<td>last_visit_date</td>
+<td>DATETIME</td>
+<td>REPLACE</td>
+<td>用户最后一次访问时间</td>
+</tr>
+<tr>
+<td>cost</td>
+<td>BIGINT</td>
+<td>SUM</td>
+<td>用户总消费</td>
+</tr>
+<tr>
+<td>max_dwell_time</td>
+<td>INT</td>
+<td>MAX</td>
+<td>用户最大停留时间</td>
+</tr>
+<tr>
+<td>min_dwell_time</td>
+<td>INT</td>
+<td>MIN</td>
+<td>用户最小停留时间</td>
+</tr>
+</tbody></table>
+<p>如果转换成建表语句则如下（省略建表语句中的 Partition 和 Distribution 信息）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">CREATE TABLE IF NOT EXISTS example_db.expamle_tbl</span><br><span class="line">(</span><br><span class="line">  `user_id` LARGEINT NOT NULL COMMENT &quot;用户id&quot;,</span><br><span class="line">  `date` DATE NOT NULL COMMENT &quot;数据灌入日期时间&quot;,</span><br><span class="line">  `city` VARCHAR(20) COMMENT &quot;用户所在城市&quot;,</span><br><span class="line">  `age` SMALLINT COMMENT &quot;用户年龄&quot;,</span><br><span class="line">  `sex` TINYINT COMMENT &quot;用户性别&quot;,</span><br><span class="line">  `last_visit_date` DATETIME REPLACE DEFAULT &quot;1970-01-01 00:00:00&quot; COMMENT &quot;用户最后一次访问时间&quot;,</span><br><span class="line">  `cost` BIGINT SUM DEFAULT &quot;0&quot; COMMENT &quot;用户总消费&quot;,</span><br><span class="line">  `max_dwell_time` INT MAX DEFAULT &quot;0&quot; COMMENT &quot;用户最大停留时间&quot;,</span><br><span class="line">  `min_dwell_time` INT MIN DEFAULT &quot;99999&quot; COMMENT &quot;用户最小停留时间&quot;,</span><br><span class="line">)</span><br><span class="line">AGGREGATE KEY(`user_id`, `date`, `timestamp`, `city`, `age`, `sex`)</span><br><span class="line">... /* 省略 Partition 和 Distribution 信息 */</span><br><span class="line">；</span><br></pre></td></tr></table></figure>
+
+
+<p>可以看到，这是一个典型的用户信息和访问行为的事实表。<br>在一般星型模型中，用户信息和访问行为一般分别存放在维度表和事实表中。这里我们为了更加方便的解释 Doris 的数据模型，将两部分信息统一存放在一张表中。</p>
+<p>表中的列按照是否设置了 AggregationType，分为 Key (维度列) 和 Value（指标列）。没有设置 AggregationType 的，如 user_id、date、age … 等称为 <strong>Key</strong>，而设置了 AggregationType 的称为 <strong>Value</strong>。</p>
+<p>当我们导入数据时，对于 Key 列相同的行和聚合成一行，而 Value 列会按照设置的 AggregationType 进行聚合。 AggregationType 目前有以下四种聚合方式：</p>
+<ol>
+<li>SUM：求和，多行的 Value 进行累加。</li>
+<li>REPLACE：替代，下一批数据中的 Value 会替换之前导入过的行中的 Value。</li>
+<li>MAX：保留最大值。</li>
+<li>MIN：保留最小值。</li>
+</ol>
+<p>假设我们有以下导入数据（原始数据）：</p>
+<table>
+<thead>
+<tr>
+<th><strong>user_id</strong></th>
+<th><strong>date</strong></th>
+<th><strong>city</strong></th>
+<th><strong>age</strong></th>
+<th><strong>sex</strong></th>
+<th><strong>last_visit_date</strong></th>
+<th><strong>cost</strong></th>
+<th><strong>max_dwell_time</strong></th>
+<th><strong>min_dwell_time</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>10000</td>
+<td>2017-10-01</td>
+<td>北京</td>
+<td>20</td>
+<td>0</td>
+<td>2017-10-01 06:00:00</td>
+<td>20</td>
+<td>10</td>
+<td>10</td>
+</tr>
+<tr>
+<td>10000</td>
+<td>2017-10-01</td>
+<td>北京</td>
+<td>20</td>
+<td>0</td>
+<td>2017-10-01 07:00:00</td>
+<td>15</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>10001</td>
+<td>2017-10-01</td>
+<td>北京</td>
+<td>30</td>
+<td>1</td>
+<td>2017-10-01 17:05:45</td>
+<td>2</td>
+<td>22</td>
+<td>22</td>
+</tr>
+<tr>
+<td>10002</td>
+<td>2017-10-02</td>
+<td>上海</td>
+<td>20</td>
+<td>1</td>
+<td>2017-10-02 12:59:12</td>
+<td>200</td>
+<td>5</td>
+<td>5</td>
+</tr>
+<tr>
+<td>10003</td>
+<td>2017-10-02</td>
+<td>广州</td>
+<td>32</td>
+<td>0</td>
+<td>2017-10-02 11:20:00</td>
+<td>30</td>
+<td>11</td>
+<td>11</td>
+</tr>
+<tr>
+<td>10004</td>
+<td>2017-10-01</td>
+<td>深圳</td>
+<td>35</td>
+<td>0</td>
+<td>2017-10-01 10:00:15</td>
+<td>100</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>10004</td>
+<td>2017-10-03</td>
+<td>深圳</td>
+<td>35</td>
+<td>0</td>
+<td>2017-10-03 10:20:22</td>
+<td>11</td>
+<td>6</td>
+<td>6</td>
+</tr>
+</tbody></table>
+<p>我们假设这是一张记录用户访问某商品页面行为的表。我们以第一行数据为例，解释如下：</p>
+<table>
+<thead>
+<tr>
+<th><strong>数据</strong></th>
+<th><strong>说明</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>10000</td>
+<td>用户 id，每个用户唯一识别 id</td>
+</tr>
+<tr>
+<td>2017-10-01</td>
+<td>数据入库时间，精确到日期</td>
+</tr>
+<tr>
+<td>北京</td>
+<td>用户所在城市</td>
+</tr>
+<tr>
+<td>20</td>
+<td>用户年龄</td>
+</tr>
+<tr>
+<td>0</td>
+<td>性别男（1 代表女性）</td>
+</tr>
+<tr>
+<td>2017-10-01 06:00:00</td>
+<td>用户本次访问该页面的时间，精确到秒</td>
+</tr>
+<tr>
+<td>20</td>
+<td>用户本次访问产生的消费</td>
+</tr>
+<tr>
+<td>10</td>
+<td>用户本次访问，驻留该页面的时间</td>
+</tr>
+<tr>
+<td>10</td>
+<td>用户本次访问，驻留该页面的时间（冗余）</td>
+</tr>
+</tbody></table>
+<p>那么当这批数据正确导入到 Doris 中后，Doris 中最终存储如下：</p>
+<table>
+<thead>
+<tr>
+<th><strong>user_id</strong></th>
+<th><strong>date</strong></th>
+<th><strong>city</strong></th>
+<th><strong>age</strong></th>
+<th><strong>sex</strong></th>
+<th><strong>last_visit_date</strong></th>
+<th><strong>cost</strong></th>
+<th><strong>max_dwell_time</strong></th>
+<th><strong>min_dwell_time</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>10000</td>
+<td>2017-10-01</td>
+<td>北京</td>
+<td>20</td>
+<td>0</td>
+<td>2017-10-01 07:00:00</td>
+<td>35</td>
+<td>10</td>
+<td>2</td>
+</tr>
+<tr>
+<td>10001</td>
+<td>2017-10-01</td>
+<td>北京</td>
+<td>30</td>
+<td>1</td>
+<td>2017-10-01 17:05:45</td>
+<td>2</td>
+<td>22</td>
+<td>22</td>
+</tr>
+<tr>
+<td>10002</td>
+<td>2017-10-02</td>
+<td>上海</td>
+<td>20</td>
+<td>1</td>
+<td>2017-10-02 12:59:12</td>
+<td>200</td>
+<td>5</td>
+<td>5</td>
+</tr>
+<tr>
+<td>10003</td>
+<td>2017-10-02</td>
+<td>广州</td>
+<td>32</td>
+<td>0</td>
+<td>2017-10-02 11:20:00</td>
+<td>30</td>
+<td>11</td>
+<td>11</td>
+</tr>
+<tr>
+<td>10004</td>
+<td>2017-10-01</td>
+<td>深圳</td>
+<td>35</td>
+<td>0</td>
+<td>2017-10-01 10:00:15</td>
+<td>100</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>10004</td>
+<td>2017-10-03</td>
+<td>深圳</td>
+<td>35</td>
+<td>0</td>
+<td>2017-10-03 10:20:22</td>
+<td>11</td>
+<td>6</td>
+<td>6</td>
+</tr>
+</tbody></table>
+<p>可以看到，用户 10000 只剩下了一行<strong>聚合后</strong>的数据。而其余用户的数据和原始数据保持一致。这里先解释下用户 10000 聚合后的数据：</p>
+<p>前 5 列没有变化，从第 6 列 last_visit_date 开始：</p>
+<ul>
+<li>2017-10-01 07:00:00：因为 last_visit_date 列的聚合方式为 REPLACE，所以 2017-10-01 07:00:00 替换了 2017-10-01 06:00:00 保存了下来。<blockquote>
+<p>注：在同一个导入批次中的数据，对于 REPLACE 这种聚合方式，替换顺序不做保证。如在这个例子中，最终保存下来的，也有可能是 2017-10-01 06:00:00。而对于不同导入批次中的数据，可以保证，后一批次的数据会替换前一批次。</p>
+</blockquote>
+</li>
+<li>35：因为 cost 列的聚合类型为 SUM，所以由 20 + 15 累加获得 35。</li>
+<li>10：因为 max_dwell_time 列的聚合类型为 MAX，所以 10 和 2 取最大值，获得 10。</li>
+<li>2：因为 min_dwell_time 列的聚合类型为 MIN，所以 10 和 2 取最小值，获得 2。</li>
+</ul>
+<p>经过聚合，Doris 中最终只会存储聚合后的数据。换句话说，即明细数据会丢失，用户不能够再查询到聚合前的明细数据了。</p>
+<h3 id="Uniq-模型（唯一主键）"><a href="#Uniq-模型（唯一主键）" class="headerlink" title="Uniq 模型（唯一主键）"></a><strong>Uniq 模型（唯一主键）</strong></h3><p>在某些多维分析场景下，用户更关注的是如何保证 Key 的唯一性，即如何获得 Primary Key 唯一性约束。因此，我们引入了 Uniq 的数据模型。该模型本质上是聚合模型的一个特例，也是一种简化的表结构表示方式。我们举例说明。</p>
+<table>
+<thead>
+<tr>
+<th><strong>ColumnName</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>IsKey</strong></th>
+<th><strong>Comment</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>user_id</td>
+<td>BIGINT</td>
+<td>Yes</td>
+<td>用户 id</td>
+</tr>
+<tr>
+<td>username</td>
+<td>VARCHAR(50)</td>
+<td>Yes</td>
+<td>用户昵称</td>
+</tr>
+<tr>
+<td>city</td>
+<td>VARCHAR(20)</td>
+<td>No</td>
+<td>用户所在城市</td>
+</tr>
+<tr>
+<td>age</td>
+<td>SMALLINT</td>
+<td>No</td>
+<td>用户年龄</td>
+</tr>
+<tr>
+<td>sex</td>
+<td>TINYINT</td>
+<td>No</td>
+<td>用户性别</td>
+</tr>
+<tr>
+<td>phone</td>
+<td>LARGEINT</td>
+<td>No</td>
+<td>用户电话</td>
+</tr>
+<tr>
+<td>address</td>
+<td>VARCHAR(500)</td>
+<td>No</td>
+<td>用户住址</td>
+</tr>
+<tr>
+<td>register_time</td>
+<td>DATETIME</td>
+<td>No</td>
+<td>用户注册时间</td>
+</tr>
+</tbody></table>
+<p>这是一个典型的用户基础信息表。这类数据没有聚合需求，只需保证主键唯一性。（这里的主键为 user_id + username）。那么我们的建表语句如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE IF NOT EXISTS example_db.expamle_tbl(</span><br><span class="line">  `user_id` LARGEINT NOT NULL COMMENT &quot;用户id&quot;,</span><br><span class="line">  `username` VARCHAR(50) NOT NULL COMMENT &quot;用户昵称&quot;,</span><br><span class="line">  `city` VARCHAR(20) COMMENT &quot;用户所在城市&quot;,</span><br><span class="line">  `age` SMALLINT COMMENT &quot;用户年龄&quot;,</span><br><span class="line">  `sex` TINYINT COMMENT &quot;用户性别&quot;,</span><br><span class="line">  `phone` LARGEINT COMMENT &quot;用户电话&quot;,</span><br><span class="line">  `address` VARCHAR(500) COMMENT &quot;用户地址&quot;,</span><br><span class="line">  `register_time` DATETIME COMMENT &quot;用户注册时间&quot;</span><br><span class="line">) UNIQUE KEY(`user_id`, `user_name`)</span><br><span class="line">... /* 省略 Partition 和 Distribution 信息 */</span><br><span class="line">；</span><br></pre></td></tr></table></figure>
+
+<p>而这个表结构，完全同等于以下使用聚合模型描述的表结构：</p>
+<table>
+<thead>
+<tr>
+<th><strong>ColumnName</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>AggregationType</strong></th>
+<th><strong>Comment</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>user_id</td>
+<td>BIGINT</td>
+<td></td>
+<td>用户 id</td>
+</tr>
+<tr>
+<td>username</td>
+<td>VARCHAR(50)</td>
+<td></td>
+<td>用户昵称</td>
+</tr>
+<tr>
+<td>city</td>
+<td>VARCHAR(20)</td>
+<td>REPLACE</td>
+<td>用户所在城市</td>
+</tr>
+<tr>
+<td>age</td>
+<td>SMALLINT</td>
+<td>REPLACE</td>
+<td>用户年龄</td>
+</tr>
+<tr>
+<td>sex</td>
+<td>TINYINT</td>
+<td>REPLACE</td>
+<td>用户性别</td>
+</tr>
+<tr>
+<td>phone</td>
+<td>LARGEINT</td>
+<td>REPLACE</td>
+<td>用户电话</td>
+</tr>
+<tr>
+<td>address</td>
+<td>VARCHAR(500)</td>
+<td>REPLACE</td>
+<td>用户住址</td>
+</tr>
+<tr>
+<td>register_time</td>
+<td>DATETIME</td>
+<td>REPLACE</td>
+<td>用户注册时间</td>
+</tr>
+</tbody></table>
+<p>及建表语句：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE IF NOT EXISTS example_db.expamle_tbl(</span><br><span class="line">  `user_id` LARGEINT NOT NULL COMMENT &quot;用户id&quot;,</span><br><span class="line">  `username` VARCHAR(50) NOT NULL COMMENT &quot;用户昵称&quot;,</span><br><span class="line">  `city` VARCHAR(20) REPLACE COMMENT &quot;用户所在城市&quot;,</span><br><span class="line">  `age` SMALLINT REPLACE COMMENT &quot;用户年龄&quot;,</span><br><span class="line">  `sex` TINYINT REPLACE COMMENT &quot;用户性别&quot;,</span><br><span class="line">  `phone` LARGEINT REPLACE COMMENT &quot;用户电话&quot;,</span><br><span class="line">  `address` VARCHAR(500) REPLACE COMMENT &quot;用户地址&quot;,</span><br><span class="line">  `register_time` DATETIME REPLACE COMMENT &quot;用户注册时间&quot;</span><br><span class="line">)</span><br><span class="line">AGGREGATE KEY(`user_id`, `user_name`)</span><br><span class="line">... /* 省略 Partition 和 Distribution 信息 */</span><br><span class="line">；</span><br></pre></td></tr></table></figure>
+
+<p>即 Uniq 模型完全可以用聚合模型中的 REPLACE 方式替代。其内部的实现方式和数据存储方式也完全一样。这里不再继续举例说明。</p>
+<h3 id="Duplicate-模型（冗余模型）"><a href="#Duplicate-模型（冗余模型）" class="headerlink" title="Duplicate 模型（冗余模型）"></a>Duplicate 模型（冗余模型）</h3><p>由于聚合模型存在下面的缺陷，Doris 引入了非聚合模型。</p>
+<ul>
+<li>必须区分维度列和指标列</li>
+<li>维度列很多时，Sort 的成本很高。</li>
+<li>Count 成本很高，需要读取所有维度列（可以参考 Kylin 的解决方法进行优化）</li>
+</ul>
+<p>非聚合模型主要用于Ad-hoc 查询，不会有任何聚合，不区分维度列和指标列，但是在建表时<strong>需要指定 Sort Columns</strong>，<strong>数据导入时会根据 Sort Columns 进行排序</strong>，查询时根据 Sort Column 过滤会比较高效。</p>
+<p><img src="https://km.sankuai.com/api/file/387029494/387077330"></p>
+<table>
+<thead>
+<tr>
+<th><strong>ColumnName</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>SortKey</strong></th>
+<th><strong>Comment</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>timestamp</td>
+<td>DATETIME</td>
+<td>Yes</td>
+<td>日志时间</td>
+</tr>
+<tr>
+<td>type</td>
+<td>INT</td>
+<td>Yes</td>
+<td>日志类型</td>
+</tr>
+<tr>
+<td>error_code</td>
+<td>INT</td>
+<td>Yes</td>
+<td>错误码</td>
+</tr>
+<tr>
+<td>error_msg</td>
+<td>VARCHAR(1024)</td>
+<td>No</td>
+<td>错误详细信息</td>
+</tr>
+<tr>
+<td>op_id</td>
+<td>BIGINT</td>
+<td>No</td>
+<td>负责人 id</td>
+</tr>
+<tr>
+<td>op_time</td>
+<td>DATETIME</td>
+<td>No</td>
+<td>处理时间</td>
+</tr>
+</tbody></table>
+<p>建表语句如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE IF NOT EXISTS example_db.expamle_tbl</span><br><span class="line">(</span><br><span class="line">  `timestamp` DATETIME NOT NULL COMMENT &quot;日志时间&quot;,</span><br><span class="line">  `type` INT NOT NULL COMMENT &quot;日志类型&quot;,</span><br><span class="line">  `error_code` INT COMMENT &quot;错误码&quot;,</span><br><span class="line">  `error_msg` VARCHAR(1024) COMMENT &quot;错误详细信息&quot;,</span><br><span class="line">  `op_id` BIGINT COMMENT &quot;负责人id&quot;,</span><br><span class="line">  `op_time` DATETIME COMMENT &quot;处理时间&quot;</span><br><span class="line">)</span><br><span class="line">DUPLICATE KEY(`timestamp`, `type`)</span><br><span class="line">... /* 省略 Partition 和 Distribution 信息 */</span><br><span class="line">；</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="ROLLUP"><a href="#ROLLUP" class="headerlink" title="ROLLUP"></a>ROLLUP</h3><p>ROLLUP 在多维分析中是“上卷”的意思，即将数据按某种指定的粒度进行进一步聚合。</p>
+<p>基本概念</p>
+<p>在 Doris 中，我们将用户通过建表语句创建出来的表成为 Base 表（Base Table）。Base 表中保存着按用户建表语句指定的方式存储的基础数据。</p>
+<p>在 Base 表（同一个分区内）之上，我们可以创建任意多个 ROLLUP 表。这些 ROLLUP 的数据是基于 Base 表产生的，并且在物理上是<strong>独立存储</strong>的。</p>
+<p>ROLLUP 表的基本作用，在于在 Base 表的基础上，获得更粗粒度的聚合数据。</p>
+<p>在 Kylin 中，我们把每一种维度组合称之为 Cuboid,在 Doris 中与之等价的概念是 RollUp 表。实际上，<strong>Kylin 的 Cuboid 和 Doris 的 RollUp 表都可以认为是一种 Materialized Views 或者 Index。</strong></p>
+<p>Doris 的 RollUp 表 和 Kylin 的 Cuboid 一样，<strong>在查询时不需要显示指定</strong>，系统内部会根据查询条件进行智能路由。下图是个 RollUp 表的示意。</p>
+<p><img src="https://hexo-1256892004.cos.ap-beijing.myqcloud.com/doris/20201228001950-0tz07wg-rollup.png"></p>
+<p><strong>Doris RollUp 表的路由规则</strong>如下：</p>
+<ol>
+<li>选择包含所有查询列的 RollUp 表</li>
+<li>按照过滤和排序的 column 筛选最符合的 RollUp 表</li>
+<li>按照 Join 的 column 筛选最符合的 RollUp 表</li>
+<li>行数最小的</li>
+<li>列数最小的</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Doris RollUp</th>
+<th>Kylin Cuboid</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>定义的成本</td>
+<td>需要手动逐个定义</td>
+<td>系统根据 Web 上维度，聚集组的设置自动定义出所有 Cuboid</td>
+</tr>
+<tr>
+<td>定义的灵活性</td>
+<td>维度列和指标列可以自由选择</td>
+<td>只可以选择维度列，每个 Cuboid 都必须包含所有指标列</td>
+</tr>
+<tr>
+<td>计算方式</td>
+<td>从原始数据直接生成每个 RollUp 表的数据</td>
+<td>根据 Cuboid Tree 分层构建 Cuboid，每个 Cuboid 的输入是 Parent cuboid，不是原始数据。</td>
+</tr>
+<tr>
+<td>物理存储</td>
+<td>每个 RollUp 表是独立存储的</td>
+<td>多个 Cuboid 会存储到 1 个 HFile 中(按照大小)</td>
+</tr>
+<tr>
+<td>查询路由</td>
+<td>会根据过滤列，排序列，Join 列，行数，列数进行路由</td>
+<td>仅会根据维度列进行路由</td>
+</tr>
+</tbody></table>
+<p>下面我们用示例详细说明在不同数据模型中的 ROLLUP 表及其作用。</p>
+<p>示例 1：获得每个用户的总消费</p>
+<p>接 <strong>Aggregate 模型</strong>小节的<strong>示例 2</strong>，Base 表结构如下：</p>
+<table>
+<thead>
+<tr>
+<th><strong>ColumnName</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>AggregationType</strong></th>
+<th><strong>Comment</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>user_id</td>
+<td>LARGEINT</td>
+<td></td>
+<td>用户 id</td>
+</tr>
+<tr>
+<td>date</td>
+<td>DATE</td>
+<td></td>
+<td>数据灌入日期</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>DATETIME</td>
+<td></td>
+<td>数据灌入时间，精确到秒</td>
+</tr>
+<tr>
+<td>city</td>
+<td>VARCHAR(20)</td>
+<td></td>
+<td>用户所在城市</td>
+</tr>
+<tr>
+<td>age</td>
+<td>SMALLINT</td>
+<td></td>
+<td>用户年龄</td>
+</tr>
+<tr>
+<td>sex</td>
+<td>TINYINT</td>
+<td></td>
+<td>用户性别</td>
+</tr>
+<tr>
+<td>last_visit_date</td>
+<td>DATETIME</td>
+<td>REPLACE</td>
+<td>用户最后一次访问时间</td>
+</tr>
+<tr>
+<td>cost</td>
+<td>BIGINT</td>
+<td>SUM</td>
+<td>用户总消费</td>
+</tr>
+<tr>
+<td>max_dwell_time</td>
+<td>INT</td>
+<td>MAX</td>
+<td>用户最大停留时间</td>
+</tr>
+<tr>
+<td>min_dwell_time</td>
+<td>INT</td>
+<td>MIN</td>
+<td>用户最小停留时间</td>
+</tr>
+</tbody></table>
+<p>存储的数据如下：</p>
+<table>
+<thead>
+<tr>
+<th><strong>user_id</strong></th>
+<th><strong>date</strong></th>
+<th><strong>timestamp</strong></th>
+<th><strong>city</strong></th>
+<th><strong>age</strong></th>
+<th><strong>sex</strong></th>
+<th><strong>last_visit_date</strong></th>
+<th><strong>cost</strong></th>
+<th><strong>max_dwell_time</strong></th>
+<th><strong>min_dwell_time</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>10000</td>
+<td>2017-10-01</td>
+<td>2017-10-01 08:00:05</td>
+<td>北京</td>
+<td>20</td>
+<td>0</td>
+<td>2017-10-01 06:00:00</td>
+<td>20</td>
+<td>10</td>
+<td>10</td>
+</tr>
+<tr>
+<td>10000</td>
+<td>2017-10-01</td>
+<td>2017-10-01 09:00:05</td>
+<td>北京</td>
+<td>20</td>
+<td>0</td>
+<td>2017-10-01 07:00:00</td>
+<td>15</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>10001</td>
+<td>2017-10-01</td>
+<td>2017-10-01 18:12:10</td>
+<td>北京</td>
+<td>30</td>
+<td>1</td>
+<td>2017-10-01 17:05:45</td>
+<td>2</td>
+<td>22</td>
+<td>22</td>
+</tr>
+<tr>
+<td>10002</td>
+<td>2017-10-02</td>
+<td>2017-10-02 13:10:00</td>
+<td>上海</td>
+<td>20</td>
+<td>1</td>
+<td>2017-10-02 12:59:12</td>
+<td>200</td>
+<td>5</td>
+<td>5</td>
+</tr>
+<tr>
+<td>10003</td>
+<td>2017-10-02</td>
+<td>2017-10-02 13:15:00</td>
+<td>广州</td>
+<td>32</td>
+<td>0</td>
+<td>2017-10-02 11:20:00</td>
+<td>30</td>
+<td>11</td>
+<td>11</td>
+</tr>
+<tr>
+<td>10004</td>
+<td>2017-10-01</td>
+<td>2017-10-01 12:12:48</td>
+<td>深圳</td>
+<td>35</td>
+<td>0</td>
+<td>2017-10-01 10:00:15</td>
+<td>100</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>10004</td>
+<td>2017-10-03</td>
+<td>2017-10-03 12:38:20</td>
+<td>深圳</td>
+<td>35</td>
+<td>0</td>
+<td>2017-10-03 10:20:22</td>
+<td>11</td>
+<td>6</td>
+<td>6</td>
+</tr>
+</tbody></table>
+<p>在此基础上，我们创建一个 ROLLUP：</p>
+<table>
+<thead>
+<tr>
+<th><strong>ColumnName</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>user_id</td>
+</tr>
+<tr>
+<td>cost</td>
+</tr>
+</tbody></table>
+<p>该 ROLLUP 只包含两列：user_id 和 cost。则创建完成后，该 ROLLUP 中存储的数据如下：</p>
+<table>
+<thead>
+<tr>
+<th><strong>user_id</strong></th>
+<th><strong>cost</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>10000</td>
+<td>35</td>
+</tr>
+<tr>
+<td>10001</td>
+<td>2</td>
+</tr>
+<tr>
+<td>10002</td>
+<td>200</td>
+</tr>
+<tr>
+<td>10003</td>
+<td>30</td>
+</tr>
+<tr>
+<td>10004</td>
+<td>111</td>
+</tr>
+</tbody></table>
+<p>可以看到，ROLLUP 中仅保留了每个 user_id，在 cost 列上的 SUM 的结果。那么当我们进行如下查询时:</p>
+<p>SELECT user_id, sum(cost) FROM table GROUP BY user_id;</p>
+<p>Doris 会自动命中这个 ROLLUP 表，从而只需扫描极少的数据量，即可完成这次聚合查询</p>
+<h3 id="多版本"><a href="#多版本" class="headerlink" title="多版本"></a>多版本</h3><p>为了获得更高的导入吞吐量，Doris 的数据更新是按照 batch 来更新的。为了在<strong>数据更新时不影响数据查询</strong>以及<strong>保证更新的原子性</strong>，Doris 采用了 <strong>MVCC</strong> 的方式，所以在数据更新时每个 batch 都需要指定一个 verison。</p>
+<p>数据的版本化虽然可以解决读写冲突和更新的原子性，但是也带来了以下问题：</p>
+<ol>
+<li><strong>存储成本</strong>。 多版本意味着我们需要存储多份数据，但是由于聚合后的数据一般比较小，所以这个问题还好。</li>
+<li><strong>查询时延</strong>。 如果有很多版本，那么查询时需要遍历的版本数据就会很多，查询时延自然就会增大。</li>
+</ol>
+<p>为了解决这两个问题，常见的思路就是及时删除不需要的、过期的数据，以及将小的文件 Merge 为大的文件。</p>
+<p><img src="https://hexo-1256892004.cos.ap-beijing.myqcloud.com/doris/20201228002026-7l9ng8w-merge.png"></p>
+<p><img src="https://hexo-1256892004.cos.ap-beijing.myqcloud.com/doris/20201228002106-csq5fmi-delta-compaction.png"></p>
+<p>如上图所示，Mesa 的 Merge 策略和 HBase 很像。</p>
+<p>类似 HBase 的 minor compaction 和 major compaction，Mesa 中引入了<em><strong>cumulative compaction</strong></em>和<em><strong>base compaction</strong></em>的概念。</p>
+<p>Mesa 中将包含了一定版本的数据称为<em><strong>deltas</strong></em>, 表示为[V1, V2]，刚实时写入的小 deltas， 称之为<em><strong>singleton deltas</strong></em>，然后每到一定的版本数(图中是 10)，就通过 cumulative compaction 将 10 个 singleton deltas 合并为 1 个 cumulative deltas，最终每天会通过 base compaction 将一定周期内所有的 deltas 都合并为<em><strong>base deltas</strong></em>。</p>
+<p>所以查询时一般只需要查询 1 个 base deltas， 1 个 cumulative deltas 和少数 singleton deltas 即可。</p>
+<p>注意，compaction 是在<strong>后台并发和异步执行</strong>的，此外由于 Mesa 的存储是按照 key 有序存储的，所以 deltas 的 merge 是<strong>线性时间</strong>的。</p>
+<h3 id="前缀索引"><a href="#前缀索引" class="headerlink" title="前缀索引"></a>前缀索引</h3><p>不同于传统的数据库设计，Doris 不支持在任意列上创建索引。Doris 这类 MPP 架构的 OLAP 数据库，通常都是通过提高并发，来处理大量数据的。<br>本质上，Doris 的数据存储在类似 SSTable（Sorted String Table）的数据结构中。该结构是一种有序的数据结构，可以按照指定的列进行排序存储。在这种数据结构上，以排序列作为条件进行查找，会非常的高效。</p>
+<p>在 Aggregate、Uniq 和 Duplicate 三种数据模型中。底层的数据存储，是按照各自建表语句中，AGGREGATE KEY、UNIQ KEY 和 DUPLICATE KEY 中指定的列进行排序存储的。</p>
+<p>而前缀索引，即在排序的基础上，实现的一种根据给定前缀列，快速查询数据的索引方式。</p>
+<p>我们将一行数据的前 <strong>36 个字节</strong> 作为这行数据的前缀索引。当遇到 VARCHAR 类型时，前缀索引会直接截断。我们举例说明：</p>
+<ol>
+<li>以下表结构的前缀索引为 user_id(8Byte) + age(8Bytes) + message(prefix 20 Bytes)。</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th><strong>ColumnName</strong></th>
+<th><strong>Type</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>user_id</td>
+<td>BIGINT</td>
+</tr>
+<tr>
+<td>age</td>
+<td>INT</td>
+</tr>
+<tr>
+<td>message</td>
+<td>VARCHAR(100)</td>
+</tr>
+<tr>
+<td>max_dwell_time</td>
+<td>DATETIME</td>
+</tr>
+<tr>
+<td>min_dwell_time</td>
+<td>DATETIME</td>
+</tr>
+<tr>
+<td>2. 以下表结构的前缀索引为 user_name(20 Bytes)。即使没有达到 36 个字节，因为遇到VARCHAR，所以直接截断，不再往后继续。</td>
+<td></td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th><strong>ColumnName</strong></th>
+<th><strong>Type</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>user_name</td>
+<td>VARCHAR(20)</td>
+</tr>
+<tr>
+<td>age</td>
+<td>INT</td>
+</tr>
+<tr>
+<td>message</td>
+<td>VARCHAR(100)</td>
+</tr>
+<tr>
+<td>max_dwell_time</td>
+<td>DATETIME</td>
+</tr>
+<tr>
+<td>min_dwell_time</td>
+<td>DATETIME</td>
+</tr>
+</tbody></table>
+<p>当我们的查询条件，是<strong>前缀索引的前缀</strong>时，可以极大的加快查询速度。比如在第一个例子中，我们执行如下查询：</p>
+<p>SELECT * FROM table WHERE user_id&#x3D;1829239 and age&#x3D;20；</p>
+<p>该查询的效率会<strong>远高于</strong>如下查询：</p>
+<p>SELECT * FROM table WHERE age&#x3D;20；</p>
+<p>所以在建表时，<strong>正确的选择列顺序，能够极大地提高查询效率</strong>。</p>
+<p>ROLLUP 调整前缀索引</p>
+<p>因为建表时已经指定了列顺序，所以一个表只有一种前缀索引。这对于使用其他不能命中前缀索引的列作为条件进行的查询来说，效率上可能无法满足需求。因此，我们可以通过创建 ROLLUP 来人为的调整列顺序。举例说明。</p>
+<p>Base 表结构如下：</p>
+<table>
+<thead>
+<tr>
+<th><strong>ColumnName</strong></th>
+<th><strong>Type</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>user_id</td>
+<td>BIGINT</td>
+</tr>
+<tr>
+<td>age</td>
+<td>INT</td>
+</tr>
+<tr>
+<td>message</td>
+<td>VARCHAR(100)</td>
+</tr>
+<tr>
+<td>max_dwell_time</td>
+<td>DATETIME</td>
+</tr>
+<tr>
+<td>min_dwell_time</td>
+<td>DATETIME</td>
+</tr>
+</tbody></table>
+<p>我们可以在此基础上创建一个 ROLLUP 表：</p>
+<table>
+<thead>
+<tr>
+<th><strong>ColumnName</strong></th>
+<th><strong>Type</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>age</td>
+<td>INT</td>
+</tr>
+<tr>
+<td>user_id</td>
+<td>BIGINT</td>
+</tr>
+<tr>
+<td>message</td>
+<td>VARCHAR(100)</td>
+</tr>
+<tr>
+<td>max_dwell_time</td>
+<td>DATETIME</td>
+</tr>
+<tr>
+<td>min_dwell_time</td>
+<td>DATETIME</td>
+</tr>
+</tbody></table>
+<p>可以看到，ROLLUP 和 Base 表的列完全一样，只是将 user_id 和 age 的顺序调换了。那么当我们进行如下查询时：</p>
+<p>SELECT * FROM table where age&#x3D;20 and massage LIKE &quot;%error%&quot;;</p>
+<p>会优先选择 ROLLUP 表，因为 ROLLUP 的前缀索引匹配度更高。</p>
+<h3 id="聚合模型的局限性"><a href="#聚合模型的局限性" class="headerlink" title="聚合模型的局限性"></a>聚合模型的局限性</h3><p>这里我们针对 Aggregate 模型（包括 Uniq 模型），来介绍下聚合模型的局限性。</p>
+<p>在聚合模型中，模型对外展现的，是<strong>最终聚合后的</strong>数据。也就是说，任何还未聚合的数据（比如说两个不同导入批次的数据），必须通过某种方式，以保证对外展示的一致性。我们举例说明。</p>
+<p>假设表结构如下：</p>
+<table>
+<thead>
+<tr>
+<th><strong>ColumnName</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>AggregationType</strong></th>
+<th><strong>Comment</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>user_id</td>
+<td>LARGEINT</td>
+<td></td>
+<td>用户 id</td>
+</tr>
+<tr>
+<td>date</td>
+<td>DATE</td>
+<td></td>
+<td>数据灌入日期</td>
+</tr>
+<tr>
+<td>cost</td>
+<td>BIGINT</td>
+<td>SUM</td>
+<td>用户总消费</td>
+</tr>
+</tbody></table>
+<p>假设存储引擎中有如下两个已经导入完成的批次的数据：</p>
+<p><strong>batch 1</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>user_id</strong></th>
+<th><strong>date</strong></th>
+<th><strong>cost</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>10001</td>
+<td>2017-11-20</td>
+<td>50</td>
+</tr>
+<tr>
+<td>10002</td>
+<td>2017-11-21</td>
+<td>39</td>
+</tr>
+</tbody></table>
+<p><strong>batch 2</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>user_id</strong></th>
+<th><strong>date</strong></th>
+<th><strong>cost</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>10001</td>
+<td>2017-11-20</td>
+<td>1</td>
+</tr>
+<tr>
+<td>10001</td>
+<td>2017-11-21</td>
+<td>5</td>
+</tr>
+<tr>
+<td>10003</td>
+<td>2017-11-22</td>
+<td>22</td>
+</tr>
+</tbody></table>
+<p>可以看到，用户 10001 分属在两个导入批次中的数据还没有聚合。但是为了保证用户只能查询到如下最终聚合后的数据：</p>
+<table>
+<thead>
+<tr>
+<th><strong>user_id</strong></th>
+<th><strong>date</strong></th>
+<th><strong>cost</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>10001</td>
+<td>2017-11-20</td>
+<td>51</td>
+</tr>
+<tr>
+<td>10001</td>
+<td>2017-11-21</td>
+<td>5</td>
+</tr>
+<tr>
+<td>10002</td>
+<td>2017-11-21</td>
+<td>39</td>
+</tr>
+<tr>
+<td>10003</td>
+<td>2017-11-22</td>
+<td>22</td>
+</tr>
+</tbody></table>
+<p>我们在查询引擎中加入了聚合算子，来保证数据对外的一致性。</p>
+<p>另外，在聚合列（Value）上，执行与聚合类型不一致的聚合类查询时，要注意语意。比如我们在如上示例中执行如下查询：</p>
+<p>SELECT MIN(cost) FROM table;</p>
+<p>得到的结果是 5，而不是 1。</p>
+<p>同时，这种一致性保证，在某些查询中，会极大的降低查询效率。</p>
+<p>我们以最基本的 count(*) 查询为例：</p>
+<p>SELECT COUNT(*) FROM table;</p>
+<p>在其他数据库中，这类查询都会很快的返回结果。因为在实现上，我们可以通过如“导入时对行进行计数，保存 count 的统计信息”，或者在查询时“仅扫描某一列数据，获得 count 值”的方式，只需很小的开销，即可获得查询结果。但是在 Doris 的聚合模型中，这种查询的开销<strong>非常大</strong>。</p>
+<p>我们以刚才的数据为例：</p>
+<p><strong>batch 1</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>user_id</strong></th>
+<th><strong>date</strong></th>
+<th><strong>cost</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>10001</td>
+<td>2017-11-20</td>
+<td>50</td>
+</tr>
+<tr>
+<td>10002</td>
+<td>2017-11-21</td>
+<td>39</td>
+</tr>
+</tbody></table>
+<p><strong>batch 2</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>user_id</strong></th>
+<th><strong>date</strong></th>
+<th><strong>cost</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>10001</td>
+<td>2017-11-20</td>
+<td>1</td>
+</tr>
+<tr>
+<td>10001</td>
+<td>2017-11-21</td>
+<td>5</td>
+</tr>
+<tr>
+<td>10003</td>
+<td>2017-11-22</td>
+<td>22</td>
+</tr>
+</tbody></table>
+<p>因为最终的聚合结果为：</p>
+<table>
+<thead>
+<tr>
+<th><strong>user_id</strong></th>
+<th><strong>date</strong></th>
+<th><strong>cost</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>10001</td>
+<td>2017-11-20</td>
+<td>51</td>
+</tr>
+<tr>
+<td>10001</td>
+<td>2017-11-21</td>
+<td>5</td>
+</tr>
+<tr>
+<td>10002</td>
+<td>2017-11-21</td>
+<td>39</td>
+</tr>
+<tr>
+<td>10003</td>
+<td>2017-11-22</td>
+<td>22</td>
+</tr>
+</tbody></table>
+<p>所以，select count(*) from table; 的正确结果应该为 <strong>4</strong>。但如果我们只扫描 user_id 这一列，如果加上查询时聚合，最终得到的结果是 <strong>3</strong>（10001, 10002, 10003）。而如果不加查询时聚合，则得到的结果是 <strong>5</strong>（两批次一共 5 行数据）。可见这两个结果都是不对的。</p>
+<p>为了得到正确的结果，我们必须同时读取 user_id 和 date 这两列的数据，<strong>再加上查询时聚合</strong>，才能返回 <strong>4</strong> 这个正确的结果。也就是说，在 count(<em>) 查询中，Doris 必须扫描所有的 AGGREGATE KEY 列（这里就是 user_id 和 date），并且聚合后，才能得到语意正确的结果。当聚合列非常多时，count(</em>) 查询需要扫描大量的数据。</p>
+<p>因此，当业务上有频繁的 count(<em>) 查询时，我们建议用户通过增加一个**值衡为 1 的，聚合类型为 SUM 的列来模拟 count(</em>)**。如刚才的例子中的表结构，我们修改如下：</p>
+<table>
+<thead>
+<tr>
+<th><strong>ColumnName</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>AggreateType</strong></th>
+<th><strong>Comment</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>user_id</td>
+<td>BIGINT</td>
+<td></td>
+<td>用户 id</td>
+</tr>
+<tr>
+<td>date</td>
+<td>DATE</td>
+<td></td>
+<td>数据灌入日期</td>
+</tr>
+<tr>
+<td>cost</td>
+<td>BIGINT</td>
+<td>SUM</td>
+<td>用户总消费</td>
+</tr>
+<tr>
+<td>count</td>
+<td>BIGINT</td>
+<td>SUM</td>
+<td>用于计算 count</td>
+</tr>
+</tbody></table>
+<p>增加一个 count 列，并且导入数据中，该列值<strong>衡为 1</strong>。则 select count(<em>) from table; 的结果等价于 select sum(count) from table;。而后者的查询效率将远高于前者。不过这种方式也有使用限制，就是用户需要自行保证，不会重复导入 AGGREGATE KEY 列都相同的行。否则，select sum(count) from table; 只能表述原始导入的行数，而不是 select count(</em>) from table; 的语义。</p>
+<p>另一种方式，就是 <strong>将如上的 count 列的聚合类型改为 REPLACE，且依然值衡为 1</strong>。那么 select sum(count) from table; 和 select count(*) from table; 的结果将是一致的。并且这种方式，没有导入重复行的限制。</p>
+<h3 id="Duplicate-模型"><a href="#Duplicate-模型" class="headerlink" title="Duplicate 模型"></a>Duplicate 模型</h3><p>Duplicate 模型没有聚合模型的这个局限性。因为该模型不涉及聚合语意，在做 count(*) 查询时，任意选择一列查询，即可得到语意正确的结果。</p>
+<h3 id="数据模型的选择建议"><a href="#数据模型的选择建议" class="headerlink" title="数据模型的选择建议"></a>数据模型的选择建议</h3><p>因为数据模型在建表时就已经确定，且<strong>无法修改</strong>。所以，选择一个合适的数据模型<strong>非常重要</strong>。</p>
+<ol>
+<li>Aggregate 模型可以通过预聚合，极大地降低聚合查询时所需扫描的数据量和查询的计算量，非常适合有固定模式的报表类查询场景。但是该模型对 count(*) 查询很不友好。同时因为固定了 Value 列上的聚合方式，在进行其他类型的聚合查询时，需要考虑语意正确性。</li>
+<li>Uniq 模型针对需要唯一主键约束的场景，可以保证主键唯一性约束。但是无法利用 ROLLUP 等预聚合带来的查询优势（因为本质是 REPLACE，没有 SUM 这种聚合方式）。</li>
+<li>Duplicate 适合任意维度的 Ad-hoc 查询。虽然同样无法利用预聚合的特性，但是不受聚合模型的约束，可以发挥列存模型的优势（只读取相关列，而不需要读取所有 Key 列）</li>
+</ol>
+<h2 id="1-3Doris-存储模型"><a href="#1-3Doris-存储模型" class="headerlink" title="1.3Doris 存储模型"></a>1.3Doris 存储模型</h2><p>Doris 的存储模型主要整合了 Meda 的数据模型和 ORCFile &#x2F; Parquet 的存储格式，编码和压缩。</p>
+<p><strong>Doris 存储相关的基本概念</strong></p>
+<p>Doris 元数据上的逻辑概念有 Table，Partition，Tablet，Replica。</p>
+<p>Doris 的 Table 支持二级分区，可以先按照日期列进行一级分区，再按照指定列进行 Hash 分桶。</p>
+<p>首先 1 个 Table 可以按照日期列分为多个 Partition， 每个 Partition 可以包含多个 Tablet，每个 Table 的数据被水平划分为多个 Tablet，</p>
+<p>每个 Tablet 包含若干数据行，<em><strong>Tablet 是数据移动、复制等操作的最小物理存储单元</strong></em>，各个 Tablet 之间的数据没有交集，并且在物理上是独立存储的。</p>
+<p><em><strong>Partition 可以视为逻辑上最小的管理单元，数据的导入与删除，仅能针对一个 Partition 进行</strong></em>。</p>
+<p>1 个 Table 的 Tablet 数量&#x3D; Partition num * Bucket num。</p>
+<p>Tablet 会按照一定大小（<strong>256M</strong>）拆分为多个 segment 文件， segment 是列存的，但是会按行（<strong>1024 行，可配置</strong>）拆分为多个 rowblock。</p>
+<p><img src="https://hexo-1256892004.cos.ap-beijing.myqcloud.com/doris/20201228002138-akghkdf-storage-file.png"></p>
+<p><strong>Doris 的数据文件</strong></p>
+<p>Doris 的数据文件如下图所示：</p>
+<p><img src="https://hexo-1256892004.cos.ap-beijing.myqcloud.com/doris/20201228002150-eolrbk7-file.png"></p>
+<p>Doris 数据文件 Stream 的例子：</p>
+<p><img src="https://hexo-1256892004.cos.ap-beijing.myqcloud.com/doris/20201228002202-jypfdh1-stream.png"></p>
+<p><strong>前缀索引</strong></p>
+<p>本质上，Doris 的数据存储是类似 SSTable（Sorted String Table）的数据结构。该结构是一种有序的数据结构，可以按照指定的列进行排序存储。</p>
+<p>在这种数据结构上，以排序列作为条件进行查找，会非常的高效。而前缀索引，即在排序的基础上，实现的一种根据给定前缀列，快速查询数据的索引方式。</p>
+<p>前缀索引文件的格式如下图所示，索引的 Key 是<strong>每个 rowblock 第一行记录的 Sort Key 的前 36 个字节</strong>，Value 是 <strong>rowblock 在 segment 文件的偏移量</strong>。</p>
+<p>有了前缀索引后，我们查询特定 key 的过程就是<strong>两次二分查找</strong>：</p>
+<ol>
+<li>先加载 index 文件，二分查找 index 文件获取包含特定 key 的 row blocks 的 offest,然后从 data files 中获取指定的 row blocks；</li>
+<li>在 row blocks 中二分查询特定的 key</li>
+</ol>
+<p>Index 文件：</p>
+<p><img src="https://hexo-1256892004.cos.ap-beijing.myqcloud.com/doris/20201228002214-j9xyxca-index.png"></p>
+<p><strong>Min，Max 索引和 Bloomfilter</strong></p>
+<p>在利用前缀索引过滤 block 之前， Doris 也会根据 Min,Max 索引和 bloomfilter（可选）过滤掉不匹配的 block。</p>
+<p><strong>编码和压缩</strong></p>
+<p><strong>编码</strong></p>
+<p>Doris 中整形的编码方式：（以下几种编码方式的细节具体可以参考 <a target="_blank" rel="noopener" href="https://orc.apache.org/docs/run-length.html">HIve ORC</a>）</p>
+<ol>
+<li>SHORT_REPEAT</li>
+<li>DIRECT</li>
+<li>PATCHED_BASE</li>
+<li>DELTA</li>
+</ol>
+<p>具体选择哪种编码方式会根据数据特点进行选择。</p>
+<p>String 会使用字典编码 和 DIRECT 编码，使用哪种方式取决于列的基数。</p>
+<p><strong>压缩</strong></p>
+<p>索引文件和 BF 不会压缩。</p>
+<p>数据文件会使用 LZO 或者 LZ4 算法压缩。</p>
+<p><strong>Doris 针对网络传输，硬盘数据，存储有不同的压缩算法</strong>：</p>
+<ul>
+<li>网络传输时会使用 LZO1X 算法，该算法压缩率低，CPU 开销低</li>
+<li>硬盘数据会使用 LZO1C_99 算法，该算法压缩率高，CPU 开销大</li>
+<li>储存会使用 LZ4 算法，压缩率低，CPU 开销低</li>
+</ul>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">weibingo</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="https://wbice.cn/article/doris.html">https://wbice.cn/article/doris.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE/">数据</a><a class="post-meta__tags" href="/tags/OLAP/">OLAP</a></div><div class="addthis_inline_share_toolbox pull-right"></div><script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=undefined" async></script><nav id="pagination"><div class="prev-post pull-left"><a href="/article/2020%E6%80%BB%E7%BB%93.html"><i class="fa fa-chevron-left">  </i><span>2020年回顾与感想</span></a></div><div class="next-post pull-right"><a href="/article/Flink-Watermark.html"><span>Flink：什么是 Watermark？</span><i class="fa fa-chevron-right"></i></a></div></nav><div id="vcomment"></div><script src="https://cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script><script>var notify = 'false' == 'true';
+var verify = 'false' == 'true';
+var record_ip = '' == 'true';
+var GUEST_INFO = ['nick','mail','link'];
+var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+  return GUEST_INFO.indexOf(item) > -1
+});
+guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+window.valine = new Valine({
+  el:'#vcomment',
+  notify:notify,
+  verify:verify,
+  recordIP:record_ip,
+  appId:'dEfDWKbVoLq95IOjY2Wucz01-9Nh9j0Va',
+  appKey:'CWRYxwiLTYcAG0OcWmKl7Ez0',
+  placeholder:'ヾﾉ≧∀≦)o来啊，快活啊，造作啊!',
+  avatar:'mm',
+  guest_info:guest_info,
+  pageSize:'10',
+  lang: 'zh-cn'
+})</script></div></div><footer class="footer-bg" style="background-image: url(https://hexo-1256892004.cos.ap-beijing.myqcloud.com/page/top.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2017 - 2023 By weibingo</div><div class="framework-info"><span>Driven - </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme - </span><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="footer_custom_text">hitokoto</div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file-o"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="/js/third-party/anime.min.js"></script><script src="/js/third-party/jquery.min.js"></script><script src="/js/third-party/jquery.fancybox.min.js"></script><script src="/js/third-party/velocity.min.js"></script><script src="/js/third-party/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.8.0"></script><script src="/js/fancybox.js?version=1.8.0"></script><script src="/js/sidebar.js?version=1.8.0"></script><script src="/js/copy.js?version=1.8.0"></script><script src="/js/fireworks.js?version=1.8.0"></script><script src="/js/transition.js?version=1.8.0"></script><script src="/js/scroll.js?version=1.8.0"></script><script src="/js/head.js?version=1.8.0"></script><script src="/js/search/algolia.js"></script><script src="/js/search/local-search.js"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script><div class="search-dialog" id="algolia-search"><div class="search-dialog__title" id="algolia-search-title">Algolia</div><div id="algolia-input-panel"><div id="algolia-search-input"></div></div><hr><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-stats"></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="Dataflow 模型"><meta name="keywords" content="flink,大数据,流式计算,spark"><meta name="author" content="weibingo"><meta name="copyright" content="weibingo"><title>Dataflow 模型 | WBINGのBLOG</title><link rel="shortcut icon" href="/favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.8.0"><link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css?version=1.8.0"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.1.1/dist/instantsearch.min.css"><script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.1.1/dist/instantsearch.min.js" defer></script><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script src="https://v1.hitokoto.cn/?encode=js&amp;charset=utf-8&amp;select=.footer_custom_text" defer></script><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: {"appId":"3FYJCLGPHO","apiKey":"d730ef95ff5ff79a19b74363531c066b","indexName":"prod_weibing-blog","hits":{"per_page":10},"languages":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}.","hits_stats":"${hits} results found in ${time} ms"}},
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"We didn't find any results for the search: ${query}"}},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  }
+} </script><meta name="generator" content="Hexo 6.3.0"></head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="Toggle article">Toggle site</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#DataFlow-%E6%A8%A1%E5%9E%8B%E6%A0%B8%E5%BF%83"><span class="toc-number">1.</span> <span class="toc-text">DataFlow 模型核心</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E4%B8%AA%E6%A8%A1%E5%9E%8B"><span class="toc-number">2.</span> <span class="toc-text">三个模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#windowing"><span class="toc-number">2.1.</span> <span class="toc-text">windowing</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Triggers-amp-Incremental-Processing"><span class="toc-number">2.2.</span> <span class="toc-text">Triggers &amp; Incremental Processing</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DATAFLOW-MODEL"><span class="toc-number">3.</span> <span class="toc-text">DATAFLOW MODEL</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Core-Primitives"><span class="toc-number">3.1.</span> <span class="toc-text">Core Primitives</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Examples"><span class="toc-number">4.</span> <span class="toc-text">Examples</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Batch-Model"><span class="toc-number">4.1.</span> <span class="toc-text">Batch Model</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Micro-Batch-Model"><span class="toc-number">4.2.</span> <span class="toc-text">Micro-Batch Model</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E6%B5%81%E7%9A%84-Windowing-Model"><span class="toc-number">4.3.</span> <span class="toc-text">基于流的 Windowing Model</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E-Session-Windowing-Model"><span class="toc-number">4.4.</span> <span class="toc-text">基于 Session Windowing Model</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">6.</span> <span class="toc-text">参考</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://hexo-1256892004.cos.ap-beijing.myqcloud.com/page/avatar.jpg"></div><div class="author-info__name text-center">weibingo</div><div class="author-info__description text-center">BIG DATA探索者,经济迷,浅度摄影,爱好历史,对社会意识,人文感兴趣</div><div class="follow-button"><a target="_blank" rel="noopener" href="https://github.com/weibingo">Follow Me</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">Articles</span><span class="pull-right">45</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">Tags</span><span class="pull-right">42</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">Categories</span><span class="pull-right">19</span></a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://hexo-1256892004.cos.ap-beijing.myqcloud.com/page/top.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">WBINGのBLOG</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search"></i><span> Search</span></a></span></div><div id="post-info"><div id="post-title">Dataflow 模型</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2019-12-21</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E6%95%B0%E6%8D%AE%E5%B7%A5%E7%A8%8B/">数据工程</a><i class="fa fa-angle-right" aria-hidden="true"></i><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E6%95%B0%E6%8D%AE%E5%B7%A5%E7%A8%8B/%E6%B5%81%E5%BC%8F%E8%AE%A1%E7%AE%97/">流式计算</a><div class="post-meta-wordcount"><span>Word count: </span><span class="word-count">2.2k</span><span class="post-meta__separator">|</span><span>Reading time: 7 min</span></div></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><p>Dataflow 模型：是谷歌在处理无边界数据的实践中，总结的一套 SDK 级别的解决方案，其目标是做到在非有序的，无边界的海量数据上，基于事件时间进行运算，并能根据数据自身的属性进行 window 操作，同时数据处理过程的正确性，延迟，代价可根据需求进行灵活的调整配置。</p>
+<h2 id="DataFlow-模型核心"><a href="#DataFlow-模型核心" class="headerlink" title="DataFlow 模型核心"></a>DataFlow 模型核心</h2><p>和 Spark 通过 micro batch 模型来处理 Streaming 场景的出发点不同，Dataflow 认为 batch 的处理模式只是 streaming 处理模式的一个子集。在无边界数据集的处理过程中，要及时产出数据结果，无限等待显然是不可能的，所以必然需要对要处理的数据划定一个窗口区间，从而对数据及时的进行分段处理和产出，而各种处理模式（stream，micro batch，session，batch），本质上，只是窗口的大小不同，窗口的划分方式不同而已。Batch 的处理模式就只是一个窗口区间涵盖了整个有边界的数据集这样的一种特例场景而已。一个设计良好的能处理无边界数据集的系统，完全能在准确性和正确性上做到和“Batch”系统一样甚至应该更好。</p>
+<span id="more"></span>
+
+<p>Dataflow 模型里强调的两个时间概念：Event time 和 Process time：</p>
+<ul>
+<li>Event time 事件时间: 就是数据真正发生的时间，比如用户浏览了一个页面，或者下了一个订单等等，这时候通常就会有一些数据会被生产出来，比如前者可能会产生一条用户的浏览日志</li>
+<li>Process time: 则是这条日志数据真正到达计算框架中被处理的时间点，简单的说，就是你的程序是什么时候读到这条日志的</li>
+</ul>
+<p>现实情况下，由于各种原因，数据采集，传输到达处理系统的时间可能会有长短不同的延迟，在分布式应用场景环境下，不仅是延迟，数据乱序到达往往也是常态。这些问题，在有边界数据集的处理过程中往往并不存在，或者无关紧要。</p>
+<p>但在无边界数据集中，乱序，延迟问题就显得很关键。在 Dataflow 模型中，数据的处理过程中需要解决的问题，被概括为以下 4 个方面：</p>
+<ul>
+<li>What results are being computed ： 计算逻辑是什么</li>
+<li>Where in event time they are being computed ： 计算什么时候（事件时间）的数据</li>
+<li>When in processing time they are materialized ： 在什么时候（处理时间）进行计算&#x2F;输出</li>
+<li>How earlier results relate to later refinements ： 后续数据如何影响（修正）之前的计算结果</li>
+</ul>
+<p>针对以上四个问题，提出了三个模型：</p>
+<ul>
+<li>一个支持基于事件时间的窗口（window）模型，并提供简易的 API 接口：支持固定窗口／滑动窗口／Session（以 Key 为维度，基于事件时间连续性进行划分）等窗口模式。（<strong>解决 Where 问题</strong>）</li>
+<li>一个和数据自身特性绑定的计算结果输出触发模型，并提供灵活可描述的 API 接口。（<strong>解决 when 问题</strong>）</li>
+<li>一个增量更新模型，可以将数据增量更新的能力融合进上述窗口和结果触发模型中。（<strong>解决 how 问题</strong>）</li>
+</ul>
+<h2 id="三个模型"><a href="#三个模型" class="headerlink" title="三个模型"></a>三个模型</h2><h3 id="windowing"><a href="#windowing" class="headerlink" title="windowing"></a>windowing</h3><p>这要解决的 where 问题，即在 infinite 的数据流中，我们要处理哪部分数据。<br>对于unbounded data，只能基于windowing做处理。windowing 有以下三种：<br><img src="https://hexo-1256892004.cos.ap-beijing.myqcloud.com/dataflow-model/windowing.png"><br>前两种很简单，Sessions Windowing，这个比较新鲜，这个是在 google 实践中很重要的一种 windowing 形式。</p>
+<p>Session，即当连续出现 key1 时形成session windowing窗口，没有key1出现是就不存在窗口，典型应用异常检测，当出现持续异常时就是session windowing，没有异常是不需要统计Time Domains。</p>
+<p>时间域，分为两种，</p>
+<p><strong>Event Time</strong>, which is the time at which the event itself actually occurred，发生时间</p>
+<p><strong>Processing Time</strong>, which is the time at which an event is observed at any given point during processing within the pipeline，处理时间</p>
+<p>显然处理时间一定是晚于发生时间的，我们可以用下面的 watermark 图来 visualize 他们的 skew 关系</p>
+<p><img src="https://hexo-1256892004.cos.ap-beijing.myqcloud.com/dataflow-model/time-domain.png"></p>
+<p>首先，dataflow 将 window 信息放入 tuple 内，<br>所以 dataflow 的 tuple 是 4 元组，(<strong>key; value; event time; window</strong>)</p>
+<p>同时，支持两种 windows 操作，</p>
+<p>AssignWindows，</p>
+<p><img src="https://hexo-1256892004.cos.ap-beijing.myqcloud.com/dataflow-model/assignwindows.png"></p>
+<p>可以看到通过 AssignWindows，可以将原始数据，转换为带 windowing 信息的数据</p>
+<p>在例子给出的 case 下，一条 raw 数据会产生两条带 windowing 信息的数据</p>
+<p>这样做的好处就将，where 信息固化在原始数据中了，你不用再在代码里面记着</p>
+<p>问题是，这样可能会带来数据膨胀，如果 Sliding（60m，1m），岂不是一条 raw tuple，要产生 60 条带 windowing 信息的 tuple</p>
+<p>WindowMerging，</p>
+<p>这个过程，可以用来消除前面带来的数据膨胀，</p>
+<figure class="half">
+    <img src="https://hexo-1256892004.cos.ap-beijing.myqcloud.com/dataflow-model/windowmerge0.png">
+    <img src="https://hexo-1256892004.cos.ap-beijing.myqcloud.com/dataflow-model/windowmerge1.png">
+</figure>
+
+<p>这个过程还是比较清晰的</p>
+<h3 id="Triggers-amp-Incremental-Processing"><a href="#Triggers-amp-Incremental-Processing" class="headerlink" title="Triggers &amp; Incremental Processing"></a>Triggers &amp; Incremental Processing</h3><p>开始解决 when 和 how 的问题</p>
+<p>核心问题，我们面对的时候无序的数据，那么我们怎么知道，这个 windowing 里面的数据已经到全了，可以 emit 产生结果了？</p>
+<p>是不是可以依赖我们上面给出的 watermark 图来预估，是可以的，但这个方案不完善，会有too fast和too slow问题。</p>
+<p>too fast，即通过watermark你是无法保证 100% 数据完整性的，因为 watermark 是启发式生成的</p>
+<p>too slow，即latency 问题，watermark反映的是大部分数据到全的时间点，必然不会有好的latency</p>
+<p>所以可见，这个方案挺废的，即保证不了一致性，也保证不了latency</p>
+<p>那么回到那个问题，我们怎么知道什么时候该 emit 结果了？</p>
+<p>答案是，你无法准确知道。</p>
+<p>所以这边的思路和 lamda 是一致的，先输出实时数据满足latency需要，并且用 batch数据来backfill，修正数据的正确性。</p>
+<p>这就是这里提到的trigger 和增量更新模型，</p>
+<p>trigger 模型解决when的问题，你可以定义各种不同的 trigger，已满足你对 latency 和 correctness 的 balancing 的需求。</p>
+<p>增量模型解决 how 的问题，即如何修正数据的正确性，这里分为 3 种，</p>
+<p><strong>Discarding</strong>: Upon triggering, window contents are discarded, and later results bear no relation to previous results.</p>
+<p>trigger 触发时，会丢弃当前 window 的数据，这样要求 various trigger fires to be independent，比如说 sum 操作<br>这样的好处，减小 mem 的负担；问题是，会产生碎片化数据，需要后续再次 combine 和 merge</p>
+<p><strong>Accumulating</strong>: Upon triggering, window contents are left intact in persistent state, and later results become a refinement of previous results.</p>
+<p>trigger 触发时，会保留当前 window 的数据，后续可以继续 refine 数据<br>这样的场景，适用于 downstream consumer 支持 overwrites 操作，比如数据库</p>
+<p>这样的问题就是，当数据量比较大的时候，你无法在 mem 里面保留长时间数据，那么需要写入存储，那么 backfill 可能需要 offline 来完成</p>
+<p><strong>Accumulating &amp; Retracting</strong>: 比上面那种多了 retracting</p>
+<p>这个只是用于不同的场景，比如 downstream consumer 是在做 sum 统计，那么必须先把上次的减去，才能加上这次的数据</p>
+<h2 id="DATAFLOW-MODEL"><a href="#DATAFLOW-MODEL" class="headerlink" title="DATAFLOW MODEL"></a>DATAFLOW MODEL</h2><p>In this section, we will de ne the formal model for the system and explain why its semantics are general enough to subsume the standard batch, micro-batch, and streaming models, as well as the hybrid streaming and batch semantics of the Lambda Architecture.</p>
+<h3 id="Core-Primitives"><a href="#Core-Primitives" class="headerlink" title="Core Primitives"></a>Core Primitives</h3><p>dataflow 提供两种基本原语，分别对应于无状态和有状态</p>
+<p><strong>ParDo</strong> for generic parallel processing. Each input element to be processed (which itself may be a nite collection) is provided to a user-defined function (called a DoFn in Dataflow), which can yield zero or more output elements per input.</p>
+<p>基本的无状态原语<br>可以等同于 flatMap，和 map 的不同是，可以输出 0 到多个结果</p>
+<p><img src="https://hexo-1256892004.cos.ap-beijing.myqcloud.com/dataflow-model/parDo.png"></p>
+<p><strong>GroupByKey</strong> for key-grouping (key; value) pairs.</p>
+<p>有状态的原语</p>
+<p><img src="https://hexo-1256892004.cos.ap-beijing.myqcloud.com/dataflow-model/groupbykey.png"></p>
+<h2 id="Examples"><a href="#Examples" class="headerlink" title="Examples"></a>Examples</h2><p>对于下面的 input，</p>
+<p><img src="https://hexo-1256892004.cos.ap-beijing.myqcloud.com/dataflow-model/input.png"></p>
+<h3 id="Batch-Model"><a href="#Batch-Model" class="headerlink" title="Batch Model"></a>Batch Model</h3><p><img src="https://hexo-1256892004.cos.ap-beijing.myqcloud.com/dataflow-model/batch-model.png"></p>
+<p>Batch 的方式，等所有数据都来全了，计算一遍解决，问题就是 latency 高达接近 10 分钟 （对于最早的数据）<br><img src="https://hexo-1256892004.cos.ap-beijing.myqcloud.com/dataflow-model/classic-batch.png"></p>
+<p>基于 windowing 的 batch 方式，和普通 batch 区别，增加 windows 聚合的结果</p>
+<p><img src="https://hexo-1256892004.cos.ap-beijing.myqcloud.com/dataflow-model/window-batch.png"></p>
+<h3 id="Micro-Batch-Model"><a href="#Micro-Batch-Model" class="headerlink" title="Micro-Batch Model"></a>Micro-Batch Model</h3><p>和 batch 比，兼顾 latency</p>
+<p><img src="https://hexo-1256892004.cos.ap-beijing.myqcloud.com/dataflow-model/micro-batch-model.png"></p>
+<p>incremental 的方式不同，下面是 discarding，看看区别</p>
+<p><img src="https://hexo-1256892004.cos.ap-beijing.myqcloud.com/dataflow-model/micro-batch-discard.png"></p>
+<p>基于 windowing 的 micro-batch，</p>
+<p><img src="https://hexo-1256892004.cos.ap-beijing.myqcloud.com/dataflow-model/micro-batch-window.png"></p>
+<h3 id="基于流的-Windowing-Model"><a href="#基于流的-Windowing-Model" class="headerlink" title="基于流的 Windowing Model"></a>基于流的 Windowing Model</h3><p>采用 watermark 的 trigger，</p>
+<p><img src="https://hexo-1256892004.cos.ap-beijing.myqcloud.com/dataflow-model/stream-watermark.png"></p>
+<p>这个的问题上面说过，<br>too fast，9 在依据 watermark 触发时，还没到<br>too late, 7 的数据要等到 8 到达的时候才能输出，</p>
+<p>在 watermark trigger 的基础上增加 micro-batch trigger，这样的好处还是提高 latency，</p>
+<p><img src="https://hexo-1256892004.cos.ap-beijing.myqcloud.com/dataflow-model/watermark-microbatch.png"></p>
+<h3 id="基于-Session-Windowing-Model"><a href="#基于-Session-Windowing-Model" class="headerlink" title="基于 Session Windowing Model"></a>基于 Session Windowing Model</h3><p><img src="https://hexo-1256892004.cos.ap-beijing.myqcloud.com/dataflow-model/stream-watermark-session.png"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>更细的学习了 flink watermark 后，再来看这篇文章，就更加能懂里面的一些概念，只看文章，没有具体实现还是比较难理解它的设计要点。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/fxjwind/p/5124174.html">https://www.cnblogs.com/fxjwind/p/5124174.html</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/tgzhu/p/7656508.html">https://www.cnblogs.com/tgzhu/p/7656508.html</a></p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">weibingo</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="https://wbice.cn/article/dataflow-model.html">https://wbice.cn/article/dataflow-model.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/flink/">flink</a><a class="post-meta__tags" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><a class="post-meta__tags" href="/tags/%E6%B5%81%E5%BC%8F%E8%AE%A1%E7%AE%97/">流式计算</a><a class="post-meta__tags" href="/tags/spark/">spark</a></div><div class="addthis_inline_share_toolbox pull-right"></div><script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=undefined" async></script><nav id="pagination"><div class="prev-post pull-left"><a href="/article/%E4%BB%8E%E4%B8%80%E5%8F%A5%E6%83%85%E8%AF%9D%E6%9D%A5%E4%BA%86%E8%A7%A3%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%8F%91%E5%B1%95.html"><i class="fa fa-chevron-left">  </i><span>从一句情话来了解语言模型的发展</span></a></div><div class="next-post pull-right"><a href="/article/%E6%9D%A5%E7%BE%8E%E5%9B%A23%E4%B8%AA%E6%9C%88%E6%80%BB%E7%BB%93.html"><span>来美团3个月总结</span><i class="fa fa-chevron-right"></i></a></div></nav><div id="vcomment"></div><script src="https://cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script><script>var notify = 'false' == 'true';
+var verify = 'false' == 'true';
+var record_ip = '' == 'true';
+var GUEST_INFO = ['nick','mail','link'];
+var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+  return GUEST_INFO.indexOf(item) > -1
+});
+guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+window.valine = new Valine({
+  el:'#vcomment',
+  notify:notify,
+  verify:verify,
+  recordIP:record_ip,
+  appId:'dEfDWKbVoLq95IOjY2Wucz01-9Nh9j0Va',
+  appKey:'CWRYxwiLTYcAG0OcWmKl7Ez0',
+  placeholder:'ヾﾉ≧∀≦)o来啊，快活啊，造作啊!',
+  avatar:'mm',
+  guest_info:guest_info,
+  pageSize:'10',
+  lang: 'zh-cn'
+})</script></div></div><footer class="footer-bg" style="background-image: url(https://hexo-1256892004.cos.ap-beijing.myqcloud.com/page/top.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2017 - 2023 By weibingo</div><div class="framework-info"><span>Driven - </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme - </span><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="footer_custom_text">hitokoto</div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file-o"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="/js/third-party/anime.min.js"></script><script src="/js/third-party/jquery.min.js"></script><script src="/js/third-party/jquery.fancybox.min.js"></script><script src="/js/third-party/velocity.min.js"></script><script src="/js/third-party/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.8.0"></script><script src="/js/fancybox.js?version=1.8.0"></script><script src="/js/sidebar.js?version=1.8.0"></script><script src="/js/copy.js?version=1.8.0"></script><script src="/js/fireworks.js?version=1.8.0"></script><script src="/js/transition.js?version=1.8.0"></script><script src="/js/scroll.js?version=1.8.0"></script><script src="/js/head.js?version=1.8.0"></script><script src="/js/search/algolia.js"></script><script src="/js/search/local-search.js"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script><div class="search-dialog" id="algolia-search"><div class="search-dialog__title" id="algolia-search-title">Algolia</div><div id="algolia-input-panel"><div id="algolia-search-input"></div></div><hr><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-stats"></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>

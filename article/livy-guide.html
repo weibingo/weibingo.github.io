@@ -1,0 +1,108 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="livy指南"><meta name="keywords" content="spark,livy"><meta name="author" content="weibingo"><meta name="copyright" content="weibingo"><title>livy指南 | WBINGのBLOG</title><link rel="shortcut icon" href="/favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.8.0"><link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css?version=1.8.0"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.1.1/dist/instantsearch.min.css"><script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.1.1/dist/instantsearch.min.js" defer></script><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script src="https://v1.hitokoto.cn/?encode=js&amp;charset=utf-8&amp;select=.footer_custom_text" defer></script><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: {"appId":"3FYJCLGPHO","apiKey":"d730ef95ff5ff79a19b74363531c066b","indexName":"prod_weibing-blog","hits":{"per_page":10},"languages":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}.","hits_stats":"${hits} results found in ${time} ms"}},
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"We didn't find any results for the search: ${query}"}},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  }
+} </script><meta name="generator" content="Hexo 6.3.0"></head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="Toggle article">Toggle site</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#livy%E5%AE%89%E8%A3%85"><span class="toc-number">1.</span> <span class="toc-text">livy安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#livy%E9%85%8D%E7%BD%AE"><span class="toc-number">2.</span> <span class="toc-text">livy配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#livy%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">3.</span> <span class="toc-text">livy的使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">4.</span> <span class="toc-text">参考</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://hexo-1256892004.cos.ap-beijing.myqcloud.com/page/avatar.jpg"></div><div class="author-info__name text-center">weibingo</div><div class="author-info__description text-center">BIG DATA探索者,经济迷,浅度摄影,爱好历史,对社会意识,人文感兴趣</div><div class="follow-button"><a target="_blank" rel="noopener" href="https://github.com/weibingo">Follow Me</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">Articles</span><span class="pull-right">45</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">Tags</span><span class="pull-right">42</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">Categories</span><span class="pull-right">19</span></a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://hexo-1256892004.cos.ap-beijing.myqcloud.com/page/top.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">WBINGのBLOG</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search"></i><span> Search</span></a></span></div><div id="post-info"><div id="post-title">livy指南</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2018-12-13</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E6%95%B0%E6%8D%AE%E5%B7%A5%E7%A8%8B/">数据工程</a><div class="post-meta-wordcount"><span>Word count: </span><span class="word-count">1.3k</span><span class="post-meta__separator">|</span><span>Reading time: 4 min</span></div></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><p>Livy是一个基于Spark的开源REST服务，它能够通过REST的方式将代码片段或是序列化的二进制代码提交到Spark集群中去执行。它提供了以下这些基本功能：</p>
+<ul>
+<li>提交Scala、Python或是R代码片段到远端的Spark集群上执行；</li>
+<li>提交Java、Scala、Python所编写的Spark作业到远端的Spark集群上执行；</li>
+<li>提交批处理应用在集群中运行。</li>
+</ul>
+<h3 id="livy安装"><a href="#livy安装" class="headerlink" title="livy安装"></a>livy安装</h3><p>livy安装很简单，从<a target="_blank" rel="noopener" href="http://livy.incubator.apache.org/download/">官网</a>下载zip包。<br>解压，设置spark和hadoop的环境。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> SPARK_HOME=spark的路径</span><br><span class="line"><span class="built_in">export</span> HADOOP_CONF_DIR=/etc/hadoop/conf （hadoop配置路径）</span><br></pre></td></tr></table></figure>
+
+<p>然后在livy的bin目录下执行：<br>livy-server start</p>
+<h3 id="livy配置"><a href="#livy配置" class="headerlink" title="livy配置"></a>livy配置</h3><p>在conf&#x2F;livy.conf文件中有配置，常用的配置：</p>
+<table>
+<thead>
+<tr>
+<th>配置信息</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>livy.server.host &#x3D; 0.0.0.0</td>
+<td>livy服务启动的host</td>
+</tr>
+<tr>
+<td>livy.server.port &#x3D; 80</td>
+<td>启动端口号</td>
+</tr>
+<tr>
+<td>livy.spark.master &#x3D; yarn</td>
+<td>livy执行spark master</td>
+</tr>
+<tr>
+<td>livy.spark.deploy-mode &#x3D; client</td>
+<td>spark启动模式</td>
+</tr>
+<tr>
+<td>livy.repl.enable-hive-context &#x3D; true</td>
+<td>启动hiveContext</td>
+</tr>
+<tr>
+<td>livy.ui.enabled &#x3D; true</td>
+<td>livy ui页面</td>
+</tr>
+</tbody></table>
+<p>还有其他的配置，用户可以根据自己需求自行配置。<br>另外，当集群开启了kerberos验证，执行spark任务时报gss错误，需要在配置中加上：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">livy.server.launch.kerberos.keytab = /conf/xxx.keytab</span><br><span class="line">livy.server.launch.kerberos.principal = xxx@HADOOP.COM</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<h3 id="livy的使用"><a href="#livy的使用" class="headerlink" title="livy的使用"></a>livy的使用</h3><p>livy提供了两种执行方式。</p>
+<ul>
+<li>一种是通过rest接口，见<a target="_blank" rel="noopener" href="http://livy.incubator.apache.org/docs/latest/rest-api.html">官网</a>接口定义。<br>用户可以以REST请求的方式通过Livy启动一个新的Spark集群，Livy将每一个启动的Spark集群称之为一个会话（session），一个会话是由一个完整的Spark集群所构成的，并且通过RPC协议在Spark集群和Livy服务端之间进行通信。根据处理交互方式的不同，Livy将会话分成了两种类型：<ul>
+<li>交互式会话（interactive session），这与Spark中的交互式处理相同，交互式会话在其启动后可以接收用户所提交的代码片段，在远端的Spark集群上编译并执行；</li>
+<li>批处理会话（batch session），用户可以通过Livy以批处理的方式启动Spark应用，这样的一个方式在Livy中称之为批处理会话，这与Spark中的批处理是相同的。<br>可以看到，Livy所提供的核心功能与原生Spark是相同的，它提供了两种不同的会话类型来代替Spark中两类不同的处理交互方式。接下来我们具体了解一下这两种类型的会话。</li>
+</ul>
+</li>
+</ul>
+<p>接口都是异步提交形式，就是你提交一个batch任务或者解释执行一段code。如果提交是个batch任务，会创建一个batch，返回batchId，然后你通过GET &#x2F;batches&#x2F;{batchId}或者执行状态，和执行结果，这也是立即返回。如果想同步获取结果，需要程序自己循环获取状态，当success后再退出循环。解释执行方式类似，创建session kind，然后在POST &#x2F;sessions&#x2F;{sessionId}&#x2F;statements中提交code。通过GET &#x2F;sessions&#x2F;{sessionId}&#x2F;statements&#x2F;{statementId}获取执行状态，也是异步返回。<br>batch任务提交示例：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -X POST -H <span class="string">&quot;Content-Type: application/json&quot;</span> -d <span class="string">&#x27;&#123;&quot;file&quot;:&quot;hdfs://xx/user/laiwb/spark-jars/spark-ml.jar&quot;,&quot;className&quot;:&quot;com.xx.data.livy.SparkExp&quot;,&quot;conf&quot;:&#123;&quot;spark.dynamicAllocation.enabled&quot;:&quot;true&quot;&#125;&#125;&#x27;</span> http://192.168.18.10:80/batches</span><br></pre></td></tr></table></figure>
+
+<p>获取batch任务：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -X GET  http://192.168.18.10:80/batches/&#123;batchId&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>通过<a target="_blank" rel="noopener" href="http://livy.incubator.apache.org/docs/latest/programmatic-api.html">livy Programmatic</a>形式。livy封装了sparkContext，添加了对象共享功能（setSharedObject）。下面是spark代码与livy代码对比图：</li>
+</ul>
+<p><img src="http://hexo-1256892004.cos.ap-beijing.myqcloud.com/livy-guide/livy-api.png"></p>
+<p>上图是pyspark，livy也提供了java&#x2F;scala API。spark程序需要继承Job类，覆盖Job类的call()方法。示例如下：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SparkExample</span> <span class="keyword">extends</span> <span class="title">Job</span>[<span class="type">Double</span>]</span>&#123;</span><br><span class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">call</span></span>(jobContext: <span class="type">JobContext</span>): <span class="type">Double</span> = &#123;</span><br><span class="line">    <span class="keyword">val</span> spark = jobContext.hivectx()</span><br><span class="line">    <span class="keyword">val</span> db = spark.sql(<span class="string">&quot;select max(cnt) max, min(cnt) min, avg(cnt) avg ,stddev_pop(cnt) std from laiwb.user_xx where cast(substr(uid,4) as int) &gt; 100000000 &quot;</span>)</span><br><span class="line">    jobContext.setSharedObject(<span class="string">&quot;avg&quot;</span>, db)</span><br><span class="line">    <span class="keyword">val</span> dou = db.collect().head.getDouble(<span class="number">2</span>)</span><br><span class="line">    dou</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>定义一个spark任务SparkExample，并将其打成jar包，上传到hdfs，也可以放在本地目录中，然后写Submit类。Submit类主要代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// 定义一个livy client 连接，url为livy服务的地址</span><br><span class="line">val client = new LivyClientBuilder(false).setURI(new URI(url)).build()  </span><br><span class="line">// 将SparkExample类打好的jar包（已经上传至hdfs）加入client中。如果jar包在本地，使用client.uploadJar(new File(jar)).get()</span><br><span class="line">client.addJar(new URI(jar))</span><br><span class="line">// main class</span><br><span class="line">val spe = Class.forName(&quot;com.xx.data.livy.SparkExample&quot;).newInstance.asInstanceOf[SparkExample]</span><br><span class="line">// 提交任务，submit()方法返回的是JobHandle对象，继承于Future，是个异步任务。如果想等待任务执行，可以通过get()方法。</span><br><span class="line">// dd便是livy spark任务执行完返回的double值</span><br><span class="line">val dd = client.submit(spe).get()</span><br></pre></td></tr></table></figure>
+
+<p>在SparkExample类中添加了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jobContext.setSharedObject(&quot;avg&quot;, db)</span><br></pre></td></tr></table></figure>
+<p>这是livy提供的共享对象功能，在其他任务中可以通过getSharedObject()通过key获取到此共享对象。<br>如果一个任务直接通过getSharedObject()，可以在spark stage界面上看到此对象的task是skip状态，说明它是被缓存起来，不在从DAG的起始开始执行。</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a target="_blank" rel="noopener" href="http://livy.incubator.apache.org/">http://livy.incubator.apache.org</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/imgxr/article/details/80130340">https://blog.csdn.net/imgxr/article/details/80130340</a></p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">weibingo</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="https://wbice.cn/article/livy-guide.html">https://wbice.cn/article/livy-guide.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/spark/">spark</a><a class="post-meta__tags" href="/tags/livy/">livy</a></div><div class="addthis_inline_share_toolbox pull-right"></div><script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=undefined" async></script><nav id="pagination"><div class="prev-post pull-left"><a href="/article/spark-streaming.html"><i class="fa fa-chevron-left">  </i><span>spark streaming</span></a></div><div class="next-post pull-right"><a href="/article/airflow-guide.html"><span>airflow使用指南</span><i class="fa fa-chevron-right"></i></a></div></nav><div id="vcomment"></div><script src="https://cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script><script>var notify = 'false' == 'true';
+var verify = 'false' == 'true';
+var record_ip = '' == 'true';
+var GUEST_INFO = ['nick','mail','link'];
+var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+  return GUEST_INFO.indexOf(item) > -1
+});
+guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+window.valine = new Valine({
+  el:'#vcomment',
+  notify:notify,
+  verify:verify,
+  recordIP:record_ip,
+  appId:'dEfDWKbVoLq95IOjY2Wucz01-9Nh9j0Va',
+  appKey:'CWRYxwiLTYcAG0OcWmKl7Ez0',
+  placeholder:'ヾﾉ≧∀≦)o来啊，快活啊，造作啊!',
+  avatar:'mm',
+  guest_info:guest_info,
+  pageSize:'10',
+  lang: 'zh-cn'
+})</script></div></div><footer class="footer-bg" style="background-image: url(https://hexo-1256892004.cos.ap-beijing.myqcloud.com/page/top.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2017 - 2023 By weibingo</div><div class="framework-info"><span>Driven - </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme - </span><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="footer_custom_text">hitokoto</div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file-o"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="/js/third-party/anime.min.js"></script><script src="/js/third-party/jquery.min.js"></script><script src="/js/third-party/jquery.fancybox.min.js"></script><script src="/js/third-party/velocity.min.js"></script><script src="/js/third-party/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.8.0"></script><script src="/js/fancybox.js?version=1.8.0"></script><script src="/js/sidebar.js?version=1.8.0"></script><script src="/js/copy.js?version=1.8.0"></script><script src="/js/fireworks.js?version=1.8.0"></script><script src="/js/transition.js?version=1.8.0"></script><script src="/js/scroll.js?version=1.8.0"></script><script src="/js/head.js?version=1.8.0"></script><script src="/js/search/algolia.js"></script><script src="/js/search/local-search.js"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script><div class="search-dialog" id="algolia-search"><div class="search-dialog__title" id="algolia-search-title">Algolia</div><div id="algolia-input-panel"><div id="algolia-search-input"></div></div><hr><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-stats"></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>

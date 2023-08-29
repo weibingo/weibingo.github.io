@@ -1,0 +1,151 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="秒杀系统设计一"><meta name="keywords" content="架构设计"><meta name="author" content="weibingo"><meta name="copyright" content="weibingo"><title>秒杀系统设计一 | WBINGのBLOG</title><link rel="shortcut icon" href="/favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.8.0"><link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css?version=1.8.0"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.1.1/dist/instantsearch.min.css"><script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.1.1/dist/instantsearch.min.js" defer></script><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script src="https://v1.hitokoto.cn/?encode=js&amp;charset=utf-8&amp;select=.footer_custom_text" defer></script><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: {"appId":"3FYJCLGPHO","apiKey":"d730ef95ff5ff79a19b74363531c066b","indexName":"prod_weibing-blog","hits":{"per_page":10},"languages":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}.","hits_stats":"${hits} results found in ${time} ms"}},
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"We didn't find any results for the search: ${query}"}},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  }
+} </script><meta name="generator" content="Hexo 6.3.0"></head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="Toggle article">Toggle site</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9E%B6%E6%9E%84%E5%8E%9F%E5%88%99%EF%BC%9A%E2%80%9C4-%E8%A6%81-1-%E4%B8%8D%E8%A6%81%E2%80%9D"><span class="toc-number">1.</span> <span class="toc-text">架构原则：“4 要 1 不要”</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E8%A6%81%E5%B0%BD%E9%87%8F%E5%B0%91"><span class="toc-number">1.1.</span> <span class="toc-text">数据要尽量少</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E6%95%B0%E8%A6%81%E5%B0%BD%E9%87%8F%E5%B0%91"><span class="toc-number">1.2.</span> <span class="toc-text">请求数要尽量少</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B7%AF%E5%BE%84%E8%A6%81%E5%B0%BD%E9%87%8F%E7%9F%AD"><span class="toc-number">1.3.</span> <span class="toc-text">路径要尽量短</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BE%9D%E8%B5%96%E8%A6%81%E5%B0%BD%E9%87%8F%E5%B0%91"><span class="toc-number">1.4.</span> <span class="toc-text">依赖要尽量少</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8D%E8%A6%81%E6%9C%89%E5%8D%95%E7%82%B9"><span class="toc-number">1.5.</span> <span class="toc-text">不要有单点</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8A%A8%E9%9D%99%E5%88%86%E7%A6%BB"><span class="toc-number">2.</span> <span class="toc-text">动静分离</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E9%9D%99%E5%88%86%E7%A6%BB%E7%9A%84%E6%94%B9%E9%80%A0"><span class="toc-number">2.1.</span> <span class="toc-text">动静分离的改造</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E9%9D%99%E5%88%86%E7%A6%BB%E7%9A%84%E5%87%A0%E7%A7%8D%E6%9E%B6%E6%9E%84%E6%96%B9%E6%A1%88"><span class="toc-number">2.2.</span> <span class="toc-text">动静分离的几种架构方案</span></a></li></ol></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://hexo-1256892004.cos.ap-beijing.myqcloud.com/page/avatar.jpg"></div><div class="author-info__name text-center">weibingo</div><div class="author-info__description text-center">BIG DATA探索者,经济迷,浅度摄影,爱好历史,对社会意识,人文感兴趣</div><div class="follow-button"><a target="_blank" rel="noopener" href="https://github.com/weibingo">Follow Me</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">Articles</span><span class="pull-right">45</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">Tags</span><span class="pull-right">42</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">Categories</span><span class="pull-right">19</span></a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://hexo-1256892004.cos.ap-beijing.myqcloud.com/page/top.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">WBINGのBLOG</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search"></i><span> Search</span></a></span></div><div id="post-info"><div id="post-title">秒杀系统设计一</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2021-12-02</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a><i class="fa fa-angle-right" aria-hidden="true"></i><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E5%90%8E%E7%AB%AF/%E6%9E%B6%E6%9E%84/">架构</a><div class="post-meta-wordcount"><span>Word count: </span><span class="word-count">4.8k</span><span class="post-meta__separator">|</span><span>Reading time: 14 min</span></div></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><p>随着互联网流量的增大，秒杀瞬时流量达到百万甚至千万OPS，秒杀系统也从商品详情系统独立出来成为一个独立的系统。</p>
+<p>那么，如何才能更好地理解秒杀系统呢？在我看来，<strong>秒杀其实主要解决两个问题，一个是并发读，一个是并发写</strong>。并发读的核心优化理念是尽量减少用户到服务端来“读”数据，或者让他们读更少的数据；并发写的处理原则也一样，它要求我们在数据库层面独立出来一个库，做特殊的处理。另外，我们还要针对秒杀系统做一些保护，针对意料之外的情况设计兜底方案，以防止最坏的情况发生。</p>
+<p>而从一个架构师的角度来看，要想打造并维护一个超大流量并发读写、高性能、高可用的系统，在整个用户请求路径上从浏览器到服务端我们要遵循几个原则，就是要保证用户请求的数据尽量少、请求数尽量少、路径尽量短、依赖尽量少，并且不要有单点。</p>
+<p><strong>其实，秒杀的整体架构可以概括为“稳、准、快”几个关键字。</strong></p>
+<p>所谓“稳”，就是整个系统架构要满足高可用，流量符合预期时肯定要稳定，就是超出预期时也同样不能掉链子，你要保证秒杀活动顺利完成，即秒杀商品顺利地卖出去，这个是最基本的前提。</p>
+<p>然后就是“准”，就是保证库存的准确。一旦库存不对，那平台就要承担损失，所以“准”就是要求保证数据的一致性。</p>
+<p>最后再看“快”，“快”其实很好理解，它就是说系统的性能要足够高，否则你怎么支撑这么大的流量呢？不光是服务端要做极致的性能优化，而且在整个请求链路上都要做协同的优化，每个地方快一点，整个系统就完美了。</p>
+<span id="more"></span>
+<p>所以从技术角度上看“稳、准、快”，就对应了我们架构上的高可用、一致性和高性能的要求，我们的专栏也将主要围绕这几个方面来展开，具体如下。</p>
+<ul>
+<li><strong>高性能。</strong> 秒杀涉及大量的并发读和并发写，因此支持高并发访问这点非常关键。</li>
+<li><strong>一致性。</strong> 秒杀中商品减库存的实现方式同样关键。有限数量的商品在同一时刻被很多倍的请求同时来减库存，在大并发更新的过程中都要保证数据的准确性，其难度可想而知。</li>
+<li><strong>高可用。</strong> 虽然介绍了很多极致的优化思路，但现实中总难免出现一些我们考虑不到的情况，所以要保证系统的高可用和正确性，我们还要设计一个 PlanB 来兜底，以便在最坏情况发生时仍然能够从容应对。</li>
+</ul>
+<p>综述，<strong>秒杀系统本质上就是一个满足大并发、高性能和高可用的分布式系统</strong>。</p>
+<h1 id="架构原则：“4-要-1-不要”"><a href="#架构原则：“4-要-1-不要”" class="headerlink" title="架构原则：“4 要 1 不要”"></a>架构原则：“4 要 1 不要”</h1><p>要构建一个超大流量并发读写、高性能，以及高可用的系统，这其中有哪些要素需要考虑。把这些要素总结为“4 要 1 不要”。</p>
+<h2 id="数据要尽量少"><a href="#数据要尽量少" class="headerlink" title="数据要尽量少"></a>数据要尽量少</h2><p>所谓“数据要尽量少”，首先是指用户请求的数据能少就少。请求的数据包括上传给系统的数据和系统返回给用户的数据（通常就是网页）。</p>
+<p>为啥“数据要尽量少”呢？因为首先这些数据在网络上传输需要时间，其次不管是请求数据还是返回数据都需要服务器做处理，而服务器在写网络时通常都要做压缩和字符编码，这些都非常消耗 CPU，所以减少传输的数据量可以显著减少 CPU 的使用。</p>
+<p>其次，“数据要尽量少”还要求系统依赖的数据能少就少，包括系统完成某些业务逻辑需要读取和保存的数据，这些数据一般是和后台服务以及数据库打交道的。调用其他服务会涉及数据的序列化和反序列化，而这也是 CPU 的一大杀手，同样也会增加延时。而且，数据库本身也容易成为一个瓶颈，所以和数据库打交道越少越好，数据越简单、越小则越好。</p>
+<h2 id="请求数要尽量少"><a href="#请求数要尽量少" class="headerlink" title="请求数要尽量少"></a>请求数要尽量少</h2><p>用户请求的页面返回后，浏览器渲染这个页面还要包含其他的额外请求。因为浏览器每发出一个请求都多少会有一些消耗，另外，如果不同请求的域名不一样的话，还涉及这些域名的 DNS 解析。所以减少请求数可以显著减少以上这些因素导致的资源消耗。</p>
+<h2 id="路径要尽量短"><a href="#路径要尽量短" class="headerlink" title="路径要尽量短"></a>路径要尽量短</h2><p>所谓“路径”，就是用户发出请求到返回数据这个过程中，需求经过的中间的节点数。</p>
+<p>通常，这些节点可以表示为一个系统或者一个新的 Socket 连接（比如代理服务器只是创建一个新的 Socket 连接来转发请求）。每经过一个节点，一般都会产生一个新的 Socket 连接。</p>
+<p>然而，每增加一个连接都会增加新的不确定性。从概率统计上来说，假如一次请求经过 5 个节点，每个节点的可用性是 99.9% 的话，那么整个请求的可用性是：99.9% 的 5 次方，约等于 99.5%。</p>
+<p>所以缩短请求路径不仅可以增加可用性，同样可以有效提升性能（减少中间节点可以减少数据的序列化与反序列化），并减少延时（可以减少网络传输耗时）。</p>
+<p>要缩短访问路径有一种办法，就是多个相互强依赖的应用合并部署在一起，把远程过程调用（RPC）变成 JVM 内部之间的方法调用。</p>
+<h2 id="依赖要尽量少"><a href="#依赖要尽量少" class="headerlink" title="依赖要尽量少"></a>依赖要尽量少</h2><p>所谓依赖，指的是要完成一次用户请求必须依赖的系统或者服务，这里的依赖指的是强依赖。</p>
+<p>比如要展示秒杀页面，而这个页面必须强依赖商品信息、用户信息，还有其他如优惠券、成交列表等这些对秒杀不是非要不可的信息（弱依赖），这些弱依赖在紧急情况下就可以去掉。</p>
+<p>要减少依赖，我们可以给系统进行分级，比如 0 级系统、1 级系统、2 级系统、3 级系统，0 级系统如果是最重要的系统，那么 0 级系统强依赖的系统也同样是最重要的系统，以此类推。</p>
+<h2 id="不要有单点"><a href="#不要有单点" class="headerlink" title="不要有单点"></a>不要有单点</h2><p>系统中的单点可以说是系统架构上的一个大忌，因为单点意味着没有备份，风险不可控，我们设计分布式系统最重要的原则就是“消除单点”。</p>
+<p>那如何避免单点呢？关键点是避免将服务的状态和机器绑定，即把服务无状态化，这样服务就可以在机器中随意移动。</p>
+<p>但是<strong>架构是一种平衡的艺术，而最好的架构一旦脱离了它所适应的场景，一切都将是空谈</strong>。这里所说的几点都只是一个个方向，应该尽量往这些方向上去努力，但也要考虑平衡其他因素。</p>
+<p>要让秒杀系统达到高性能，一方面是提高单次请求的效率，一方面是减少没必要的请求。下面通过动静分离和热点数据两方面讲解。</p>
+<h1 id="动静分离"><a href="#动静分离" class="headerlink" title="动静分离"></a>动静分离</h1><p>“动静分离”，其实就是把用户请求的数据划分为“动态数据”和“静态数据”。</p>
+<p>简单来说，<strong>“动态数据”和“静态数据”的主要区别就是看页面中输出的数据是否和 URL、浏览者、时间、地域相关，以及是否含有 Cookie 等私密数据</strong>。比如说：</p>
+<ol>
+<li>很多媒体类的网站，某一篇文章的内容不管是你访问还是我访问，它都是一样的。所以它就是一个典型的静态数据，但是它是个动态页面。</li>
+<li>我们如果现在访问淘宝的首页，每个人看到的页面可能都是不一样的，淘宝首页中包含了很多根据访问者特征推荐的信息，而这些个性化的数据就可以理解为动态数据了。</li>
+</ol>
+<p>分离了动静数据，我们就可以对分离出来的静态数据做缓存，有了缓存之后，静态数据的“访问效率”自然就提高了。</p>
+<p>如何对静态数据做缓存呢？我在这里总结了几个重点。</p>
+<p><strong>第一，你应该把静态数据缓存到离用户最近的地方</strong>。静态数据就是那些相对不会变化的数据，因此我们可以把它们缓存起来。缓存到哪里呢？常见的就三种，用户浏览器里、CDN 上或者在服务端的 Cache 中。你应该根据情况，把它们尽量缓存到离用户最近的地方。</p>
+<p><strong>第二，静态化改造就是要直接缓存 HTTP 连接</strong>。相较于普通的数据缓存而言，你肯定还听过系统的静态化改造。静态化改造是直接缓存 HTTP 连接而不是仅仅缓存数据，如下图所示，Web 代理服务器根据请求 URL，直接取出对应的 HTTP 响应头和响应体然后直接返回，这个响应过程简单得连 HTTP 协议都不用重新组装，甚至连 HTTP 请求头也不需要解析。</p>
+<p><img src="/assets/20211205155944-m2wc16w.jpe"></p>
+<p><strong>第三，让谁来缓存静态数据也很重要</strong>。不同语言写的 Cache 软件处理缓存数据的效率也各不相同。例如Web 服务器（如 Nginx、Apache、Varnish）也更擅长处理大并发的静态文件请求。</p>
+<h2 id="动静分离的改造"><a href="#动静分离的改造" class="headerlink" title="动静分离的改造"></a>动静分离的改造</h2><p>从以下 5 个方面来分离出动态内容。</p>
+<ol>
+<li><strong>URL 唯一化</strong>。商品详情系统天然地就可以做到 URL 唯一化，比如每个商品都由 ID 来标识。</li>
+<li><strong>分离浏览者相关的因素</strong>。浏览者相关的因素包括是否已登录，以及登录身份等，这些相关因素我们可以单独拆分出来，通过动态请求来获取。</li>
+<li><strong>分离时间因素</strong>。服务端输出的时间也通过动态请求获取。</li>
+<li><strong>异步化地域因素</strong>。详情页面上与地域相关的因素做成异步方式获取，当然你也可以通过动态请求方式获取，只是这里通过异步获取更合适。</li>
+<li><strong>去掉 Cookie</strong>。服务端输出的页面包含的 Cookie 可以通过代码软件来删除。注意，这里说的去掉 Cookie 并不是用户端收到的页面就不含 Cookie 了，而是说，在缓存的静态数据中不含有 Cookie。</li>
+</ol>
+<p>前面我们介绍里用缓存的方式来处理静态数据。而动态内容的处理通常有两种方案：ESI（Edge Side Includes）方案和 CSI（Client Side Include）方案。</p>
+<ol>
+<li><strong>ESI 方案（或者 SSI）</strong>：即在 Web 代理服务器上做动态内容请求，并将请求插入到静态页面中，当用户拿到页面时已经是一个完整的页面了。这种方式对服务端性能有些影响，但是用户体验较好。</li>
+<li><strong>CSI 方案</strong>。即单独发起一个异步 JavaScript 请求，以向服务端获取动态内容。这种方式服务端性能更佳，但是用户端页面可能会延时，体验稍差。</li>
+</ol>
+<h2 id="动静分离的几种架构方案"><a href="#动静分离的几种架构方案" class="headerlink" title="动静分离的几种架构方案"></a>动静分离的几种架构方案</h2><p>根据架构上的复杂度，有 3 种方案可选：</p>
+<ol>
+<li>实体机单机部署；</li>
+<li>统一 Cache 层；</li>
+<li>上 CDN。</li>
+</ol>
+<p><strong>方案 1：实体机单机部署</strong></p>
+<p>这种方案是将虚拟机改为实体机，以增大 Cache 的容量，并且采用了一致性 Hash 分组的方式来提升命中率。这里将 Cache 分成若干组，是希望能达到命中率和访问热点的平衡。Hash 分组越少，缓存的命中率肯定就会越高，但短板是也会使单个商品集中在一个分组中，容易导致 Cache 被击穿，所以我们应该适当增加多个相同的分组，来平衡访问热点和命中率的问题。</p>
+<p>这里我给出了实体机单机部署方案的结构图，如下：</p>
+<p><img src="/assets/20211205155944-220vzwg.jpe"></p>
+<p>Nginx+Cache+Java 结构实体机单机部署实体机单机部署有以下几个优点：</p>
+<ol>
+<li>没有网络瓶颈，而且能使用大内存；</li>
+<li>既能提升命中率，又能减少 Gzip 压缩；</li>
+<li>减少 Cache 失效压力，因为采用定时失效方式，例如只缓存 3 秒钟，过期即自动失效。</li>
+</ol>
+<p>这个方案中，虽然把通常只需要虚拟机或者容器运行的 Java 应用换成实体机，优势很明显，它会增加单机的内存容量，但是一定程度上也造成了 CPU 的浪费，因为单个的 Java 进程很难用完整个实体机的 CPU。</p>
+<p>另外就是，一个实体机上部署了 Java 应用又作为 Cache 来使用，这造成了运维上的高复杂度，所以这是一个折中的方案。如果你的公司里，没有更多的系统有类似需求，那么这样做也比较合适，如果你们有多个业务系统都有静态化改造的需求，那还是建议把 Cache 层单独抽出来公用比较合理。</p>
+<p><strong>方案 2：统一 Cache 层</strong></p>
+<p>所谓统一 Cache 层，就是将单机的 Cache 统一分离出来，形成一个单独的 Cache 集群。统一 Cache 层是个更理想的可推广方案，该方案的结构图如下：</p>
+<p><img src="/assets/20211205155944-47qsrsi.jpe"></p>
+<p>统一 Cache将 Cache 层单独拿出来统一管理可以减少运维成本，同时也方便接入其他静态化系统。此外，它还有一些优点。</p>
+<ol>
+<li>单独一个 Cache 层，可以减少多个应用接入时使用 Cache 的成本。这样接入的应用只要维护自己的 Java 系统就好，不需要单独维护 Cache，而只关心如何使用即可。</li>
+<li>统一 Cache 的方案更易于维护，如后面加强监控、配置的自动化，只需要一套解决方案就行，统一起来维护升级也比较方便。</li>
+<li>可以共享内存，最大化利用内存，不同系统之间的内存可以动态切换，从而能够有效应对各种攻击。</li>
+</ol>
+<p>这种方案虽然维护上更方便了，但是也带来了其他一些问题，比如缓存更加集中，导致：</p>
+<ol>
+<li>Cache 层内部交换网络成为瓶颈；</li>
+<li>缓存服务器的网卡也会是瓶颈；</li>
+<li>机器少风险较大，挂掉一台就会影响很大一部分缓存数据。</li>
+</ol>
+<p>要解决上面这些问题，可以再对 Cache 做 Hash 分组，即一组 Cache 缓存的内容相同，这样能够避免热点数据过度集中导致新的瓶颈产生。</p>
+<p><strong>方案 3：上 CDN</strong></p>
+<p>在将整个系统做动静分离后，我们自然会想到更进一步的方案，就是将 Cache 进一步前移到 CDN 上，因为 CDN 离用户最近，效果会更好。</p>
+<p>但是要想这么做，有以下几个问题需要解决。</p>
+<ol>
+<li><strong>失效问题</strong>。前面我们也有提到过缓存时效的问题，不知道你有没有理解，我再来解释一下。谈到静态数据时，我说过一个关键词叫“相对不变”，它的言外之意是“可能会变化”。比如一篇文章，现在不变，但如果你发现个错别字，是不是就会变化了？如果你的缓存时效很长，那用户端在很长一段时间内看到的都是错的。所以，这个方案中也是，我们需要保证 CDN 可以在秒级时间内，让分布在全国各地的 Cache 同时失效，这对 CDN 的失效系统要求很高。</li>
+<li><strong>命中率问题</strong>。Cache 最重要的一个衡量指标就是“高命中率”，不然 Cache 的存在就失去了意义。同样，如果将数据全部放到全国的 CDN 上，必然导致 Cache 分散，而 Cache 分散又会导致访问请求命中同一个 Cache 的可能性降低，那么命中率就成为一个问题。</li>
+<li><strong>发布更新问题</strong>。如果一个业务系统每周都有日常业务需要发布，那么发布系统必须足够简洁高效，而且你还要考虑有问题时快速回滚和排查问题的简便性。</li>
+</ol>
+<p>从前面的分析来看，将商品详情系统放到全国的所有 CDN 节点上是不太现实的，因为存在失效问题、命中率问题以及系统的发布更新问题。那么是否可以选择若干个节点来尝试实施呢？答案是“可以”，但是这样的节点需要满足几个条件：</p>
+<ol>
+<li>靠近访问量比较集中的地区；</li>
+<li>离主站相对较远；</li>
+<li>节点到主站间的网络比较好，而且稳定；</li>
+<li>节点容量比较大，不会占用其他 CDN 太多的资源。</li>
+<li><strong>节点不要太多</strong>。</li>
+</ol>
+<p>基于上面几个因素，选择 CDN 的二级 Cache 比较合适，因为二级 Cache 数量偏少，容量也更大，让用户的请求先回源的 CDN 的二级 Cache 中，如果没命中再回源站获取数据，部署方式如下图所示：</p>
+<p><img src="/assets/20211205155944-7jsm556.jpe"></p>
+<p>CDN 化部署方案使用 CDN 的二级 Cache 作为缓存，可以达到和当前服务端静态化 Cache 类似的命中率，因为节点数不多，Cache 不是很分散，访问量也比较集中，这样也就解决了命中率问题，同时能够给用户最好的访问体验，是当前比较理想的一种 CDN 化方案。</p>
+<p>除此之外，CDN 化部署方案还有以下几个特点：</p>
+<ol>
+<li>把整个页面缓存在用户浏览器中；</li>
+<li>如果强制刷新整个页面，也会请求 CDN；</li>
+<li>实际有效请求，只是用户对“刷新抢宝”按钮的点击。</li>
+</ol>
+<p>这样就把 90% 的静态数据缓存在了用户端或者 CDN 上，当真正秒杀时，用户只需要点击特殊的“刷新抢宝”按钮，而不需要刷新整个页面。这样一来，系统只是向服务端请求很少的有效数据，而不需要重复请求大量的静态数据。</p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">weibingo</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="https://wbice.cn/article/%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E4%B8%80.html">https://wbice.cn/article/%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E4%B8%80.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/">架构设计</a></div><div class="addthis_inline_share_toolbox pull-right"></div><script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=undefined" async></script><nav id="pagination"><div class="prev-post pull-left"><a href="/article/%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E4%BA%8C.html"><i class="fa fa-chevron-left">  </i><span>秒杀系统设计二</span></a></div><div class="next-post pull-right"><a href="/article/PRC%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E5%9B%9B.html"><span>PRC核心原理四</span><i class="fa fa-chevron-right"></i></a></div></nav><div id="vcomment"></div><script src="https://cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script><script>var notify = 'false' == 'true';
+var verify = 'false' == 'true';
+var record_ip = '' == 'true';
+var GUEST_INFO = ['nick','mail','link'];
+var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+  return GUEST_INFO.indexOf(item) > -1
+});
+guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+window.valine = new Valine({
+  el:'#vcomment',
+  notify:notify,
+  verify:verify,
+  recordIP:record_ip,
+  appId:'dEfDWKbVoLq95IOjY2Wucz01-9Nh9j0Va',
+  appKey:'CWRYxwiLTYcAG0OcWmKl7Ez0',
+  placeholder:'ヾﾉ≧∀≦)o来啊，快活啊，造作啊!',
+  avatar:'mm',
+  guest_info:guest_info,
+  pageSize:'10',
+  lang: 'zh-cn'
+})</script></div></div><footer class="footer-bg" style="background-image: url(https://hexo-1256892004.cos.ap-beijing.myqcloud.com/page/top.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2017 - 2023 By weibingo</div><div class="framework-info"><span>Driven - </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme - </span><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="footer_custom_text">hitokoto</div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file-o"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="/js/third-party/anime.min.js"></script><script src="/js/third-party/jquery.min.js"></script><script src="/js/third-party/jquery.fancybox.min.js"></script><script src="/js/third-party/velocity.min.js"></script><script src="/js/third-party/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.8.0"></script><script src="/js/fancybox.js?version=1.8.0"></script><script src="/js/sidebar.js?version=1.8.0"></script><script src="/js/copy.js?version=1.8.0"></script><script src="/js/fireworks.js?version=1.8.0"></script><script src="/js/transition.js?version=1.8.0"></script><script src="/js/scroll.js?version=1.8.0"></script><script src="/js/head.js?version=1.8.0"></script><script src="/js/search/algolia.js"></script><script src="/js/search/local-search.js"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script><div class="search-dialog" id="algolia-search"><div class="search-dialog__title" id="algolia-search-title">Algolia</div><div id="algolia-input-panel"><div id="algolia-search-input"></div></div><hr><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-stats"></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>
