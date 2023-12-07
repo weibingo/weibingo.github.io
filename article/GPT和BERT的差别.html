@@ -1,0 +1,156 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="GPT和BERT的差别"><meta name="keywords" content="大模型"><meta name="author" content="weibingo"><meta name="copyright" content="weibingo"><title>GPT和BERT的差别 | WBINGのBLOG</title><link rel="shortcut icon" href="/favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.8.0"><link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css?version=1.8.0"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.1.1/dist/instantsearch.min.css"><script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.1.1/dist/instantsearch.min.js" defer></script><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script src="https://v1.hitokoto.cn/?encode=js&amp;charset=utf-8&amp;select=.footer_custom_text" defer></script><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: {"appId":"3FYJCLGPHO","apiKey":"d730ef95ff5ff79a19b74363531c066b","indexName":"prod_weibing-blog","hits":{"per_page":10},"languages":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}.","hits_stats":"${hits} results found in ${time} ms"}},
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"We didn't find any results for the search: ${query}"}},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  }
+} </script><meta name="generator" content="Hexo 6.3.0"></head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="Toggle article">Toggle site</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#NLP%E7%9A%84%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86"><span class="toc-number">1.</span> <span class="toc-text">NLP的技术原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Transformer"><span class="toc-number">2.</span> <span class="toc-text">Transformer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BERT%E5%92%8CGPT%E4%B8%A4%E8%80%85%E4%B9%8B%E9%97%B4%E7%9A%84%E5%B7%AE%E5%88%AB%E3%80%82"><span class="toc-number">3.</span> <span class="toc-text">BERT和GPT两者之间的差别。</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#BERT"><span class="toc-number">3.1.</span> <span class="toc-text">BERT</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GPT"><span class="toc-number">3.2.</span> <span class="toc-text">GPT</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Bert%E4%B8%8EGPT%E9%A2%84%E8%AE%AD%E7%BB%83%E4%BB%BB%E5%8A%A1%E5%8C%BA%E5%88%AB"><span class="toc-number">4.</span> <span class="toc-text">Bert与GPT预训练任务区别</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Bert%E2%80%94%E2%80%94Masking-Input"><span class="toc-number">4.1.</span> <span class="toc-text">Bert——Masking Input</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GPT%E2%80%94%E2%80%94Predict-Next-Token"><span class="toc-number">4.2.</span> <span class="toc-text">GPT——Predict Next Token</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Bert%E5%92%8CGPT%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">5.</span> <span class="toc-text">Bert和GPT使用方法的区别</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Bert%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95%E2%80%94%E2%80%94%E4%BB%A5%E6%83%85%E6%84%9F%E5%88%86%E7%B1%BB%E4%B8%BA%E4%BE%8B"><span class="toc-number">5.1.</span> <span class="toc-text">Bert的使用方法——以情感分类为例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GPT%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-number">5.2.</span> <span class="toc-text">GPT的使用方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fine-tuning-VS-Prompting"><span class="toc-number">5.3.</span> <span class="toc-text">fine-tuning VS Prompting</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%80%9COne-shot%E2%80%9D-Learning-%E2%80%9CZero-shot%E2%80%9D-Learning"><span class="toc-number">5.4.</span> <span class="toc-text">“One-shot” Learning “Zero-shot” Learning</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BERT%E5%92%8CGPT%E7%9A%84%E4%B8%BB%E8%A6%81%E5%8C%BA%E5%88%AB%E6%80%BB%E7%BB%93"><span class="toc-number">6.</span> <span class="toc-text">BERT和GPT的主要区别总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#GPT%E7%9A%84%E8%AE%AD%E7%BB%83%E7%9B%B8%E5%AF%B9%E4%BA%8EBERT%E6%9C%89%E4%BB%A5%E4%B8%8B%E4%B8%8D%E5%90%8C%E4%B9%8B%E5%A4%84%EF%BC%9A"><span class="toc-number">6.1.</span> <span class="toc-text">GPT的训练相对于BERT有以下不同之处：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GPT%E5%92%8CBERT%E5%9C%A8%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF%E4%B8%8A%E6%9C%89%E6%98%8E%E6%98%BE%E7%9A%84%E4%B8%8D%E5%90%8C%EF%BC%9A"><span class="toc-number">6.2.</span> <span class="toc-text">GPT和BERT在使用场景上有明显的不同：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">7.</span> <span class="toc-text">总结</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://hexo-1256892004.cos.ap-beijing.myqcloud.com/page/avatar.jpg"></div><div class="author-info__name text-center">weibingo</div><div class="author-info__description text-center">BIG DATA探索者,经济迷,浅度摄影,爱好历史,对社会意识,人文感兴趣</div><div class="follow-button"><a target="_blank" rel="noopener" href="https://github.com/weibingo">Follow Me</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">Articles</span><span class="pull-right">46</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">Tags</span><span class="pull-right">43</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">Categories</span><span class="pull-right">20</span></a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://hexo-1256892004.cos.ap-beijing.myqcloud.com/page/top.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">WBINGのBLOG</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search"></i><span> Search</span></a></span></div><div id="post-info"><div id="post-title">GPT和BERT的差别</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2023-12-02</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/AI%E5%B7%A5%E7%A8%8B/">AI工程</a><div class="post-meta-wordcount"><span>Word count: </span><span class="word-count">5.2k</span><span class="post-meta__separator">|</span><span>Reading time: 16 min</span></div></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><h2 id="NLP的技术原理"><a href="#NLP的技术原理" class="headerlink" title="NLP的技术原理"></a><strong>NLP的技术原理</strong></h2><p>首先，我们要弄明白，NLP任务（自然语言处理，AI的一个技术领域，即文本类的AI任务）的核心逻辑是一个“猜概率”的游戏。</p>
+<p>比如说，“我今天被我朋友___”，经过大量的数据训练后，AI预测空格出会出现的最高概率的词是“放鸽子了”，那么CPU就会被填到这个空格中，从而答案产生——“我今天被我朋友放鸽子了”</p>
+<p>虽然非常不可思议，但事实就是这样，现阶段所有的NLP任务，都不意味着机器真正理解这个世界，他只是在玩文字游戏，进行一次又一次的概率解谜，本质上和我们玩报纸上的填字游戏是一个逻辑。只是我们靠知识和智慧，AI靠概率计算。</p>
+<p>在近几年的<a href="https://link.zhihu.com/?target=https://cloud.tencent.com/product/nlp?from=10680">自然语言处理</a>领域中，BERT和GPT是两个引起广泛关注的语言模型。特别是在<a href="https://link.zhihu.com/?target=https://beta.openai.com/docs/model-index-for-researchers">GPT3.5</a>的基础上进行微调的<a href="https://link.zhihu.com/?target=https://openai.com/blog/chatgpt/">chatGPT</a>，持续出圈和火爆。chatGPT的火爆表明了预训练语言模型在自然语言处理领域具有巨大的潜力，并且在提高自然语言理解和生成能力方面取得了显著的进展。这可能会带来更多的应用和更广泛的接受。</p>
+<p>BERT和GPT也都是基于预训练语言模型的思想，通过大量的语料训练而得到的高效率的语言模型。为了帮助大家更好的理解和选择不同的技术和模型，本文将着重比较BERT和GPT这两个语言模型之间的区别，为大家提供一个全面的认识。</p>
+<span id="more"></span>
+
+<h2 id="Transformer"><a href="#Transformer" class="headerlink" title="Transformer"></a>Transformer</h2><p>大约在6年前，一篇大名鼎鼎的论文《Attention Is All You Needed》正式发表，它第一次提出了注意力机制（Attention），并且在Attention的基础上创造了一个全新的NLP（自然语言处理）模型Transformer。</p>
+<p>Transformer是GPT和BERT的前身。谷歌和OpenAI在自然语言处理技术上的优化，都是基于这个模型。</p>
+<p>更多关于的Transformer可以看文章：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/607423406">ChatGPT与Transformer（无公式版）</a></p>
+<p><img src="https://pic4.zhimg.com/80/v2-c5098badafbe7371e7ef328373c3bb9f_1440w.webp">​</p>
+<p>而在目前的“猜概率”游戏环境下，基于大型语言模型（LLM，Large Language Model）演进出了最主流的两个方向，即Bert和GPT。</p>
+<p>其中BERT是之前最流行的方向，几乎统治了所有NLP领域，并在自然语言理解类任务中发挥出色（例如文本分类，情感倾向判断等）。</p>
+<p>而GPT方向则较为薄弱，最知名的玩家就是OpenAI了，事实上在GPT3.0发布前，GPT方向一直是弱于BERT的（GPT3.0是ChatGPT背后模型GPT3.5的前身）。</p>
+<p>上图是Transformer的一个网络结构图，Bert的网络结构类似于Transformer的Encoder部分，而GPT类似于Transformer的Decoder部分。单从网络的组成部分的结构上来看，其最明显的在结构上的差异为Multi-Head-Attention和Masked Multi-Head-Attention。</p>
+<p>不论是早期的利用LDA、RNN等统计模型或很小的深度学习模型的时代，还是后来利用BERT等预训练配合微调的时代，技术所提供的能力是相对原子化的，距离实际的应用场景有一定的距离。就拿前面举的让ChatGPT根据要求写英文邮件的例子，按照此前的做法，可能需要先抽取实体、事件等内容（比如时间、地点、事件等），然后通过模版或是模型形成邮件的样式，再通过一个翻译模型转化为英文。当然如果数据量足够训练端到端模型的情况下，也可以跳过中间的若干步骤。但不论采用哪种方式，要么需要将最终的场景拆解成原子化的NLP任务，要么需要对应的标注数据。而对于ChatGPT来说，只需要一个合适的指令。</p>
+<p><img src="https://pic1.zhimg.com/80/v2-14554d66887c6741addffcdabe6dd82c_1440w.webp">​</p>
+<p>三个阶段的NLP技术范式</p>
+<h2 id="BERT和GPT两者之间的差别。"><a href="#BERT和GPT两者之间的差别。" class="headerlink" title="BERT和GPT两者之间的差别。"></a>BERT和GPT两者之间的差别。</h2><ul>
+<li><strong>BERT：双向 预训练语言模型+fine-tuning（微调）</strong></li>
+<li><strong>GPT：自回归 预训练语言模型+Prompting（指示&#x2F;提示）</strong></li>
+</ul>
+<p>BERT和GPT是近年来自然语言处理领域中非常重要的模型，它们代表了现代NLP技术的发展。需要注意的是, 这两个模型并不是NLP领域唯一的重要模型，在近几年中还有很多其他的模型和方法被提出，也在被广泛使用。</p>
+<h3 id="BERT"><a href="#BERT" class="headerlink" title="BERT"></a>BERT</h3><p>BERT，全称为Bidirectional Encoder Representations from Transformers，是由Google AI Language团队在2018年提出的预训练语言模型。BERT是基于Transformer网络架构和预训练语言模型的思想而提出的。它可以在不同语言任务上达到最先进的水平。</p>
+<p>BERT展示了预训练语言模型对于自然语言理解任务的巨大潜力，在诸多任务中取得了突破性进展，成为了自然语言理解任务中的基准模型。</p>
+<p>BERT的训练过程分为预训练和微调两部分。</p>
+<p>预训练是BERT模型的基础部分，它包括使用大量的文本来训练语言模型。在预训练阶段，BERT模型会学习到大量的语言知识，如词汇、语法、句子结构等。预训练的目的是为了让BERT模型具有足够的语言能力来处理各种不同的自然语言任务。</p>
+<p>微调过程是在预训练模型的基础上，使用更小的标记数据来调整模型参数。这样可以使得模型更适合特定的任务。大部分使用BERT技术来装备NLP能力的企业，只需要通过微调来让模型更适合特定的任务，而不需要重新预训练。 而预训练过程需要大量的计算资源和时间，所以微调是一种更加高效和经济的方式。</p>
+<p>BERT主要用于自然语言理解，具体应用如下：</p>
+<ul>
+<li>问答系统：BERT可以在问答系统中用来理解问题并生成答案。</li>
+<li>句子相似度比较：BERT可以用来比较两个句子之间的相似程度。</li>
+<li>文本分类：BERT可以用来对文本进行分类。</li>
+<li>情感分析：BERT可以用来对文本进行情感分析。</li>
+<li>命名实体识别：BERT可以用来识别文本中的命名实体。</li>
+</ul>
+<h3 id="GPT"><a href="#GPT" class="headerlink" title="GPT"></a>GPT</h3><p>GPT（Generative Pre-trained Transformer）则是由OpenAI研究团队在2018年提出的一种语言模型。其起源于对传统预训练语言模型（如ELMO和ULMFit）的改进和升级，采用了Transformer架构，并通过预训练+微调的方式实现语言理解和生成。</p>
+<p>GPT则展示了预训练语言模型在语言生成任务中的潜力。它被广泛应用于各种文本生成任务，如文本自动完成、对话生成、文章摘要等。</p>
+<p>GPT预训练的数据来源是网络上的大量文本数据，例如维基百科，新闻文章等。模型首先学习了基本的语言知识和结构，然后再在特定的任务上进行微调。微调过程中，模型会根据特定任务的需要来学习相关的知识。</p>
+<p>GPT能够完成各种自然语言处理任务，在文本生成方面表现尤为优秀，可以生成各种类型的文本，如文章、诗歌、对话等。其主要具体应用如下：</p>
+<ul>
+<li>文本生成：GPT可以用来生成文本。</li>
+<li>文本自动完成：GPT可以用来自动完成用户输入的文本。</li>
+<li>语言翻译：GPT可以用来生成翻译后的文本。</li>
+<li>对话生成: GPT可以用来生成对话</li>
+<li>摘要生成: GPT可以用来生成文章摘要</li>
+</ul>
+<h2 id="Bert与GPT预训练任务区别"><a href="#Bert与GPT预训练任务区别" class="headerlink" title="Bert与GPT预训练任务区别"></a>Bert与GPT预训练任务区别</h2><p>在Bert与GPT的预训练任务的选取上，Bert与GPT所用的模型也存在着较大的差异。</p>
+<h3 id="Bert——Masking-Input"><a href="#Bert——Masking-Input" class="headerlink" title="Bert——Masking Input"></a>Bert——Masking Input</h3><p>在Bert的预训练任务中，Bert主要使用“填空题”的方式来完成预训练：</p>
+<p>随机盖住一些输入的文字，被mask的部分是随机决定的，当我们输入一个句子时，其中的一些词会被随机mask。</p>
+<p><img src="https://pic4.zhimg.com/80/v2-663eccefa17dba67bbdb0d7bac9cb55b_1440w.webp">​</p>
+<p>mask的具体实现有两种方法。</p>
+<p><img src="https://pic4.zhimg.com/80/v2-44951ea8f0ebb808227a17e86285a553_1440w.webp">​</p>
+<p>第一种方法是，用一个特殊的符号替换句子中的一个词，我们用 “MASK “标记来表示这个特殊符号，可以把它看作一个新字，这个字完全是一个新词，它不在字典里，这意味着mask了原文。</p>
+<ul>
+<li>另外一种方法，随机把某一个字换成另一个字。中文的 “湾”字被放在这里，然后可以选择另一个中文字来替换它，它可以变成 “一 “字，变成 “天 “字，变成 “大 “字，或者变成 “小 “字，我们只是用随机选择的某个字来替换它</li>
+</ul>
+<p>两种方法都可以使用。使用哪种方法也是随机决定的。因此，当BERT进行训练时，向BERT输入一个句子，先随机决定哪一部分的汉字将被mask。</p>
+<p>mask后，一样是输入一个序列，我们把BERT的相应输出看作是另一个序列，接下来，我们在输入序列中寻找mask部分的相应输出，然后，这个向量将通过一个Linear transform，输入向量将与一个矩阵相乘，然后做softmax，输出一个分布。。</p>
+<p><img src="https://pic2.zhimg.com/80/v2-9dedc6466caf8d2d59910d7ec549bb51_1440w.webp">​</p>
+<p>这与我们在Seq2Seq模型中提到的使用transformer进行翻译时的输出分布相同。输出是一个很长的向量，包含我们想要处理的每个汉字，每一个字都对应到一个分数。</p>
+<p>在训练过程中。我们知道被mask的字符是什么，而BERT不知道，我们可以用一个one-hot vector来表示这个字符，并使输出和one-hot vector之间的交叉熵损失最小。</p>
+<p><img src="https://pic2.zhimg.com/80/v2-21655724093a4553c3d9fe0c22813461_1440w.webp">​</p>
+<p>BERT要做的是，预测什么被盖住。被掩盖的字符，属于 “湾”类。</p>
+<p>在训练中，我们在BERT之后添加一个线性模型，并将它们一起训练，尝试去预测被覆盖的字符是什么。</p>
+<h3 id="GPT——Predict-Next-Token"><a href="#GPT——Predict-Next-Token" class="headerlink" title="GPT——Predict Next Token"></a>GPT——Predict Next Token</h3><p>GPT要做的任务是,预测接下来,会出现的token是什么</p>
+<p>举例来说,假设训练资料里面,有一个句子是台湾大学,那GPT拿到这一笔训练资料的时候,选取BOS这个Token所对应的输出,作为Embedding的结果,用这个embedding去预测下一个应该出现的token是什么</p>
+<p><img src="https://pic3.zhimg.com/80/v2-a4eec3dfc129d83edb1d3c83b33a2f0e_1440w.webp">​</p>
+<p>那在这个句子里面,根据这笔训练资料,下一个应该出现的token是”台”,要训练模型,根据第一个token,根据BOS给的embedding,那它要输出”台”这个token</p>
+<p>这个部分,有一个embedding,这边用h来表示,然后通过一个Linear Transform,再通过一个softmax,得到一个概率分布,我们希望这个输出的概率分布,跟正确答案的交叉熵越小越好。</p>
+<p>接下来要做的事情,就是以此类推了,输入BOS跟”台”,它产生embedding,接下来它会预测,下一个出现的token是什么,以此类推来训练模型。</p>
+<p><img src="https://pic1.zhimg.com/80/v2-2fab3ccc2a98e7d88636ad3d7ee4b244_1440w.webp">​</p>
+<p>相同数据集体量的话，bert或许更好。但如果预训练数据暴涨的话，两者的差别就出来了。</p>
+<p>gpt网络的训练是不需要标注数据的，这是它天然非常非常合适于超大数据量的情况的特点。</p>
+<h2 id="Bert和GPT使用方法的区别"><a href="#Bert和GPT使用方法的区别" class="headerlink" title="Bert和GPT使用方法的区别"></a>Bert和GPT使用方法的区别</h2><p>对于Bert和GPT，其本意是提供一个预训练模型，使得人们可以方便的将其运用于下流（downstream）任务当中去。当然，这两种模型最后使用的方法也是有一些区别的。</p>
+<h3 id="Bert的使用方法——以情感分类为例"><a href="#Bert的使用方法——以情感分类为例" class="headerlink" title="Bert的使用方法——以情感分类为例"></a>Bert的使用方法——以情感分类为例</h3><p><img src="https://pic3.zhimg.com/80/v2-44ef51c45dc4f5340ad9a0f76c8bebf6_1440w.webp">​</p>
+<p>只要给它一个句子，也就是你想用它来判断情绪的句子，然后把CLS标记放在这个句子的前面，扔到BERT中,这4个输入实际上对应着4个输出。然后，我们只看CLS的部分。CLS在这里输出一个向量，我们对它进行Linear transform，也就是将它乘以一个Linear transform的矩阵，然后进行Softmax，就可以得到情感分类的结果。</p>
+<p>Bert的使用大多如此，用CLS对应的Output作为Embedding的结果，然后根据不同的任务进行对应的操作来fine-turing，从某方面而言，更像是利用深度学习对文本进行特征表示的过程。</p>
+<h3 id="GPT的使用方法"><a href="#GPT的使用方法" class="headerlink" title="GPT的使用方法"></a>GPT的使用方法</h3><p>对于GPT使用，由于GPT的参数是Bert的4倍有余，使得去fine-turing一个模型需要更长，更大的训练时间。因此GPT提出了一个更加“疯狂”的使用方式，一种更接近于人类的使用方式。</p>
+<p>没有进行梯度下降的”Few short leaning”，也就GPT论文所提到的“In-context learning”</p>
+<p>举例来说假设要GPT这个模型做翻译</p>
+<p><img src="https://pic1.zhimg.com/80/v2-c873f60d5743adddbbe5cc016ac52704_1440w.webp">​</p>
+<ul>
+<li>先打Translate English to French，这个句子代表问题的描述</li>
+<li>然后给它几个范例</li>
+<li>最后接下来给一个Cheese的词，让他翻译成法语。</li>
+</ul>
+<h3 id="fine-tuning-VS-Prompting"><a href="#fine-tuning-VS-Prompting" class="headerlink" title="fine-tuning VS Prompting"></a><strong>fine-tuning VS Prompting</strong></h3><p>假设现在预训练好的大模型要针对具体领域工作了，他被安排成为一名鉴黄师，要分辨文章到底有没有在搞黄色。那么BERT和GPT的区别在哪里呢？</p>
+<p>BERT：fine-tuning（微调）。微调是指模型要做某个专业领域任务时，需要收集相关的专业领域数据，做模型的小幅调整，更新相关参数。</p>
+<p>例如，我收集一大堆标注数据，然后喂给模型进行训练，调整他的参数。经过一段时间的针对性学习后，模型对于分辨你们是否搞黄色的能力更出色了。这就是 <strong>fine-tuning</strong> ，二次学习微调。</p>
+<p>GPT：Prompting。prompt是指当模型要做某个专业领域的任务时，我提供给他一些示例、或者引导。但不用更新模型参数，AI只是看看。</p>
+<p>例如，我提供给AI模型10张黄色图片，告诉他这些是搞黄色的。模型看一下，效果就提升了。大家可能会说，这不就是fine-tuning吗？不是一样要额外给一些标注数据吗？</p>
+<p>两者最大的区别就是：这种模式下，模型的参数不会做任何变化升级，这些数据就好像仅仅是给AI看了一眼——嘿，兄弟，参考下这个，但是别往心里去。</p>
+<p>不可思议吧，但他成功了！而更令人疯狂的是，到目前为止，关于prompt明明没有对参数产生任何影响，但确实又明显提升了任务的效果，还是一个未解之谜。暂时而言大家就像程序员对待bug一样——I don’t know why , but it work lol .</p>
+<p>这种Prompt其实就是ICT（in-Context Learning），或者你也可以称为Few shot Promot，用大白话说就是“给你一点小提示”。</p>
+<p>同时还有另外一种Promot，称之为Zero shot Promot。ChatGPT就是Zero shot promot模式，目前一般称之为instruct了。</p>
+<p>这种模式下用户直接用人类的语言下达命令，例如“给我写首诗”，“给我做个请教条”，但是你可以在命令的过程中用一些人类语言增强AI的效果，例如“在输出答案之前，你先每一步都想一想”。就只是增加这样一句话，AI的答案效果就会明显提升。</p>
+<h3 id="“One-shot”-Learning-“Zero-shot”-Learning"><a href="#“One-shot”-Learning-“Zero-shot”-Learning" class="headerlink" title="“One-shot” Learning “Zero-shot” Learning"></a>“One-shot” Learning “Zero-shot” Learning</h3><p>例如我们在考听力测验的时候,都只给一个例子而已,那GPT可不可以只看一个例子,就知道它要做翻译，这个叫One-shot Learning</p>
+<p>还有更厉害的是Zero-shot Learning,直接给它一个叙述,说现在要做翻译了,来看GPT能不能够自己就看得懂,就自动知道说要来做翻译这件事情。</p>
+<p><img src="https://pic2.zhimg.com/80/v2-e0b518b3b008c5509498f8d261ed5619_1440w.webp">​</p>
+<p>GPT在没有微调的情况下，这种使用方法虽然准确率不够高，但是随着GPT参数量的增加，在一定程度上仍然有着一定的准确率。</p>
+<p><img src="https://pic4.zhimg.com/80/v2-acceb6fe776a1bf1b6a9c7e6c83eef03_1440w.webp">​</p>
+<p>这就是GPT相比较于Bert更加独特的一种使用方式。</p>
+<h2 id="BERT和GPT的主要区别总结"><a href="#BERT和GPT的主要区别总结" class="headerlink" title="BERT和GPT的主要区别总结"></a>BERT和GPT的主要区别总结</h2><p>从上面的介绍看，BERT和GPT都是基于Transformer的预训练模型，都包含了预训练和微调的过程。都能够应用于各种NLP的任务。但实际上，他们又有许多不同之处，在我们选择时，需要稍加注意。</p>
+<h3 id="GPT的训练相对于BERT有以下不同之处："><a href="#GPT的训练相对于BERT有以下不同之处：" class="headerlink" title="GPT的训练相对于BERT有以下不同之处："></a>GPT的训练相对于BERT有以下不同之处：</h3><ul>
+<li>GPT使用的是Transformer模型，而BERT使用的是双向Transformer模型。</li>
+<li>GPT的预训练数据来源是大量的网络文本数据，而BERT的预训练数据来源是两个大型语料库，包括Wikipedia和BooksCorpus。</li>
+<li>GPT预训练过程中，采用了语言模型的方法，即通过预测下一个词来学习语言模型，而BERT预训练过程中采用了双向预测的方法，即通过预测句子中丢失的词来学习语言模型。</li>
+<li>GPT微调时，需要指定输入输出的语言模型任务，而BERT微调时，可以应用在多种任务上，例如文本分类、命名实体识别等。</li>
+</ul>
+<h3 id="GPT和BERT在使用场景上有明显的不同："><a href="#GPT和BERT在使用场景上有明显的不同：" class="headerlink" title="GPT和BERT在使用场景上有明显的不同："></a>GPT和BERT在使用场景上有明显的不同：</h3><ul>
+<li>GPT主要用于自然语言生成任务，如文本自动补全、问答系统、文本翻译等。它可以根据给定的文本上下文生成有意义的文本，并且能够产生连贯的、人类水平的文本。</li>
+<li>BERT则主要用于自然语言理解任务，如问题回答、文本分类、句子关系分析等。它可以理解文本中的语义和关系，并能够找出语句之间的联系。</li>
+<li>GPT在文本生成场景中更常见，如聊天机器人，智能问答系统等。BERT在文本理解场景中更常见，如文本分类，问题回答等。</li>
+<li>GPT对于文本生成更为敏感，而BERT对于文本理解更为敏感。</li>
+<li>GPT在进行文本生成时需要较长的上下文，而BERT在进行文本理解时需要较短的上下文。</li>
+<li>总的来说，GPT主要用于文本生成任务，而BERT则主要用于文本理解任务。</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>BERT模型虽然也是采用和GPT一样的Transformer模型结构，但它几乎就是为「无监督预训练+下游任务微调」的范式量身定制的模型。和GPT相比，BERT所使用的掩码语言模型任务（Masked Language Model）虽然让它失去了直接生成文本的能力，但换来的是双向编码的能力，这让模型拥有了更强的文本编码性能，直接的体现则是下游任务效果的大幅提升。而GPT为了保留生成文本的能力，只能采用单向编码。以当年的眼光来看，BERT绝对是一个更加优秀的模型。因为既然BERT和GPT两者都是采用「预训练+微调」的范式，并且下游任务依然是分类、匹配、序列标注等等「经典」的NLP任务形式，那么像BERT模型这种更注重特征编码的质量，下游任务选一个合适的损失函数去配合任务做微调，显然比GPT这种以文本生成的方式去「迂回地」完成这些任务更加直接。从BERT模型出来以后，「无监督训练+下游任务微调」的范式便奠定了它的霸主地位，各类沿着BERT的思路，琢磨「如何获得更好的文本特征编码」的方法大量涌现，以至于GPT这个以生成式任务为目标的模型显得像一个「异类」。马后炮地说，如果当时OpenAI「顺应大势」，放弃生成式预训练这条路，也许我们要等更长的时间才能见到ChatGPT这样的模型。</p>
+<p>总的来说，BERT和GPT都是非常强大的语言模型，它们都是近年来NLP领域的重要突破。BERT是基于转移学习的思想开发的，主要用于解决语言理解相关的任务，如问答、语义关系抽取等。而GPT则是基于生成式预训练的思想开发的，主要用于解决语言生成相关的任务，如文本生成、<a href="https://link.zhihu.com/?target=https://cloud.tencent.com/product/tmt?from=10680">机器翻译</a>等。在使用场景上，BERT更适用于在已有标注数据上微调的场景，而GPT更适用于在大量未标注数据上预训练的场景。总之，BERT和GPT都是非常优秀的语言模型，在不同的任务和场景中都有很好的表现。</p>
+<p>‍</p>
+<p>转自：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/607605399">https://zhuanlan.zhihu.com/p/607605399</a></p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">weibingo</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="https://wbice.cn/article/GPT%E5%92%8CBERT%E7%9A%84%E5%B7%AE%E5%88%AB.html">https://wbice.cn/article/GPT%E5%92%8CBERT%E7%9A%84%E5%B7%AE%E5%88%AB.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/">大模型</a></div><div class="addthis_inline_share_toolbox pull-right"></div><script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=undefined" async></script><nav id="pagination"><div class="next-post pull-right"><a href="/article/%E5%A2%A8%E8%8F%B2%E5%AE%9A%E5%BE%8B&amp;%E5%BA%B7%E5%A8%81%E5%AE%9A%E5%BE%8B.html"><span>墨菲定律&amp;康威定律</span><i class="fa fa-chevron-right"></i></a></div></nav><div id="vcomment"></div><script src="https://cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script><script>var notify = 'false' == 'true';
+var verify = 'false' == 'true';
+var record_ip = '' == 'true';
+var GUEST_INFO = ['nick','mail','link'];
+var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+  return GUEST_INFO.indexOf(item) > -1
+});
+guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+window.valine = new Valine({
+  el:'#vcomment',
+  notify:notify,
+  verify:verify,
+  recordIP:record_ip,
+  appId:'dEfDWKbVoLq95IOjY2Wucz01-9Nh9j0Va',
+  appKey:'CWRYxwiLTYcAG0OcWmKl7Ez0',
+  placeholder:'ヾﾉ≧∀≦)o来啊，快活啊，造作啊!',
+  avatar:'mm',
+  guest_info:guest_info,
+  pageSize:'10',
+  lang: 'zh-cn'
+})</script></div></div><footer class="footer-bg" style="background-image: url(https://hexo-1256892004.cos.ap-beijing.myqcloud.com/page/top.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2017 - 2023 By weibingo</div><div class="framework-info"><span>Driven - </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme - </span><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="footer_custom_text">hitokoto</div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file-o"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="/js/third-party/anime.min.js"></script><script src="/js/third-party/jquery.min.js"></script><script src="/js/third-party/jquery.fancybox.min.js"></script><script src="/js/third-party/velocity.min.js"></script><script src="/js/third-party/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.8.0"></script><script src="/js/fancybox.js?version=1.8.0"></script><script src="/js/sidebar.js?version=1.8.0"></script><script src="/js/copy.js?version=1.8.0"></script><script src="/js/fireworks.js?version=1.8.0"></script><script src="/js/transition.js?version=1.8.0"></script><script src="/js/scroll.js?version=1.8.0"></script><script src="/js/head.js?version=1.8.0"></script><script src="/js/search/algolia.js"></script><script src="/js/search/local-search.js"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script><div class="search-dialog" id="algolia-search"><div class="search-dialog__title" id="algolia-search-title">Algolia</div><div id="algolia-input-panel"><div id="algolia-search-input"></div></div><hr><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-stats"></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>
