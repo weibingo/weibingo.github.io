@@ -1,0 +1,138 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="LMOps工具链与千帆大模型平台"><meta name="keywords" content="大模型"><meta name="author" content="weibingo"><meta name="copyright" content="weibingo"><title>LMOps工具链与千帆大模型平台 | WBINGのBLOG</title><link rel="shortcut icon" href="/favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.8.0"><link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css?version=1.8.0"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.1.1/dist/instantsearch.min.css"><script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.1.1/dist/instantsearch.min.js" defer></script><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script src="https://v1.hitokoto.cn/?encode=js&amp;charset=utf-8&amp;select=.footer_custom_text" defer></script><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: {"appId":"3FYJCLGPHO","apiKey":"d730ef95ff5ff79a19b74363531c066b","indexName":"prod_weibing-blog","hits":{"per_page":10},"languages":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}.","hits_stats":"${hits} results found in ${time} ms"}},
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"We didn't find any results for the search: ${query}"}},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  }
+} </script><meta name="generator" content="Hexo 6.3.0"></head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="Toggle article">Toggle site</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E4%BB%8E%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%88%B0%E7%99%BE%E6%A8%A1%E5%A4%A7%E6%88%98"><span class="toc-number">1.</span> <span class="toc-text">1. 从机器学习到百模大战</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-DevOps%E3%80%81MLOps-%E5%92%8C-LMOps-%E6%A6%82%E5%BF%B5%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%8A%80%E6%9C%AF"><span class="toc-number">2.</span> <span class="toc-text">2. DevOps、MLOps 和 LMOps 概念及相关技术</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%8D%83%E5%B8%86%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%B9%B3%E5%8F%B0"><span class="toc-number">3.</span> <span class="toc-text">3. 千帆大模型平台</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E4%BA%A7%E4%B8%9A%E5%AE%9E%E8%B7%B5"><span class="toc-number">4.</span> <span class="toc-text">4. 产业实践</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://hexo-1256892004.cos.ap-beijing.myqcloud.com/page/avatar.jpg"></div><div class="author-info__name text-center">weibingo</div><div class="author-info__description text-center">BIG DATA探索者,经济迷,浅度摄影,爱好历史,对社会意识,人文感兴趣</div><div class="follow-button"><a target="_blank" rel="noopener" href="https://github.com/weibingo">Follow Me</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">Articles</span><span class="pull-right">48</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">Tags</span><span class="pull-right">43</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">Categories</span><span class="pull-right">20</span></a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://hexo-1256892004.cos.ap-beijing.myqcloud.com/page/top.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">WBINGのBLOG</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search"></i><span> Search</span></a></span></div><div id="post-info"><div id="post-title">LMOps工具链与千帆大模型平台</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2023-12-22</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/AI%E5%B7%A5%E7%A8%8B/">AI工程</a><div class="post-meta-wordcount"><span>Word count: </span><span class="word-count">6.2k</span><span class="post-meta__separator">|</span><span>Reading time: 18 min</span></div></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><h2 id="1-从机器学习到百模大战"><a href="#1-从机器学习到百模大战" class="headerlink" title="1. 从机器学习到百模大战"></a><strong>1. 从机器学习到百模大战</strong></h2><p>众所周知，目前我们实现人工智能的主要技术手段是机器学习技术，特别是其中基于深层神经网络的深度学习技术。机器学习的本质是通过具有学习能力的算法、对数据进行建模的技术。深度学习借助大规模的算力解决了机器学习中特征表示的人工干预的瓶颈，在效果上取得了巨大突破。因此，机器学习成为目前人工智能的主流技术。</p>
+<p>深度学习和生成式大模型之间的关系，如下图右侧所示，在 2012 年至 2016 年左右，像卷积神经网络、对抗生成网络、ResNet 等经典的深度学习模型，已经在计算视觉、语音识别、自然语言处理等领域取得了显著的效果提升。这些经典深度学习模型既有判别式、也有生成式，它们往往会在 ImageNet、COCO 等有标注的数据集上进行预训练，形成带有预训练权重、可以进一步进行 Fine-tuning 的预训练模型。</p>
+<p>在 2017 年之后，Transformer 结构在自然语言处理领域首先被成功应用，在这之后以 Transformer 为基础组件的生成式大模型逐步成为视觉、自然语言处理、跨模态理解和生成领域的主流技术。这类技术通常以 Transformer 和注意力机制作为组件，并且它可以并行地进行自监督学习，参数规模在十亿以上。其中，将生成式大模型技术应用在语言建模上的方式，被称为「大语言模型」。在经过进一步的调优之后，形成了像 ChatGPT、文心一言等被大家熟知的对话式、生成式大语言模型应用。</p>
+<p><img src="https://pic4.zhimg.com/80/v2-3b9525d6fccbf0b6451f7e4dab491127_1440w.webp">​</p>
+<p>在过去的半年，我们经历了一场百模大战。尤其是在开源社区，新的大模型如雨后春笋般涌现，而大模型相关的技术也越来越标准化、同质化。在这里为大家分享一个小故事。我们可以在大模型中了解到很多「驼」系英语词汇，比如 Llama 是美洲驼，Alpaca 是羊驼，Vicuna 是小羊驼。</p>
+<p>为什么有那么多以「驼」命名的大语言模型？因为大语言模型 Large Language Model 的缩写是 LLM，2 个 L 放在一起不方便读出来，Meta 公司为了方便大家记忆，所以选了相近的词语 Llama（美洲驼）。后来很多基于 Llama 开源模型进行调优和构建的大语言模型，都以「驼」系的名称命名。</p>
+<p>如下图所示，我们可以看到在硅谷的大模型创业公司中，除 OpenAI 外，目前已有将近 1&#x2F;3 的资金投入了 MLOps 和 LMOps 相关的平台和工具方向。接下来，我将为大家详细拆解，在百模大战的背后，为什么 MLOps 和 LMOps 平台和工具能够获得资本的青睐。</p>
+<p><img src="https://pic3.zhimg.com/80/v2-5135d2f5a771ab5ccbf1639e579cd8d6_1440w.webp">​</p>
+<p>首先看看大模型在技术和应用层面带来了哪些变化。比如在以下 4 个技术层面：</p>
+<span id="more"></span>
+
+<ul>
+<li>数据：大模型的预训练通常需要 TB-PB 级别的数据， TB-PB 级别的数据规模和对应的数据加工技术，与之前的经典深度学习模型并不相同。同时，大模型大多以多模态、指令、对话数据作为训练或调优的输入，在数据内容上和之前的经典深度学习模型也有很大的差异。</li>
+<li>训练和调优的方法：现在千亿参数级别的大模型，往往需要千卡、甚至万卡进行分布式训练，其中的调度、容错、通信技术和之前大不相同。大模型在调优过程中也出现了很多低资源开销、高效率的技术。</li>
+<li>大模型效果评估方式：经典深度学习模型往往基于人工标注的测试数据集，来计算客观指标，并评估模型效果。因为大模型生成的海量内容暂无标准的答案，所以我们无法全部依赖人工去评判内容的质量。因此，大模型的效果和性能需要建立与以往不同的评估基准和评估方法。</li>
+<li>推理：通过 Prompt 工程来调教大模型的输出，无论是在自然语言处理还是视觉生成领域，之前经典的深度学习模型都不具备这些能力。</li>
+</ul>
+<p><img src="https://pic3.zhimg.com/80/v2-f2b07b703539d708a8435bf849ff59aa_1440w.webp">​</p>
+<p>除技术方向上的变化外，大模型还改变了人工智能应用的构建模式，这也是大模型带来的最重要的变化。如下图所示，在过去是一个模型去完成一类特定的任务（如：人脸识别、卡证识别、多轮的对话等），需要通过训练不同的模型、使用不同的数据才能完成。在大模型出现后，我们可以在少数几个甚至在一个预训练的大模型的基础上，针对行业的场景加入相关数据、最后调优就可以完成任务。这也使得大模型的研发更加地集约化，进一步提升生产效率。</p>
+<p>当然，这种构建模式的改变并非一蹴而就的，而是循序渐进的。但趋势是很明确的，我们正处于「大炼模型」到「炼大模型」的升级过程中。</p>
+<p><img src="https://pic3.zhimg.com/80/v2-f84430d3230069eaa55f735a4d83708e_1440w.webp">​</p>
+<p>大模型在技术和应用模式上带来了巨大的变化，也对企业提出了新的挑战，比如如何对 AI 能力进行运用和管理。今天，我们要介绍的 LMOps就是来解决上述挑战最有效的技术手段。</p>
+<p> <strong>只有通过 LMOps，企业才能真正驾驭大模型，让其成为智能化升级的重要生产力。</strong> 这也是为什么在热火朝天的百模大战之后，除了超级应用之外，LMOps 平台和工具获得资本青睐的原因。</p>
+<p>下面，我们将介绍 LMOps 相关的概念以及一系列关键的技术。</p>
+<p><img src="https://pic4.zhimg.com/80/v2-eaa21fe5ba18bf6094433cebe94b6517_1440w.webp">​</p>
+<h2 id="2-DevOps、MLOps-和-LMOps-概念及相关技术"><a href="#2-DevOps、MLOps-和-LMOps-概念及相关技术" class="headerlink" title="2. DevOps、MLOps 和 LMOps 概念及相关技术"></a><strong>2. DevOps、MLOps 和 LMOps 概念及相关技术</strong></h2><p>DevOps 是贯穿传统软件生命周期的方法论和最佳的技术实践，它包括软件的需求提出、代码开发、测试、上线运维和推广运营等多个环节。其中的关键技术包括需求管理、版本控制、持续集成、组件化、容器化、微服务、持续交付、自动化运维等。目前 DevOps 的平台和工具已经成为大多数软件开发企业驾驭软件研发运营最有效的方法。如下图所示，DevOps 各个环节中有大量的生态企业参与进来，共同构成了完整、繁荣的生态。</p>
+<p><img src="https://pic1.zhimg.com/80/v2-6354f00d77fca249fa382b1d6066cba0_1440w.webp">​</p>
+<p>在机器学习的全生命周期中，和传统软件开发类似，算法的研发和代码编写只占其中很少一部分。如下图所示，图中的黑色部分是针对模型的代码和结构进行开发。其他部分，如数据采集、加工、服务搭建、效果监控等占用了机器学习工作量的绝大部分。因此，如果企业希望驾驭机器学习，就需要有合适的，针对机器学习生命周期特点的方法论和最佳的技术实践，这也是 <a href="https://link.zhihu.com/?target=https://cloud.baidu.com/product/bml?track=weixin01">MLOps</a> 诞生的原因。</p>
+<p>MLOps 涉及机器学习、DevOps 和数据科学的相关技术，覆盖机器学习的需求分析、数据采集、加工、模型算法开发、训练、效果评估、调优、版本管理、服务部署、推理监控以及模型持续迭代等全生命周期的过程。所以， MLOps 为企业在生产环境中稳定高效地部署和运营机器学习提供了一套具有实践意义的方案。</p>
+<p><img src="https://pic2.zhimg.com/80/v2-031ca46f8aac3d082daebf533463b975_1440w.webp">​</p>
+<p>接下来，为大家详细介绍本文讨论的重点 LMOps 、以及 LMOps 与 MLOps 的关系。如上文所述，相对于传统机器学习和经典的深度学习模型，大模型发生了较大的变化，带来了新的挑战。</p>
+<p><strong>LMOps 继承了 MLOps 整体的框架和机器学习的全生命周期等主要环节，并且针对大模型的变化进行了微调适配。</strong></p>
+<p>在生成式大模型的数据组成中，无监督数据和未标注的数据在大幅度上升。为了解决上述问题，LMOps 对无监督数据和未标注的数据加工进行了强化。对于传统的机器学习模型，我们经常需要修改代码来进行效果的强化和调整。而在 LMOps下，我们几乎不需要去修改大模型的代码，同时也会注重并行分布式训练大模型的效能的提升。另外在 LMOps 中，针对大模型出现了新的提示工程（ Prompt 工程），从工具链的角度思考哪些方面可以更加自动化、提供提示词模板等也是 MLOps 中新引入的能力。对于预训练模型的调优，在 LMOps 中也出现了新的方法，包括下文我们会介绍的 PEFT 、 SFT 方法等。</p>
+<p>近期还有另一个非常热门的方向，主要讨论针对大语言模型，如何通过插件的方式去扩展它的能力，开源社区也有一些很好的 API 框架由此诞生。对于这部分插件的能力， 在 LMOps 生命周期中需要同时被管理、做进一步的适配和优化。</p>
+<p><strong>综上所述，LMOps 继承了 MLOps 主体及框架，并在每个环节上都针对大模型的特点进行适配，形成新的技术实践。</strong></p>
+<p><img src="https://pic3.zhimg.com/80/v2-986552f7ad5e597744d747736f712836_1440w.webp">​</p>
+<p>如下图所示，虽然 LMOps 问世不久，但整个上下游的各类公司已经共同构建了繁荣的生态。其中就包括向量数据库 Pinecone、以及我们非常熟悉的 OpenAI、Hugging Face、Stable Diffusion 等做模型及模型集成的厂商。这也解释了为什么 MLOps 与 LMOps 在资本投入中占据很大比重。</p>
+<p><img src="https://pic4.zhimg.com/80/v2-d97a2c2cc096baf8ff2d60d0dbeae8d3_1440w.webp">​</p>
+<p>在了解了 LMOps 的相关概念之后，下面将为大家介绍 LMOps 在数据、训练、评估、推理、部署和安全这六个主要环节的核心技术。</p>
+<p>在数据加工的环节上，大模型在预训练和再训练的阶段，往往使用的是大规模未标注数据。因此，对这些大规模未标注的数据进行加工和配比，对大模型的效果至关重要。数据加工环节包括五个步骤：</p>
+<ul>
+<li>首先是对特殊字符的一些清除，如火星文&#x2F; 特殊的标点清除等，替换部分异常文本。</li>
+<li>删除低质量文档。建立低质文档的统计指标，超过某个阈值就进行删除。或通过定制的分类模型对文档质量进行自动分类。</li>
+<li>文档去重。通常情况下，我们可以针对文档中的句子和段落等进行文档内的内容去重；针对两个内容重复阈值较高的相似文档，可以进行跨文档去重。</li>
+<li>去除隐私数据。使用基于规则的正则表达式的方法检测个人信息，来进行隐私数据的脱敏。</li>
+<li>建立词表（ Tokenize 的过程）。目前建立此表常用的是 SentencePiece 等方法。当我们将原始的语料加工成 token，并建立 token_id 后，再喂给大模型进行训练或者推理。</li>
+</ul>
+<p>对于数据加工的环境，我分享一下自己的心得 <strong>。决定大模型效果的，并不主要是模型结构和参数配置，而是数据的质量和配比，对大模型的效果会产生更加重要的影响。</strong> 比如训练大模型需要哪些来源的数据、数据的比例分配，通过加工步骤后数据的质量和多样性决定了预训练后大模型的效果。</p>
+<p><img src="https://pic1.zhimg.com/80/v2-ff3de7bb8125197cca917629e7ab94f4_1440w.webp">​</p>
+<p>LMOps 训练环节的核心技术，包括监督调优和基于人工反馈的强化学习。如下图所示，SFT （Supervised Fine Tuning）通过包含指令和提示数据的人工标注生成结果对大语言模型进行调优，能够较好地激发大模型的场景化能力和生成效果。RLHF（Reinforcement Learning from Human Feedback ）能够让大语言模型优先生成最符合人类喜好和价值观的结果。这也是目前大语言模型调优一定会做的技术，所以 RLHF 是 LMOps 训练环节的核心技术之一。</p>
+<p><img src="https://pic3.zhimg.com/80/v2-e5a81ebf563a72bc100e2a08ae547aea_1440w.webp">​</p>
+<p>除 SFT、RLHF 技术外，近期 PEFT 技术也非常热门，是目前大语言模型调优环节中广泛采用的技术，它是一系列高效率微调技术的总称。</p>
+<p>大模型的参数量一般在十亿甚至百亿、千亿、万亿以上。如果按照传统的机器学习模型或经典的深度学习模型，对大模型的全量参数进行调优（再训练）会造成资源开销超负荷。并且，对大模型的全量参数进行调优，可能会把预训练的模型训坏掉，丧失大模型原有的能力和效果。</p>
+<p>针对此问题，研究者提出微量调优（针对少部分参数进行调优）的办法。所以，目前常用 PEFT 手段对大模型进行调优。在 PEFT 中，常用的方法包括 P-tuning 和 LoRA，他们都是在大模型合适的位置增加需要微调的参数，来提升调优的效率、达到优化模型目的。例如 Prefix-tuning 就是在输入 token 之前构造一段和任务相关的 virtual tokens 作为 Prefix，训练的时候只更新 Prefix 的参数，而 Transformer 中的其他部分参数固定。Prompt-tuning 可以看做是 Prefix-tuning 的简化版，只在输入层加入 Prompt tokens。只要模型规模够大，简单地加入 Prompt tokens 进行微调，也能取得很好的效果。</p>
+<p>而 LoRA 采用的是另一种方法。研究者发现，大语言模型虽然参数众多，但是在模型推理中，真正起到关键作用的还是低秩的本质维度（Low Instrisic Dimension）。因此提出了 Low-Rank Adaption (LoRA)，在涉及到矩阵相乘的模块，引入 A、B 两个低秩矩阵模块去模拟 full finetune 的过程，相当于只对语言模型中起关键作用的低秩本质维度进行更新，这就是 LoRA 的原理。这些 PEFT 方法都已经引入到 LMOps 中。</p>
+<p><img src="https://pic3.zhimg.com/80/v2-b831bfd3ee292bbf46c1390234163dae_1440w.webp">​</p>
+<p>对于大模型的评估，我们需要围绕评估标准、评测集、评估任务提示模板、评估工具四方面重新建立评估的流程，这四方面也是 LMOps 独有的特点：</p>
+<ul>
+<li>对于大模型的评估我们需要建立新的评估标准，包括针对效果、性能、安全性、生态多样性等各个维度的评估。这些能力都需要在 LMOps 中构建相应的大规模的评估标准来实现。</li>
+<li>在过去，针对经典的深度学习的模型已经有 Benchmark 存在，但是当大模型出现之后，发现这些已经存在的评测集已经不够用了。有些小规模的评测集可能已经包含在大语言模型的训练数据当中了，再去利用这些 Benchmark 做评估，它就没有区分度了，所以新的大规模的评测集需要构建起来。因为大语言模型的能力在不断增强，所以评测集涵盖的方向需要进一步的拓展，包括像数学、历史、图像生成等跨模态等。</li>
+<li>在评估环节，已经不是单纯的用一个指令或者 Query 输入去评估大模型的输出了，而是说会结合不同的评估模板，让机器去做自动的评估，包括通过让大语言模型去做选择题。这样的话就可以更加客观地评估在实际的使用过程中如何提升它的效果。</li>
+<li>和评估环节相应的是评估工具，包括人工可操作的、以及面向机器的评估工具来进行自动化的评估。</li>
+</ul>
+<p>在评估环节，以上四个方面是 LMOps 中新增和特有的。</p>
+<p><img src="https://pic4.zhimg.com/80/v2-2f73116c4a337ba56d083254289d9417_1440w.webp">​</p>
+<p>在推理环节中，LMOps 中最明显的变化就是引入了 Prompt 工程（提示工程）。一个标准的 Prompt 模板，包括对任务背景的陈述，然后提供一些相关的上下文的材料。其中很重要的一点，就是如果能提供一些示例，也称为 few shot，那么大语言模型的输出的效果会显著的有一个提升，最后再加上这次输入的 Query。</p>
+<p>而针对提示模板的构建，也有一系列的要求和实践指导。比如，提示模板的首要要求是安全无害的内容，意图本身模板足够的规范、流畅，提供真实可信的材料等。每一个使用者都需要全部遵守提示模板的要求，但每一个使用者对 Prompt 的书写各有不同，所以遵守 Prompt 模板的要求实施难度较大。所以，在 LMOps 中出现了对应的自动化生成提示工具，为使用者提供提示模板，辅助整个大模型提示工程的实现。</p>
+<p>在很多平台型的 LMOps 工具中，还会自带 Playground，让我们可以直接以对话的形式、或分类摘要等形式直接体验训练 &#x2F; 调优完成的大模型效果。</p>
+<p>在推理环节的最后一部分是基础的 API 服务。企业在自己的应用中使用大模型，通常将 API 与现有的业务集成，使得业务具备更加智能化的体验。从一个模型到服务，需要经历 API 授权、提供访问的 Token 凭证，并对调用进行流控、鉴权等。</p>
+<p><img src="https://pic2.zhimg.com/80/v2-323115addaf566d61ab96bd9a35b86a5_1440w.webp">​</p>
+<p>在部署环节，因为大语言模型参数量很大，需要在服务器上做部署，依赖大规模的 GPU 和 CPU 的资源等。</p>
+<p>但是如果需要把这些大模型的核心能力部署到边缘或者小型化的设备上，甚至于一些性能比较好的手机上，是否有实现的可能？</p>
+<p>大模型如果能做本地的部署，那么它的响应效率会更高，延迟会更低，数据的隐私性会更好。在部署环节，LMops 会引入很多优化，包括量化、蒸馏、交叉编译、国产芯片适配等技术。</p>
+<p><img src="https://pic4.zhimg.com/80/v2-122b2d1c5db5da2ee0a276f0629523ef_1440w.webp">​</p>
+<p>因为大模型的再训练、预训练的资源规模庞大，所以很多企业与个人用户是没有足够的算力资源去支撑他们完成相关任务。针对此情况，企业与个人用户需要依赖云端资源来满足自己的业务需求。</p>
+<p>企业上云，如何保证数据的安全和隐私是企业考虑的重要因素。下图为大家详细介绍的千帆大模型平台就在安全方面做了大量的优化工作。比如千帆大模型平台进行数据加密（包括同态加密、差分隐私等）、为训练环节提供可信的计算环境（包括沙盒环境等），以及在大模型完成部署进行推理的时候如何对数据进行加密、针对用户的隐私数据进行脱敏等。</p>
+<p><img src="https://pic3.zhimg.com/80/v2-9c9d5858abfbec4deb6bb6267a200f3e_1440w.webp">​</p>
+<h2 id="3-千帆大模型平台"><a href="#3-千帆大模型平台" class="headerlink" title="3. 千帆大模型平台"></a><strong>3. 千帆大模型平台</strong></h2><p>接下来，我们将介绍百度智能云<a href="https://link.zhihu.com/?target=https://cloud.baidu.com/product/wenxinworkshop?track=weixin01">千帆大模型平台</a>的能力、特点，以及我们如何在业务场景中使用千帆大模型平台。</p>
+<p>在上层模型应用上，千帆大模型平台托管了文心系列的大模型，包括文心一言 API 调用、以及文心系列大模型的管理、调优等。千帆大模型平台也针对第三方的开源大模型进行了适配，包括已上线的 BloomZ、Llama 2 等，后续千帆大模型平台也将持续引入热门、高价值的第三方大模型。</p>
+<p>在底层资源上，千帆大模型平台提供丰富的算力资源、存储资源及系列账号的管控等服务。将异构算力、高性能的文件系统以及高性能网络管理起来，为大模型的训练、调优、推理提供良好的基础服务。</p>
+<p><img src="https://pic3.zhimg.com/80/v2-738f8fae8685fa69272ac177a2646e8e_1440w.webp">​</p>
+<p>千帆大模型平台具有这样几个特点：</p>
+<ul>
+<li>第一个就是它的易用性，只需要通过简单的几步点击就可以获得效果比较不错的一个模型。</li>
+<li>第二个就是它功能在业内是比较全的，像数据标注和反馈、多种模型训练方式，各种 PEFT 的训练方式、模型部署当中涉及到的小型化和压缩，以及对推理服务的一些管理和插件化应用的集成等，这些功能都是比较全面的。</li>
+<li>第三个就是千帆大模型平台是提供了非常可靠和安全的模型训练和推理服务的环境，包括可信计算的环境，包括隐私数据的脱敏、安全沙箱等。</li>
+<li>第四个就是在千帆大模型平台上有效果和性能优化的工具链，所以使得大模型的研发效率可以得到显著的提升，研发周期可以成倍的缩短。</li>
+<li>第五个就是千帆大模型平台是一个开放的平台，不仅有效果优异的文心一言的模型，它还会更多的引入第三方的优秀的开源大模型。</li>
+<li>最后就是在千帆大模型平台上托管的这些模型，我们会非常注重它的这个可扩展性。这些是面向场景和面向应用的可扩展性，那包括对这个插件机制的支持，包括对这个服务应用编排的这个支持。</li>
+</ul>
+<p>因此，千帆大模型平台是在 LMOps 的方法论指导下，针对大模型的平台功能和工具链的一个具体实现。</p>
+<p><img src="https://pic3.zhimg.com/80/v2-fb3aa8df7b4f0164d84270b3f1e92b3a_1440w.webp">​</p>
+<p>接下来，我们演示一下在千帆大模型平台进行 RLHF 的过程。详细的演示 Demo 请参考「百度智能云技术站」视频号的回放，从视频的 40 分 45 秒处开始观看。</p>
+<p><img src="https://pic2.zhimg.com/80/v2-ead4d443154ee415f2bc2ac05d0007b9_1440w.webp">​</p>
+<h2 id="4-产业实践"><a href="#4-产业实践" class="headerlink" title="4. 产业实践"></a><strong>4. 产业实践</strong></h2><p>在这里，我们演示一个基于千帆大模型平台搭建的行业应用。这是大模型做投资顾问的场景，能够依据客户的投资偏好等，对客户的投资组合进行分析和评估，并诊断目前的投资组合中的风险，并给出进一步的投资建议和相应的逻辑。</p>
+<p>这不仅提升了金融行业的工作效率，更重要的是他提供了创造性的输入，为决策进行辅助。</p>
+<p>详细的演示 Demo 请参考「百度智能云技术站」视频号的回放，从视频的 44 分 30 秒处开始观看。</p>
+<p><img src="https://pic1.zhimg.com/80/v2-6b5dd253f8242be1c5772ea9d938bc4c_1440w.webp">​</p>
+<p>对于大型的企业，智能化升级的需要显然不是几个模型就可以满足的，他需要一整套完整的企业级解决方案。例如大型企业将业务布局在全国及下属的各类子公司，如何管理企业中不同层级的子公司对 AI 能力的建设、使用和共享，如何协同云边端的 AI 能力，都需要企业解决方案来实现。</p>
+<p><a href="https://link.zhihu.com/?target=https://cloud.baidu.com/product/wenxinworkshop?track=weixin01">千帆大模型平台</a>和<a href="https://link.zhihu.com/?target=https://cloud.baidu.com/solution/aiplatform/index.html?track=weixin01">百度 AI 中台</a>解决方案可以帮助大型企业轻松实现从总公司到下属公司 AI 能力全生命周期的管理和建设，帮助企业实现智能化升级。</p>
+<p><img src="https://pic3.zhimg.com/80/v2-14a2d029566eba1f970eeb21bf482bc6_1440w.webp">​</p>
+<p>本次课程为大家全面分享了从机器学习到百模大战的发展路径、LMOps 相关概念和关键技术、以及千帆大模型平台的特点，以及产业实践四个方面的内容。</p>
+<p><img src="https://pic1.zhimg.com/80/v2-a4875c38c0f37b3f2b2a5c80bf05e898_1440w.webp">​</p>
+<p>‍</p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">weibingo</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="https://wbice.cn/article/LMOps%E5%B7%A5%E5%85%B7%E9%93%BE%E4%B8%8E%E5%8D%83%E5%B8%86%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%B9%B3%E5%8F%B0.html">https://wbice.cn/article/LMOps%E5%B7%A5%E5%85%B7%E9%93%BE%E4%B8%8E%E5%8D%83%E5%B8%86%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%B9%B3%E5%8F%B0.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/">大模型</a></div><div class="addthis_inline_share_toolbox pull-right"></div><script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=undefined" async></script><nav id="pagination"><div class="next-post pull-right"><a href="/article/%E5%A4%A7%E8%A7%84%E6%A8%A1AI%E9%AB%98%E6%80%A7%E8%83%BD%E7%BD%91%E7%BB%9C%E7%9A%84%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E8%B7%B5.html"><span>大规模AI高性能网络的设计与实践</span><i class="fa fa-chevron-right"></i></a></div></nav><div id="vcomment"></div><script src="https://cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script><script>var notify = 'false' == 'true';
+var verify = 'false' == 'true';
+var record_ip = '' == 'true';
+var GUEST_INFO = ['nick','mail','link'];
+var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+  return GUEST_INFO.indexOf(item) > -1
+});
+guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+window.valine = new Valine({
+  el:'#vcomment',
+  notify:notify,
+  verify:verify,
+  recordIP:record_ip,
+  appId:'dEfDWKbVoLq95IOjY2Wucz01-9Nh9j0Va',
+  appKey:'CWRYxwiLTYcAG0OcWmKl7Ez0',
+  placeholder:'ヾﾉ≧∀≦)o来啊，快活啊，造作啊!',
+  avatar:'mm',
+  guest_info:guest_info,
+  pageSize:'10',
+  lang: 'zh-cn'
+})</script></div></div><footer class="footer-bg" style="background-image: url(https://hexo-1256892004.cos.ap-beijing.myqcloud.com/page/top.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2017 - 2023 By weibingo</div><div class="framework-info"><span>Driven - </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme - </span><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="footer_custom_text">hitokoto</div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file-o"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="/js/third-party/anime.min.js"></script><script src="/js/third-party/jquery.min.js"></script><script src="/js/third-party/jquery.fancybox.min.js"></script><script src="/js/third-party/velocity.min.js"></script><script src="/js/third-party/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.8.0"></script><script src="/js/fancybox.js?version=1.8.0"></script><script src="/js/sidebar.js?version=1.8.0"></script><script src="/js/copy.js?version=1.8.0"></script><script src="/js/fireworks.js?version=1.8.0"></script><script src="/js/transition.js?version=1.8.0"></script><script src="/js/scroll.js?version=1.8.0"></script><script src="/js/head.js?version=1.8.0"></script><script src="/js/search/algolia.js"></script><script src="/js/search/local-search.js"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script><div class="search-dialog" id="algolia-search"><div class="search-dialog__title" id="algolia-search-title">Algolia</div><div id="algolia-input-panel"><div id="algolia-search-input"></div></div><hr><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-stats"></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>
